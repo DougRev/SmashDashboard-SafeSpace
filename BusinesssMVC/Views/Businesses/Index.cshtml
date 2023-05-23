@@ -1,0 +1,39 @@
+﻿@model IEnumerable<BusinesssMVC.Models.Business>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.BusinessName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BusinessIdNumber)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.BusinessName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BusinessIdNumber)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.BusinessId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.BusinessId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.BusinessId })
+        </td>
+    </tr>
+}
+
+</table>

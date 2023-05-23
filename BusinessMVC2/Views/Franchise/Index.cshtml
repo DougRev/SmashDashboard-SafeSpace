@@ -1,0 +1,64 @@
+﻿@model IEnumerable<BusinessModels.Franchise.FranchiseListItem>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Franchises</h2>
+
+
+<div id="upload-download-container">
+    @if (User.Identity.IsAuthenticated && User.Identity.Name == "doug.revell@smashmytrash.com")
+    {
+        <a href="@Url.Action("Index", new { showAll = true })" class="btn btn-primary">Show All Franchises</a>
+        <a href="@Url.Action("Index", new { showAll = false })" class="btn btn-primary">Show Active Franchises</a>
+        using (Html.BeginForm("ImportFranchisesFromGoogleSheets", "Franchise", FormMethod.Get))
+        {
+            <input type="submit" value="Import Franchises" class="btn btn-primary" />
+        }
+        @Html.ActionLink("Export Google Sheet", "TestUpdateGoogleSheet", "Client", null, new { @class = "btn btn-primary" })
+
+    }
+</div>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FranchiseId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FranchiseName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FranchiseId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FranchiseName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.FranchiseId }) |
+                @Html.ActionLink("Details", "Details", new { id = item.FranchiseId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.FranchiseId }) |
+                @Html.ActionLink("Client List", "List", new { id = item.FranchiseId })
+
+            </td>
+        </tr>
+    }
+
+</table>
+
+

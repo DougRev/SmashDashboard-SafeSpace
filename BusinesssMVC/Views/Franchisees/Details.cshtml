@@ -1,0 +1,26 @@
+﻿@model BusinesssMVC.Models.Franchisee
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Franchisee</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.FranchiseeName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FranchiseeName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.FranchiseeId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

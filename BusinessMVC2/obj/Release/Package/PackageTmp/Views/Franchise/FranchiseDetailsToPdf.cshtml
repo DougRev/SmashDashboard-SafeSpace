@@ -1,0 +1,126 @@
+﻿@model BusinessModels.Franchise.FranchiseDetails
+<head>
+    <meta charset="utf-8" />
+    <title>Franchise Details PDF</title>
+
+    <style type="text/css">
+        /* Styles for the PDF view */
+        .certificate-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 30px;
+            border: 2px solid #333;
+            font-family: 'Montserrat', sans-serif;
+            background: #ffffff;
+            z-index: -100;
+        }
+
+        .certificate-header {
+            text-align: center;
+        }
+
+            .certificate-header h1 {
+                font-size: 36px;
+                font-weight: bold;
+                margin: 0;
+            }
+
+        .certificate-body {
+            margin: 40px 0;
+        }
+
+        .certificate-franchise-info h2 {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .certificate-franchise-info p {
+            font-size: 16px;
+            margin: 5px 0;
+        }
+
+        .certificate-savings-info p {
+            font-size: 20px;
+            margin: 20px 0;
+        }
+
+        .certificate-signature p {
+            font-size: 16px;
+            margin: 0;
+            text-align: right;
+            position: relative;
+        }
+
+        .certificate-signature h4 {
+            font-size: 16px;
+            margin: 0;
+            text-align: right;
+            position: relative;
+            font-weight: bold;
+        }
+
+        #logo-container {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            margin-top: 50px;
+        }
+
+        #trinity-logo img {
+            position: absolute;
+            max-width: 300px;
+            left: 20px;
+            bottom: 0;
+            opacity: 0.75;
+        }
+
+        #gold-badge img {
+            max-width: 200px;
+            margin-top: 20px;
+            position: absolute;
+            right: 0px;
+            bottom: 0;
+            opacity: 0.75;
+        }
+    </style>
+
+    <script type="text/javascript">
+        // Hide the navigation bar when the page is loaded in the PDF
+        window.onload = function () {
+            var navBar = document.getElementById("navbar");
+            navBar.style.display = "none";
+        };
+    </script>
+</head>
+
+<body>
+    <div class="certificate-container">
+        <div class="certificate-header">
+            <h1>Certificate of Emissions Savings</h1>
+        </div>
+        <div class="certificate-body">
+            <div class="certificate-franchise-info">
+                <h2>@Model.FranchiseName</h2>
+                <br />
+
+            </div>
+            <div class="certificate-savings-info">
+                <p>Congratulations! Your franchise has saved @Model.TotalCO2Saved.ToString("N2") tons of CO2 emissions across @Model.Locations locations in @Model.StateReach State(s) by using our products and services. Keep up the great work!</p>
+
+            </div>
+            <div id="logo-container">
+                <div id="trinity-logo">
+                    <img src="https://businessmvc220230407125015.azurewebsites.net/Content/Images/Trinity Logo.png" alt="trinity-logo">
+                </div>
+                <div class="certificate-signature">
+                    <p>Signed by:</p>
+                    <h4>Smash My Trash</h4>
+                    <div id="gold-badge">
+                        <img src="https://businessmvc220230407125015.azurewebsites.net/Content/Images/SMT-Gold-Badge.png" alt="signature">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>

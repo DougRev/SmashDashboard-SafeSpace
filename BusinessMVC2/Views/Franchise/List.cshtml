@@ -1,0 +1,46 @@
+﻿@model IEnumerable<BusinessModels.BusinessListItem>
+
+@{
+    ViewBag.Title = "List";
+}
+
+<h2>Client List</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create", "Client")
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.FranchiseName)</th>
+            <th>@Html.DisplayNameFor(model => model.BusinessName)</th>
+            <th>@Html.DisplayNameFor(model => model.FacilityID)</th>
+            <th>@Html.DisplayNameFor(model => model.Address)</th>
+            <th>@Html.DisplayNameFor(model => model.City)</th>
+            <th>@Html.DisplayNameFor(model => model.State)</th>
+            <th>@Html.DisplayNameFor(model => model.ZipCode)</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.FranchiseName)</td>
+                <td>@Html.DisplayFor(modelItem => item.BusinessName)</td>
+                <td>@Html.DisplayFor(modelItem => item.FacilityID)</td>
+                <td>@Html.DisplayFor(modelItem => item.Address)</td>
+                <td>@Html.DisplayFor(modelItem => item.City)</td>
+                <td>@Html.DisplayFor(modelItem => item.State)</td>
+                <td>@Html.DisplayFor(modelItem => item.ZipCode)</td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", "Client", new { id = item.BusinessId }, null) |
+                    @Html.ActionLink("Details", "Details", "Client", new { id = item.BusinessId }, null) |
+                    @Html.ActionLink("Delete", "Delete", "Client", new { id = item.BusinessId }, null)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

@@ -1,0 +1,21 @@
+﻿@model BusinessMVC2.Models.ClientFormViewModel
+
+@{
+    ViewBag.Title = "Add Client";
+}
+
+<h2>Add Client</h2>
+
+@using (Html.BeginForm("AddClient", "Franchise", FormMethod.Post))
+{
+    @Html.HiddenFor(m => m.Client.FranchiseId)
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Client.BusinessName)
+        @Html.TextBoxFor(m => m.Client.BusinessName, new { @class = "form-control" })
+    </div>
+
+    <!-- Add other fields as needed -->
+
+    <button type="submit" class="btn btn-primary">Add</button>
+}

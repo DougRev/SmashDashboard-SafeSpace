@@ -1,0 +1,55 @@
+﻿@model BusinessModels.BusinessCreate
+
+@{
+    ViewBag.Title = "Quote Summary";
+}
+
+<h2>Quote Summary</h2>
+
+<table class="table">
+    <tr>
+        <th>Business Name</th>
+        <td>@ViewBag.BusinessName</td>
+    </tr>
+    <tr>
+        <th>Facility ID</th>
+        <td>@ViewBag.FacilityID</td>
+    </tr>
+    <tr>
+        <th>Address</th>
+        <td>@ViewBag.Address</td>
+    </tr>
+    <tr>
+        <th>City</th>
+        <td>@ViewBag.City</td>
+    </tr>
+    <tr>
+        <th>State</th>
+        <td>@ViewBag.State</td>
+    </tr>
+    <tr>
+        <th>Franchise ID</th>
+        <td>@ViewBag.FranchiseId</td>
+    </tr>
+    <tr>
+        <th>Number of Dumpsters</th>
+        <td>@ViewBag.NumberOfDumpsters</td>
+    </tr>
+    <tr>
+        <th>Hauls Per Day</th>
+        <td>@ViewBag.HaulsPerDay</td>
+    </tr>
+    <tr>
+        <th>Compactibility</th>
+        <td>@ViewBag.Compactibility</td>
+    </tr>
+    <tr>
+        <th>Landfill Distance</th>
+        <td>@ViewBag.LandfillDist</td>
+    </tr>
+</table>
+
+<div>
+    @Html.ActionLink("Back to Quote", "Quote")
+</div>
+

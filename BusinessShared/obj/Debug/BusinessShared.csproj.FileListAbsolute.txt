@@ -1,0 +1,12 @@
+C:\Users\Doug Revell\source\repos\BusinessMVC\BusinessShared\bin\Debug\BusinessShared.dll
+C:\Users\Doug Revell\source\repos\BusinessMVC\BusinessShared\bin\Debug\BusinessShared.pdb
+C:\Users\Doug Revell\source\repos\BusinessMVC\BusinessShared\obj\Debug\BusinessShared.csproj.AssemblyReference.cache
+C:\Users\Doug Revell\source\repos\BusinessMVC\BusinessShared\obj\Debug\BusinessShared.csproj.CoreCompileInputs.cache
+C:\Users\Doug Revell\source\repos\BusinessMVC\BusinessShared\obj\Debug\BusinessShared.dll
+C:\Users\Doug Revell\source\repos\BusinessMVC\BusinessShared\obj\Debug\BusinessShared.pdb
+C:\Users\xXTur\source\repos\BusinesssMVC\BusinessShared\bin\Debug\BusinessShared.dll
+C:\Users\xXTur\source\repos\BusinesssMVC\BusinessShared\bin\Debug\BusinessShared.pdb
+C:\Users\xXTur\source\repos\BusinesssMVC\BusinessShared\obj\Debug\BusinessShared.csproj.AssemblyReference.cache
+C:\Users\xXTur\source\repos\BusinesssMVC\BusinessShared\obj\Debug\BusinessShared.csproj.CoreCompileInputs.cache
+C:\Users\xXTur\source\repos\BusinesssMVC\BusinessShared\obj\Debug\BusinessShared.dll
+C:\Users\xXTur\source\repos\BusinesssMVC\BusinessShared\obj\Debug\BusinessShared.pdb

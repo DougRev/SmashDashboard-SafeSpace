@@ -1,0 +1,201 @@
+﻿@model BusinessModels.Franchise.FranchiseDetails
+
+<head>
+    <meta charset="utf-8" />
+    <title>Franchise Details PDF</title>
+
+    <style type="text/css">
+        /* Styles for the PDF view */
+        .certificate-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 30px;
+            border: 2px solid #333;
+            font-family: 'Montserrat', sans-serif;
+            background: #ffffff;
+            z-index: -100;
+        }
+
+        .certificate-header {
+            text-align: center;
+        }
+
+            .certificate-header h1 {
+                font-size: 36px;
+                font-weight: bold;
+                margin: 0;
+            }
+
+        .certificate-body {
+            margin: 40px 0;
+        }
+
+        .certificate-business-info h2 {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .certificate-business-info p {
+            font-size: 16px;
+            margin: 5px 0;
+        }
+
+        .certificate-savings-info p {
+            font-size: 20px;
+            margin: 20px 0;
+        }
+
+        .certificate-signature p {
+            font-size: 16px;
+            margin: 0;
+            text-align: right;
+            position: relative;
+        }
+
+        .certificate-signature h4 {
+            font-size: 16px;
+            margin: 0;
+            text-align: right;
+            position: relative;
+            font-weight: bold;
+        }
+
+        #logo-container {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            margin-top: 50px;
+        }
+
+        #trinity-logo img {
+            position: absolute;
+            max-width: 300px;
+            left: 20px;
+            bottom: 0;
+            opacity: 0.75;
+        }
+
+        #gold-badge img {
+            max-width: 200px;
+            margin-top: 20px;
+            position: absolute;
+            right: 0px;
+            bottom: 0;
+            opacity: 0.75;
+        }
+
+        #emissions {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+            #emissions th {
+                background-color: #333;
+                color: #fff;
+                font-weight: bold;
+                padding: 10px;
+                text-align: left;
+            }
+
+            #emissions td {
+                border: 1px solid #ddd;
+                padding: 10px;
+            }
+
+            #emissions tr:nth-child(even) {
+                background-color: #f2f2f2;
+            }
+    </style>
+
+    <script type="text/javascript">
+        // Hide the navigation bar when the page is loaded in the PDF
+        window.onload = function () {
+            var navBar = document.getElementById("navbar");
+            navBar.style.display = "none";
+        };
+    </script>
+</head>
+
+@{
+    ViewBag.Title = "FranchiseDetailsToPdf";
+    double totalCO2Saved = Model.Clients != null ? Model.Clients.Sum(c => c.AllEmissionsSavedWithSmashV2) : 0;
+}
+
+<div class="certificate-container">
+    <div class="certificate-header">
+        <h1>Certificate of Emissions Savings - Franchise Details</h1>
+    </div>
+    <div class="certificate-body">
+        <div class="certificate-business-info">
+            <h2>@Model.FranchiseName</h2>
+            <br />
+            @if (Model.Clients != null && Model.Clients.Any())
+            {
+                <h3>Clients</h3>
+
+                <table id="emissions">
+                    <tr>
+                        <th>Business Name</th>
+                        <th>Emissions Saved (lbs)</th>
+                    </tr>
+                    @foreach (var client in Model.Clients)
+                    {
+                        <tr>
+                            <td>@client.BusinessName</td>
+                            <td>@client.AllEmissionsSavedWithSmashV2.ToString("N2")</td>
+                        </tr>
+                    }
+                    <tr>
+                        <td>Total CO2 Saved Across All Clients for this Franchise</td>
+                        <td><strong>@totalCO2Saved.ToString("N2")</strong></td>
+                    </tr>
+                </table>
+            }
+            else
+            {
+                <p>No clients found.</p>
+            }
+
+            <br />
+        </div>
+        <div class="certificate-savings-info">
+            <table>
+                <tr>
+                    <th>CO2 Equivalencies</th>
+                    <th>Values</th>
+                </tr>
+                <tr>
+                    <td>Gallons of gas not consumed</td>
+                    <td>@Model.GallonsSaved.ToString("N2")</td>
+                </tr>
+                <tr>
+                    <td>Pound of Coal not burned</td>
+                    <td>@Model.CoalSaved.ToString("N2")</td>
+                </tr>
+                <tr>
+                    <td>Miles driven by the average passenger vehicle</td>
+                    <td>@Model.VehiclesSaved.ToString("N2")</td>
+                </tr>
+                <tr>
+                    <td>Smartphones Charged</td>
+                    <td>@Model.SmartphonesSaved.ToString("N2")</td>
+                </tr>
+            </table>
+        </div>
+        <div id="logo-container">
+            <div id="trinity-logo">
+                <img src="~/Content/Images/Trinity Logo.png" alt="trinity-logo">
+            </div>
+            <div class="certificate-signature">
+                <p>Signed by:</p>
+                <h4>Smash My Trash</h4>
+                <div id="gold-badge">
+                    <img src="~/Content/Images/SMT-Gold-Badge.png" alt="signature">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,21 @@
+﻿@model BusinessMVC2.Models.FranchiseOwnerFormViewModel
+
+@{
+    ViewBag.Title = "Add Franchise Owner";
+}
+
+<h2>Add Franchise Owner</h2>
+
+@using (Html.BeginForm("AddFranchiseOwner", "Franchise", FormMethod.Post))
+{
+    @Html.HiddenFor(m => m.FranchiseOwner.FranchiseId)
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.FranchiseOwner.FranchiseeName)
+        @Html.TextBoxFor(m => m.FranchiseOwner.FranchiseeName, new { @class = "form-control" })
+    </div>
+
+    <!-- Add other fields as needed -->
+
+    <button type="submit" class="btn btn-primary">Add</button>
+}
