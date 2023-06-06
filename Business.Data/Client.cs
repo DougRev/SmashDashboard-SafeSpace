@@ -1,5 +1,6 @@
 ﻿using BusinessData.Enum;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -17,10 +18,13 @@ namespace BusinessData
         public string FacilityID { get; set; }
         public string City { get; set; }
         public string Address { get; set; }
+        public string ServiceLocation { get; set; }
 
         [Display(Name = "Zip Code")]
         public int ZipCode { get; set; }
         public Guid OwnerId { get; set; }
+        public int VonigoFranchiseId { get; set; }
+        public int VonigoClientId { get; set; }
 
         public int FranchiseId { get; set; }
 
@@ -30,6 +34,10 @@ namespace BusinessData
 
         [ForeignKey("AccountId")]
         public virtual NationalAccount NationalAccount { get; set; }
+        public virtual ICollection<Location> Locations { get; set; }
+        public virtual ICollection<Contact> Contacts { get; set; }
+        public virtual ICollection<Invoice> Invoices { get; set; }
+
         public string AccountName { get; set; }
         public string FranchiseName { get; set; }
 
@@ -106,6 +114,9 @@ namespace BusinessData
                     return 0;
             }
         }
+
+
+
 
         //Emissions Added Totals
 

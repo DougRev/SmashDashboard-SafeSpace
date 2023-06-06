@@ -1,6 +1,6 @@
 ﻿using BusinessData;
+using BusinessData.Interfaces;
 using BusinessModels.Franchise;
-using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -9,26 +9,20 @@ namespace BusinessServices
 {
     public class FranchiseService
     {
-        private readonly Guid _userId;
         private readonly ApplicationDbContext _context;
+        private readonly IUserIdProvider _userIdProvider;
 
-        public FranchiseService(ApplicationDbContext context)
+        public FranchiseService(ApplicationDbContext context, IUserIdProvider userIdProvider)
         {
             _context = context;
+            _userIdProvider = userIdProvider;
         }
-        public FranchiseService(Guid userId)
-        {
-            _userId = userId;
-        }
-
-        public FranchiseService() { }
 
 
         public bool CreateFranchise(FranchiseCreate model)
         {
             var entity = new Franchise()
             {
-                OwnerId = _userId,
                 FranchiseId = model.FranchiseId,
                 FranchiseName = model.FranchiseName,
                 State = model.State,
@@ -59,26 +53,6 @@ namespace BusinessServices
             }
         }
 
-        /*public FranchiseDetails GetClientsByFranchiseId(int franchiseId)
-        {
-            using (var ctx = new ApplicationDbContext())
-            {
-                var franchise = ctx.Franchises
-                    .Single(f => f.FranchiseId == franchiseId);
-
-                var clients = franchise.Clients
-                    .Where(c => c.FranchiseId == franchiseId) // Filter the clients by franchise ID
-                    .ToList();
-
-                return new FranchiseDetails
-                {
-                    FranchiseId = franchise.FranchiseId,
-                    FranchiseName = franchise.FranchiseName,
-                    State = franchise.State,
-                    Clients = clients // Set the clients for the franchise
-                };
-            }
-        }*/
 
         public FranchiseDetails GetClientsByFranchiseId(int franchiseId)
         {
@@ -87,8 +61,6 @@ namespace BusinessServices
                 var entity = ctx.Franchises
                     .Include(f => f.Clients.Select(c => c.NationalAccount))  // Eagerly load the clients and their national accounts
                     .SingleOrDefault(f => f.FranchiseId == franchiseId);
-
-
 
 
                 if (entity == null)
@@ -127,11 +99,10 @@ namespace BusinessServices
                     Owner4 = entity.Owner4,
                     Owner4Email = entity.Owner4Email,
                     Owner4Phone = entity.Owner4Phone,
+
                 };
             }
         }
-
-
 
 
         public FranchiseDetails GetFranchiseById(int franchiseId)
@@ -271,18 +242,15 @@ namespace BusinessServices
 
         public void SetFranchiseInactive(int franchiseId)
         {
-            using (var ctx = new ApplicationDbContext())
-            {
-                var entity =
-                    ctx
-                        .Franchises
-                        //.Single(e => e.FranchiseId == franchiseId && e.OwnerId == _userId); //This line checks the franchise was created by the person trying to deactivate but the Franchise Import has null for the ownerId
-                        .Single(e => e.FranchiseId == franchiseId);
-                entity.IsActive = false;
+            var franchise = _context.Franchises.SingleOrDefault(f => f.FranchiseId == franchiseId);
 
-                ctx.SaveChanges();
+            if (franchise != null)
+            {
+                franchise.IsActive = false;
+                _context.SaveChanges();
             }
         }
+
 
     }
 }

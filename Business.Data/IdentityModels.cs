@@ -1,5 +1,4 @@
-﻿using BusinesssData;
-using Microsoft.AspNet.Identity;
+﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration;
@@ -34,10 +33,12 @@ namespace BusinessData
         }
         public DbSet<Client> Clients { get; set; }
         public DbSet<Franchise> Franchises { get; set; }
-        public DbSet<FranchiseOwner> Franchisees { get; set; }
-        public DbSet<BusinesssFranchisee> BusinesssFranchisees { get; set; }
         public DbSet<NationalAccount> NationalAccounts { get; set; }
-
+        public DbSet<Location> Locations { get; set; }
+        public DbSet<Contact> Contacts { get; set; }
+        public DbSet<Invoice> Invoices { get; set; }
+        public DbSet<WorkOrder> WorkOrders { get; set; }
+        public DbSet<WOCharges> Charges { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder
@@ -52,17 +53,41 @@ namespace BusinessData
             modelBuilder.Entity<Franchise>()
                 .HasMany(f => f.Clients)
                 .WithRequired(c => c.Franchise)
-                .HasForeignKey(c => c.FranchiseId);
+                .HasForeignKey(c => c.FranchiseId)
+                .WillCascadeOnDelete(false);  // Disables cascade delete for Clients when Franchise is deleted.
 
-            modelBuilder.Entity<Franchise>()
-                .HasMany(f => f.FranchiseOwners)
-                .WithRequired(fo => fo.Franchise)
-                .HasForeignKey(fo => fo.FranchiseId)
-                .WillCascadeOnDelete(false);  // Disables cascade delete
+            modelBuilder.Entity<Client>()
+                .HasMany(c => c.Locations)
+                .WithRequired(l => l.Client)
+                .HasForeignKey(l => l.ClientId)
+                .WillCascadeOnDelete(false);  // Disables cascade delete for Locations when Client is deleted.
+
+            modelBuilder.Entity<Contact>()
+                .HasRequired(t => t.Location) // Contact must have a Location.
+                .WithMany(l => l.Contacts) // A Location can have many Contacts.
+                .HasForeignKey(t => t.LocationId) // LocationId is the foreign key.
+                .WillCascadeOnDelete(false); // Turn off cascade delete.
+
+            modelBuilder.Entity<Invoice>()
+                .HasRequired(i => i.Client) // Invoice must have a Client.
+                .WithMany(c => c.Invoices) // A Client can have many Invoices.
+                .HasForeignKey(i => i.ClientId) // ClientId is the foreign key.
+                .WillCascadeOnDelete(false); // Turn off cascade delete.
+
+            modelBuilder.Entity<Invoice>()
+                .HasRequired(i => i.Franchise) // Invoice must have a Franchise.
+                .WithMany(f => f.Invoices) // A Franchise can have many Invoices.
+                .HasForeignKey(i => i.FranchiseId) // FranchiseId is the foreign key.
+                .WillCascadeOnDelete(false); // Turn off cascade delete.
 
 
+            base.OnModelCreating(modelBuilder);
         }
+
+
+
     }
+
     public class IdentityUserLoginConfiguration : EntityTypeConfiguration<IdentityUserLogin>
     {
         public IdentityUserLoginConfiguration()

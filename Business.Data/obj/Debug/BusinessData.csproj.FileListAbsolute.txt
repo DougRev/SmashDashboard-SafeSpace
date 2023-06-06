@@ -171,3 +171,6 @@ C:\Users\Doug Revell\source\repos\BusinessMVC\Business.Data\bin\Debug\System.Dia
 C:\Users\Doug Revell\source\repos\BusinessMVC\Business.Data\bin\Debug\System.Threading.Tasks.Extensions.xml
 C:\Users\Doug Revell\source\repos\BusinessMVC\Business.Data\obj\Debug\BusinessData.Migrations.init.resources
 C:\Users\Doug Revell\source\repos\BusinessMVC\Business.Data\obj\Debug\BusinessData.csproj.GenerateResource.cache
+C:\Users\Doug Revell\source\repos\BusinessMVC\Business.Data\obj\Debug\BusinessData.Migrations.editDateTime.resources
+C:\Users\Doug Revell\source\repos\BusinessMVC\Business.Data\obj\Debug\BusinessData.Migrations.addVonigoDataPointsToClient.resources
+C:\Users\Doug Revell\source\repos\BusinessMVC\Business.Data\obj\Debug\BusinessData.Migrations.idk.resources

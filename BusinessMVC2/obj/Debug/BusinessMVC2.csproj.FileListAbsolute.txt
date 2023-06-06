@@ -484,3 +484,11 @@ C:\Users\Doug Revell\source\repos\BusinessMVC\BusinessMVC2\bin\zh-Hant\Microsoft
 C:\Users\Doug Revell\source\repos\BusinessMVC\BusinessMVC2\bin\Content\web-client.json
 C:\Users\Doug Revell\source\repos\BusinessMVC\BusinessMVC2\bin\RestSharp.dll
 C:\Users\Doug Revell\source\repos\BusinessMVC\BusinessMVC2\bin\RestSharp.xml
+C:\Users\Doug Revell\source\repos\BusinessMVC\BusinessMVC2\bin\Autofac.dll
+C:\Users\Doug Revell\source\repos\BusinessMVC\BusinessMVC2\bin\Autofac.Integration.Mvc.dll
+C:\Users\Doug Revell\source\repos\BusinessMVC\BusinessMVC2\bin\Autofac.xml
+C:\Users\Doug Revell\source\repos\BusinessMVC\BusinessMVC2\bin\Autofac.Integration.Mvc.xml
+C:\Users\Doug Revell\source\repos\BusinessMVC\BusinessMVC2\bin\PagedList.dll
+C:\Users\Doug Revell\source\repos\BusinessMVC\BusinessMVC2\bin\PagedList.Mvc.dll
+C:\Users\Doug Revell\source\repos\BusinessMVC\BusinessMVC2\bin\PagedList.xml
+C:\Users\Doug Revell\source\repos\BusinessMVC\BusinessMVC2\bin\PagedList.Mvc.xml

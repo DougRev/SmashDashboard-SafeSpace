@@ -1,5 +1,6 @@
 ﻿using BusinessData;
 using BusinessData.Enum;
+using BusinessData.Interfaces;
 using BusinessModels;
 using BusinessServices;
 using Google.Apis.Auth.OAuth2;
@@ -10,47 +11,94 @@ using Google.Apis.Sheets.v4;
 using Google.Apis.Sheets.v4.Data;
 using Google.Apis.Util.Store;
 using Microsoft.AspNet.Identity;
+using PagedList;
 using SelectPdf;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
+
 namespace BusinessMVC2.Controllers
 {
     public class ClientController : Controller
     {
+        private readonly ApplicationDbContext _context;
+        private readonly IUserIdProvider _userIdProvider;
+        private readonly FranchiseService _franchiseService;
+        private readonly NationalAccountService _nationalAccountService;
+        private readonly ClientService _clientService;
 
-        // GET: Clients
-        public ActionResult Index()
+
+        public ClientController(
+            ApplicationDbContext context,
+            IUserIdProvider userIdProvider,
+            FranchiseService franchiseService,
+            NationalAccountService nationalAccountService,
+            ClientService clientService)
         {
-            //This Method will display races for a specific user.
-            var userId = Guid.Parse(User.Identity.GetUserId());
-            var service = new ClientService(userId);
-            var model = service.GetBusinesses();
-
-            return View(model);
-
-            //return View();
+            _context = context;
+            _userIdProvider = userIdProvider;
+            _franchiseService = franchiseService;
+            _nationalAccountService = nationalAccountService;
+            _clientService = clientService;
         }
 
+        // GET: Clients
+        public ActionResult Index(int? page, string searchString)
+        {
+            int pageSize = 25;
+            int pageNumber = (page ?? 1);
+            var franchises = _context.Franchises.AsQueryable();
+
+            string email = User.Identity.Name;
+
+            var businessesQuery = _clientService.GetBusinesses().AsQueryable();
+
+            if (email != "doug.revell@smashmytrash.com")
+            {
+                var names = email.Split('@')[0].Split('.');
+                var formattedName = string.Join(" ", names.Select(name => char.ToUpper(name[0]) + name.Substring(1)));
+
+                // Get all franchises owned by the currently logged-in user
+                franchises = franchises.Where(f => f.Owner1.Trim() == formattedName ||
+                                                       f.Owner2.Trim() == formattedName ||
+                                                       f.Owner3.Trim() == formattedName ||
+                                                       f.Owner4.Trim() == formattedName);
+
+                // Get all client ids associated with these franchises
+                var clientIds = franchises.SelectMany(f => f.Clients.Select(c => c.BusinessId)).ToList();
+
+                // Filter businesses to only those owned by the franchises
+                businessesQuery = businessesQuery.Where(b => clientIds.Contains(b.BusinessId));
+            }
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                businessesQuery = businessesQuery.Where(b => b.BusinessName.Contains(searchString));
+            }
+
+            var businesses = businessesQuery
+                .OrderBy(b => b.BusinessName)
+                .ToList();
+
+            return View(businesses.ToPagedList(pageNumber, pageSize));
+        }
 
         public ActionResult Create()
         {
-            var userId = Guid.Parse(User.Identity.GetUserId());
-            var svc = new FranchiseService(userId);
-            var svc2 = new NationalAccountService(userId);
-
-            ViewBag.Franchises = svc.GetFranchises().Select(f => new
+            ViewBag.Franchises = _franchiseService.GetFranchises().Select(f => new
             {
                 FranchiseId = f.FranchiseId,
                 FranchiseName = f.FranchiseName,
             }).ToList();
-            ViewBag.NationalAccounts = svc2.GetNationalAccounts().Select(f => new
+
+            ViewBag.NationalAccounts = _nationalAccountService.GetNationalAccounts().Select(f => new
             {
                 AccountId = f.AccountId,
                 AccountName = f.AccountName,
@@ -60,25 +108,22 @@ namespace BusinessMVC2.Controllers
         }
 
 
+
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(BusinessCreate model)
         {
-            var userId = Guid.Parse(User.Identity.GetUserId());
-
             if (!ModelState.IsValid) // Check if the ModelState is NOT valid
             {
-                var svc = new FranchiseService(userId);
-                var svc2 = new NationalAccountService(userId);
-
-
                 // Make sure the Franchises list is set correctly
-                ViewBag.Franchises = svc.GetFranchises().Select(f => new
+                ViewBag.Franchises = _franchiseService.GetFranchises().Select(f => new
                 {
                     FranchiseId = f.FranchiseId,
                     FranchiseName = f.FranchiseName
                 }).ToList();
-                ViewBag.NationalAccounts = svc2.GetNationalAccounts().Select(f => new
+
+                ViewBag.NationalAccounts = _nationalAccountService.GetNationalAccounts().Select(f => new
                 {
                     AccountId = f.AccountId,
                     AccountName = f.AccountName,
@@ -88,11 +133,13 @@ namespace BusinessMVC2.Controllers
             }
 
             // When the ModelState is valid, proceed with the creation process
-            var service = new ClientService(userId);
-            service.CreateBusiness(model);
+            var userId = _userIdProvider.GetUserId(); // Get user id from the provider
+            var clientService = new ClientService(_context, _userIdProvider); // Create the ClientService with context and user id provider
+            clientService.CreateBusiness(model);
 
             return RedirectToAction("Index");
         }
+
 
 
 
@@ -124,18 +171,16 @@ namespace BusinessMVC2.Controllers
             if (ModelState.IsValid)
             {
                 // Create an instance of ClientService
-                var service = new ClientService();
 
                 // Perform calculations using the PerformCalculations method
-                var calculationResults = service.PerformCalculations(quote);
+                var calculationResults = _clientService.PerformCalculations(quote);
 
                 // Pass the calculation results to the Result view
                 return View("Result", calculationResults);
             }
             else
             {
-                var svc = new FranchiseService();
-                ViewBag.Franchises = svc.GetFranchises().Select(f => new
+                ViewBag.Franchises = _franchiseService.GetFranchises().Select(f => new
                 {
                     FranchiseId = f.FranchiseId,
                     FranchiseName = f.FranchiseName
@@ -144,9 +189,6 @@ namespace BusinessMVC2.Controllers
                 return View("Quote", quote);
             }
         }
-
-
-
 
 
         /*private double CalculateCO2Emission(double haulerEmissions, double smtEmissions)
@@ -158,20 +200,11 @@ namespace BusinessMVC2.Controllers
 
 
 
-        private ClientService CreateBusinessService()
-        {
-            var userId = Guid.Parse(User.Identity.GetUserId());
-            var businessService = new ClientService(userId);
-            return businessService;
-        }
-
-
         //GET: Details
         //Client/Details/{id}
         public ActionResult Details(int id)
         {
-            var svc = CreateBusinessService();
-            var model = svc.GetBusinessById(id);
+            var model = _clientService.GetBusinessById(id);
             return View(model);
         }
 
@@ -180,8 +213,7 @@ namespace BusinessMVC2.Controllers
         //Client/Edit/{id}
         public ActionResult Edit(int id)
         {
-            var svc = CreateBusinessService();
-            var detail = svc.GetBusinessById(id);
+            var detail = _clientService.GetBusinessById(id);
             var model = new BusinessEdit
             {
                 BusinessId = detail.BusinessId,
@@ -205,11 +237,15 @@ namespace BusinessMVC2.Controllers
 
             // retrieve franchises and select the current franchise
             var userId = Guid.Parse(User.Identity.GetUserId());
-            var franchiseService = new FranchiseService(userId);
-            var franchises = franchiseService.GetFranchises();
+            var franchises = _franchiseService.GetFranchises();
             var selectedFranchise = franchises.FirstOrDefault(f => f.FranchiseId == detail.FranchiseId);
             model.Franchises = franchises.Select(f => new SelectListItem { Value = f.FranchiseId.ToString(), Text = f.FranchiseName, Selected = f == selectedFranchise }).ToList();
-
+            var nationalAccounts = _nationalAccountService.GetNationalAccounts();
+            ViewBag.NationalAccounts = nationalAccounts.Select(na => new SelectListItem
+            {
+                Value = na.AccountId.ToString(),
+                Text = na.AccountName
+            }).ToList();
             return View(model);
         }
 
@@ -232,9 +268,8 @@ namespace BusinessMVC2.Controllers
                 return View(model);
             }
 
-            var service = CreateBusinessService();
 
-            if (service.UpdateBusinesses(model))
+            if (_clientService.UpdateBusinesses(model))
             {
                 TempData["SaveResult"] = "Your Client has been updated.";
                 return RedirectToAction("Index");
@@ -249,8 +284,7 @@ namespace BusinessMVC2.Controllers
         [ActionName("Delete")]
         public ActionResult Delete(int id)
         {
-            var svc = CreateBusinessService();
-            var model = svc.GetBusinessById(id);
+            var model = _clientService.GetBusinessById(id);
             return View(model);
         }
 
@@ -261,8 +295,7 @@ namespace BusinessMVC2.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteBusiness(int id)
         {
-            var service = CreateBusinessService();
-            service.DeleteBusiness(id);
+            _clientService.DeleteBusiness(id);
             TempData["SaveResult"] = "Your Client has been deleted.";
 
             return RedirectToAction("Index");
@@ -293,8 +326,7 @@ namespace BusinessMVC2.Controllers
             Guid userGuid = Guid.Parse(userId);
             int businessId = Convert.ToInt32(collection["BusinessId"]);
 
-            var svc = new ClientService(userGuid);
-            var model = svc.GetBusinessById(businessId);
+            var model = _clientService.GetBusinessById(businessId);
 
             // generate JavaScript to hide the navbar
             string script = "function hideNavbar(){var e=document.getElementsByClassName('navbar')[0];if(e){e.style.display='none';}}; hideNavbar();";
@@ -542,8 +574,8 @@ namespace BusinessMVC2.Controllers
         private async Task ImportClients(UserCredential credential)
         {
             string ApplicationName = "Smash Calc";
-            string sheetId = "17PA6YsX6PaCSQfHWYyNZmIvZp_WOMYBNtfa-7eZWldE";
-            string range = "Sheet1!A2:Z";
+            string sheetId = "10JwDPXOTfCuGM8GUKkQJ4iDF4b3ksy6CEoxvr68lXSw";
+            string range = "Clients!A1:Z";
 
             var service = new SheetsService(new BaseClientService.Initializer()
             {
@@ -558,36 +590,39 @@ namespace BusinessMVC2.Controllers
 
             using (var db = new ApplicationDbContext())
             {
+                var franchises = await db.Franchises.ToListAsync();
+
                 foreach (var row in values)
                 {
-                    if (row.Count >= 3 && int.TryParse(row[0].ToString(), out int franchiseId))
+                    if (row.Count >= 6 &&
+                        !string.IsNullOrWhiteSpace(row[2].ToString()) &&
+                        int.TryParse(row[2].ToString(), out int vonigoFranchiseId) &&
+                        int.TryParse(row[4].ToString(), out int vonigoClientId) &&
+                        !string.IsNullOrWhiteSpace(row[3].ToString()))
                     {
-                        var client = new Client
-                        {
-                            FranchiseId = franchiseId,
-                            BusinessName = row[1].ToString(),
-                            FacilityID = row[2].ToString(),
-                            Address = row[3].ToString(),
-                            City = row[4].ToString(),
-                            ZipCode = int.Parse(row[5].ToString()),
-                            NumberOfDumpsters = int.Parse(row[6].ToString()),
-                            HaulsPerDay = int.Parse(row[7].ToString()),
-                            LandfillDist = int.Parse(row[8].ToString()),
-                            State = (State)Enum.Parse(typeof(State), row[9].ToString(), true),
-                            Compactibility = (Compactibility)Enum.Parse(typeof(Compactibility), row[10].ToString(), true),
-                            AccountId = row.Count > 11 && int.TryParse(row[11].ToString(), out int accountId)
-                                        && db.NationalAccounts.Any(na => na.AccountId == accountId)
-                                        ? accountId
-                                        : (int?)null,
-                        };
+                        var franchiseName = row[1].ToString().Trim();
+                        var franchise = franchises.SingleOrDefault(f => f.FranchiseName.Trim() == franchiseName);
 
-                        clients.Add(client);
-                    }
-                    else
-                    {
-                        // Handle the row with an invalid FranchiseId value or missing columns
+                        if (franchise != null)
+                        {
+                            var client = new Client
+                            {
+                                FranchiseId = franchise.FranchiseId,
+                                FranchiseName = franchiseName,
+                                VonigoFranchiseId = vonigoFranchiseId,
+                                BusinessName = row[3].ToString(),
+                                VonigoClientId = vonigoClientId,
+                                ServiceLocation = row[5].ToString(),
+                            };
+
+                            // Process the ServiceLocation to set Address, City, State, and ZipCode properties
+                            ProcessLocationString(client.ServiceLocation, client);
+
+                            clients.Add(client);
+                        }
                     }
                 }
+
 
                 foreach (var client in clients)
                 {
@@ -598,8 +633,45 @@ namespace BusinessMVC2.Controllers
             }
         }
 
+        public void ProcessLocationString(string location, Client client)
+        {
+            // Normalize the location string
+            location = location.Replace("\n", " ").Replace("\r", "");
 
+            // We'll break the string into words
+            var words = location.Split(' ');
 
+            // The last three or four words will form the city, state, and zip
+            var cityStateZipWords = words.Skip(Math.Max(0, words.Length - 4)).ToList();
+
+            // The words before the city, state, and zip will form the address
+            var addressWords = words.Take(words.Length - cityStateZipWords.Count).ToList();
+
+            client.Address = string.Join(" ", addressWords).Trim();
+
+            // Extract State and Zip (last two elements)
+            if (Enum.TryParse(cityStateZipWords[cityStateZipWords.Count - 2].Trim(), out State stateValue))
+            {
+                client.State = stateValue; // This is the state: GA, NC, AZ
+            }
+            else
+            {
+                // Handle the case where the string is not a valid member of the enum
+            }
+
+            if (int.TryParse(cityStateZipWords[cityStateZipWords.Count - 1].Trim(), out int zip))
+            {
+                client.ZipCode = zip; // This is the zip code: 30214, 28655, 85040
+            }
+            else
+            {
+                // Handle the case where the string is not a valid integer
+            }
+
+            // Extract City (everything else)
+            // Extract City (everything else)
+            client.City = string.Join(" ", cityStateZipWords.Take(cityStateZipWords.Count - 2)).Trim().TrimEnd(',');
+        }
 
     }
 

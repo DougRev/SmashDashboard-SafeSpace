@@ -15,11 +15,8 @@
         <tr>
             <th>@Html.DisplayNameFor(model => model.FranchiseName)</th>
             <th>@Html.DisplayNameFor(model => model.BusinessName)</th>
-            <th>@Html.DisplayNameFor(model => model.FacilityID)</th>
-            <th>@Html.DisplayNameFor(model => model.Address)</th>
-            <th>@Html.DisplayNameFor(model => model.City)</th>
-            <th>@Html.DisplayNameFor(model => model.State)</th>
-            <th>@Html.DisplayNameFor(model => model.ZipCode)</th>
+            <th>@Html.DisplayNameFor(model => model.ServiceLocation)</th>
+
             <th></th>
         </tr>
     </thead>
@@ -29,11 +26,8 @@
             <tr>
                 <td>@Html.DisplayFor(modelItem => item.FranchiseName)</td>
                 <td>@Html.DisplayFor(modelItem => item.BusinessName)</td>
-                <td>@Html.DisplayFor(modelItem => item.FacilityID)</td>
-                <td>@Html.DisplayFor(modelItem => item.Address)</td>
-                <td>@Html.DisplayFor(modelItem => item.City)</td>
-                <td>@Html.DisplayFor(modelItem => item.State)</td>
-                <td>@Html.DisplayFor(modelItem => item.ZipCode)</td>
+                <td>@Html.DisplayFor(modelItem => item.ServiceLocation)</td>
+
                 <td>
                     @Html.ActionLink("Edit", "Edit", "Client", new { id = item.BusinessId }, null) |
                     @Html.ActionLink("Details", "Details", "Client", new { id = item.BusinessId }, null) |

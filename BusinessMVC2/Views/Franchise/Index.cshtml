@@ -1,4 +1,6 @@
-﻿@model IEnumerable<BusinessModels.Franchise.FranchiseListItem>
+﻿@model IPagedList<BusinessModels.Franchise.FranchiseListItem>
+@using PagedList.Mvc;
+@using PagedList;
 
 @{
     ViewBag.Title = "Index";
@@ -17,7 +19,6 @@
             <input type="submit" value="Import Franchises" class="btn btn-primary" />
         }
         @Html.ActionLink("Export Google Sheet", "TestUpdateGoogleSheet", "Client", null, new { @class = "btn btn-primary" })
-
     }
 </div>
 
@@ -27,14 +28,21 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.FranchiseId)
+            @Html.DisplayNameFor(model => model.First().FranchiseId)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FranchiseName)
+            @Html.DisplayNameFor(model => model.First().FranchiseName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Status)
+            @Html.DisplayNameFor(model => model.First().Status)
         </th>
+        <th></th>
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page }),
+           options: new PagedListRenderOptions
+           {
+               DisplayPageCountAndCurrentLocation = true,
+               MaximumPageNumbersToDisplay = 10,
+           })
     </tr>
 
     @foreach (var item in Model)
@@ -54,11 +62,14 @@
                 @Html.ActionLink("Details", "Details", new { id = item.FranchiseId }) |
                 @Html.ActionLink("Delete", "Delete", new { id = item.FranchiseId }) |
                 @Html.ActionLink("Client List", "List", new { id = item.FranchiseId })
-
             </td>
         </tr>
     }
-
 </table>
 
-
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page }),
+   options: new PagedListRenderOptions
+   {
+       DisplayPageCountAndCurrentLocation = true,
+       MaximumPageNumbersToDisplay = 10,
+   })

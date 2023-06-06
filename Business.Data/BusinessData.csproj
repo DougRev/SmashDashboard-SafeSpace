@@ -136,28 +136,53 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Client.cs" />
-    <Compile Include="BusinesssFranchisee.cs" />
+    <Compile Include="Contact.cs" />
     <Compile Include="Emissions.cs" />
     <Compile Include="Enum\Compactibility.cs" />
     <Compile Include="Enum\State.cs" />
     <Compile Include="Franchise.cs" />
-    <Compile Include="FranchiseOwner.cs" />
     <Compile Include="IdentityModels.cs" />
-    <Compile Include="Migrations\202305191913194_init.cs" />
-    <Compile Include="Migrations\202305191913194_init.designer.cs">
-      <DependentUpon>202305191913194_init.cs</DependentUpon>
+    <Compile Include="Interfaces\IUserProvider.cs" />
+    <Compile Include="Invoice.cs" />
+    <Compile Include="Location.cs" />
+    <Compile Include="Migrations\202305311611189_init.cs" />
+    <Compile Include="Migrations\202305311611189_init.designer.cs">
+      <DependentUpon>202305311611189_init.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202305311637403_editDateTime.cs" />
+    <Compile Include="Migrations\202305311637403_editDateTime.designer.cs">
+      <DependentUpon>202305311637403_editDateTime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202306011539551_addVonigoDataPointsToClient.cs" />
+    <Compile Include="Migrations\202306011539551_addVonigoDataPointsToClient.designer.cs">
+      <DependentUpon>202306011539551_addVonigoDataPointsToClient.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202306021830165_idk.cs" />
+    <Compile Include="Migrations\202306021830165_idk.designer.cs">
+      <DependentUpon>202306021830165_idk.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="NationalAccount.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WOCharges.cs" />
+    <Compile Include="WorkOrder.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202305191913194_init.resx">
-      <DependentUpon>202305191913194_init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202305311611189_init.resx">
+      <DependentUpon>202305311611189_init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202305311637403_editDateTime.resx">
+      <DependentUpon>202305311637403_editDateTime.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306011539551_addVonigoDataPointsToClient.resx">
+      <DependentUpon>202306011539551_addVonigoDataPointsToClient.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306021830165_idk.resx">
+      <DependentUpon>202306021830165_idk.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

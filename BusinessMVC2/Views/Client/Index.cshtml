@@ -1,5 +1,6 @@
-﻿@model IEnumerable<BusinessModels.BusinessListItem>
-
+﻿@model IPagedList<BusinessModels.BusinessListItem>
+@using PagedList;
+@using PagedList.Mvc;
 @{
     ViewBag.Title = "Index";
 }
@@ -9,33 +10,35 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
+@using (Html.BeginForm("Index", "Client", FormMethod.Get))
+{
+    <p>
+        Find by name: @Html.TextBox("searchString")
+        <input type="submit" value="Search" />
+    </p>
+}
+
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.FranchiseName)
-        </th>
-
-        <th>
-            @Html.DisplayNameFor(model => model.FacilityID)
+            @Html.DisplayNameFor(model => model.First().FranchiseName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.BusinessName)
+            @Html.DisplayNameFor(model => model.First().BusinessName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Address)
+            @Html.DisplayNameFor(model => model.First().ServiceLocation)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.City)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.State)
-        </th>
-
-
 
         <th></th>
-    </tr>
 
+    </tr>
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }),
+    options: new PagedListRenderOptions
+    {
+        DisplayPageCountAndCurrentLocation = true,
+        MaximumPageNumbersToDisplay = 10,
+    })
     @foreach (var item in Model)
     {
         <tr>
@@ -43,19 +46,10 @@
                 @Html.DisplayFor(modelItem => item.FranchiseName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.FacilityID)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.BusinessName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Address)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.City)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.State)
+                @Html.DisplayFor(modelItem => item.ServiceLocation)
             </td>
 
             <td>
@@ -66,6 +60,7 @@
             </td>
 
         </tr>
+
     }
 
 </table>
@@ -81,5 +76,10 @@
         }
     }
 </div>
-
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page }),
+   options: new PagedListRenderOptions
+   {
+       DisplayPageCountAndCurrentLocation = true,
+       MaximumPageNumbersToDisplay = 10,
+   })
 

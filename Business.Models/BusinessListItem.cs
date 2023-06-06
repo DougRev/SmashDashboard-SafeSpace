@@ -1,6 +1,7 @@
 ﻿using BusinessData.Enum;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
@@ -15,7 +16,8 @@ namespace BusinessModels
 
         [Display(Name = "Client Name")]
         public string BusinessName { get; set; }
-
+        [Display(Name = "Franchise Id")]
+        public int FranchiseId { get; set; }
         [Display(Name = "Franchise")]
         public string FranchiseName { get; set; }
 
@@ -31,6 +33,8 @@ namespace BusinessModels
         [Display(Name = "Zip Code")]
         public int ZipCode { get; set; }
         public Guid OwnerId { get; set; }
+        [DisplayName("Service Location")]
+        public string ServiceLocation { get; set; }
 
     }
 }

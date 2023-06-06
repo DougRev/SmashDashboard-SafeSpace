@@ -103,10 +103,6 @@
     <Compile Include="BusinessDetails.cs" />
     <Compile Include="BusinessEdit.cs" />
     <Compile Include="BusinessListItem.cs" />
-    <Compile Include="FranchiseeCreate.cs" />
-    <Compile Include="FranchiseeDetails.cs" />
-    <Compile Include="FranchiseeEdit.cs" />
-    <Compile Include="FranchiseeListItem.cs" />
     <Compile Include="Franchise\FranchiseCreate.cs" />
     <Compile Include="Franchise\FranchiseDetails.cs" />
     <Compile Include="Franchise\FranchiseEdit.cs" />

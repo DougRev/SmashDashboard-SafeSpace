@@ -7,35 +7,36 @@ using System.Linq;
 using System.Data.Entity;
 using System.Text;
 using System.Threading.Tasks;
+using BusinessData.Interfaces;
 
 namespace BusinessServices
 {
     public class NationalAccountService
     {
-        private readonly Guid _userId;
+        private readonly ApplicationDbContext _context;
+        private readonly IUserIdProvider _userIdProvider;
 
-        public NationalAccountService(Guid userId)
+        public NationalAccountService(ApplicationDbContext context, IUserIdProvider userIdProvider)
         {
-            _userId = userId;
+            _context = context;
+            _userIdProvider = userIdProvider;
         }
-        public NationalAccountService() { }
 
 
         public bool CreateNationalAccount(AccountCreate model)
         {
             var entity = new NationalAccount()
             {
-                OwnerId = _userId,
+                OwnerId = _userIdProvider.GetUserId(), // Use GetUserId() to get the current user id
                 AccountId = model.AccountId,
                 AccountName = model.AccountName,
                 State = model.State,
             };
-            using (var ctx = new ApplicationDbContext())
-            {
-                ctx.NationalAccounts.Add(entity);
-                return ctx.SaveChanges() == 1;
-            }
+
+            _context.NationalAccounts.Add(entity);
+            return _context.SaveChanges() == 1;
         }
+
 
         public IEnumerable<AccountListItem> GetNationalAccounts()
         {

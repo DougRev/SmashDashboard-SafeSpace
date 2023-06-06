@@ -51,7 +51,7 @@
                     var clients = value as ICollection<Client>;
 
                     // Define the list of Client properties we want to display
-                    var clientPropsToDisplay = new[] { "BusinessName", "Address", "PhoneNumber" };
+                    var clientPropsToDisplay = new[] { "", "" };
 
                     foreach (var client in clients)
                     {
@@ -98,9 +98,6 @@
         }
     </tbody>
 
-
-
-
 </table>
 
 
@@ -111,9 +108,8 @@
     <thead>
         <tr>
             <th>Name</th>
-            <th>Address</th>
-            <th>City</th>
-            <th>Zip Code</th>
+            <th>Service Location</th>
+
         </tr>
     </thead>
     <tbody>
@@ -121,9 +117,8 @@
         {
             <tr>
                 <td>@client.BusinessName</td>
-                <td>@client.Address</td>
-                <td>@client.City</td>
-                <td>@client.ZipCode</td>
+                <td>@client.ServiceLocation</td>
+
             </tr>
         }
     </tbody>

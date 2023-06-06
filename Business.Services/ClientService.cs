@@ -1,22 +1,23 @@
 ﻿using BusinessData;
+using BusinessData.Interfaces;
 using BusinessModels;
 using BusinessShared;
-using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Data.Entity;
-
 
 namespace BusinessServices
 {
     public class ClientService
     {
-        private readonly Guid _userId;
+        private readonly ApplicationDbContext _context;
+        private readonly IUserIdProvider _userIdProvider;
 
-        public ClientService(Guid? userId = null)
+        public ClientService(ApplicationDbContext context, IUserIdProvider userIdProvider)
         {
-            _userId = userId ?? Guid.Empty;
+            _context = context;
+            _userIdProvider = userIdProvider;
         }
 
         public QuoteResultViewModel PerformCalculations(BusinessCreate model)
@@ -50,7 +51,7 @@ namespace BusinessServices
         {
             var entity = new Client()
             {
-                OwnerId = _userId,
+                OwnerId = _userIdProvider.GetUserId(),
                 BusinessId = model.BusinessId ?? 0,
                 BusinessName = model.BusinessName,
                 FacilityID = model.FacilityID,
@@ -84,6 +85,7 @@ namespace BusinessServices
             using (var ctx = new ApplicationDbContext())
             {
                 var query = ctx.Clients
+                    .OrderBy(e => e.BusinessId) // or any other property
                     .Select(e => new BusinessListItem
                     {
                         BusinessId = e.BusinessId,
@@ -91,7 +93,7 @@ namespace BusinessServices
                         FacilityID = e.FacilityID,
                         Address = e.Address,
                         City = e.City,
-                        State = e.State,
+                        ServiceLocation = e.ServiceLocation,
                         FranchiseName = e.Franchise.FranchiseName,
                         AccountName = e.NationalAccount.AccountName,
                     });
@@ -228,7 +230,7 @@ namespace BusinessServices
                     TotalVOCBaselineTruckEmissionsV2 = entity.TotalVOCBaselineTruckEmissionsV2,
                     TotalVOCEmissionsWithSmashV2 = entity.TotalVOCEmissionsWithSmashV2,
                     VOCPercentSavedV2 = entity.VOCPercentSavedV2,
-                    
+
                     /*CO2BaselineHaulerTruckRunningEmissions = entity.CO2BaselineHaulerTruckRunningEmissionsV2,
                     CO2BaselineHaulerTruckIdlingEmissions = entity.CO2BaselineHaulerTruckIdlingEmissions,
                     CO2SmashingEmissions = entity.CO2SmashingEmissions,
@@ -240,7 +242,7 @@ namespace BusinessServices
                     TotalCO2EmissionsWithSmashV2 = entity.TotalCO2EmissionsWithSmashV2,
                     CO2PercentSavedV2 = entity.CO2PercentSavedV2,
 
-                    
+
 
                 };
             }
@@ -483,13 +485,14 @@ namespace BusinessServices
                 var entity =
                     ctx
                         .Clients
-                        .Single(e => e.BusinessId == businessId && e.OwnerId == _userId);
+                        .Single(e => e.BusinessId == businessId);
 
                 entity.IsActive = false;
 
                 ctx.SaveChanges();
             }
         }
+
 
     }
 }
