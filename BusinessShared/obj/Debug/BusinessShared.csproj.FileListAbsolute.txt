@@ -10,3 +10,9 @@ C:\Users\xXTur\source\repos\BusinesssMVC\BusinessShared\obj\Debug\BusinessShared
 C:\Users\xXTur\source\repos\BusinesssMVC\BusinessShared\obj\Debug\BusinessShared.csproj.CoreCompileInputs.cache
 C:\Users\xXTur\source\repos\BusinesssMVC\BusinessShared\obj\Debug\BusinessShared.dll
 C:\Users\xXTur\source\repos\BusinesssMVC\BusinessShared\obj\Debug\BusinessShared.pdb
+C:\Users\xXTur\Source\Repos\SmashDashboard-SafeSpace\BusinessShared\bin\Debug\BusinessShared.dll
+C:\Users\xXTur\Source\Repos\SmashDashboard-SafeSpace\BusinessShared\bin\Debug\BusinessShared.pdb
+C:\Users\xXTur\Source\Repos\SmashDashboard-SafeSpace\BusinessShared\obj\Debug\BusinessShared.csproj.AssemblyReference.cache
+C:\Users\xXTur\Source\Repos\SmashDashboard-SafeSpace\BusinessShared\obj\Debug\BusinessShared.csproj.CoreCompileInputs.cache
+C:\Users\xXTur\Source\Repos\SmashDashboard-SafeSpace\BusinessShared\obj\Debug\BusinessShared.dll
+C:\Users\xXTur\Source\Repos\SmashDashboard-SafeSpace\BusinessShared\obj\Debug\BusinessShared.pdb

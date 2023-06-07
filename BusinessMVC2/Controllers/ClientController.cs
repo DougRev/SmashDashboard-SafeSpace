@@ -615,6 +615,8 @@ namespace BusinessMVC2.Controllers
                                 ServiceLocation = row[5].ToString(),
                             };
 
+
+
                             // Process the ServiceLocation to set Address, City, State, and ZipCode properties
                             ProcessLocationString(client.ServiceLocation, client);
 
@@ -668,7 +670,6 @@ namespace BusinessMVC2.Controllers
                 // Handle the case where the string is not a valid integer
             }
 
-            // Extract City (everything else)
             // Extract City (everything else)
             client.City = string.Join(" ", cityStateZipWords.Take(cityStateZipWords.Count - 2)).Trim().TrimEnd(',');
         }
