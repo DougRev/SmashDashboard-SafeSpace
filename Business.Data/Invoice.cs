@@ -17,7 +17,8 @@ namespace BusinessData
         public int FranchiseId { get; set; }
         [ForeignKey("FranchiseId")]
         public virtual Franchise Franchise { get; set; }
-
+        public int VonigoFranchiseId { get; set; }
+        public int VonigoClientId { get; set; }
         public int ClientId { get; set; }
         [ForeignKey("ClientId")]
         public virtual Client Client { get; set; }
@@ -28,6 +29,11 @@ namespace BusinessData
         public float TotalCost { get; set; }
         public string Address { get; set; }
         public string Status { get; set; }
+        public string SmtContact { get; set; }
+        public string AccountContact { get; set; }
+        public string ContactEmail { get; set; }
+        public string ContactPhone { get; set; }
+        public int VonigoInvoiceId { get; set; }
 
     }
 }

@@ -174,3 +174,16 @@ C:\Users\Doug Revell\source\repos\BusinessMVC\Business.Data\obj\Debug\BusinessDa
 C:\Users\Doug Revell\source\repos\BusinessMVC\Business.Data\obj\Debug\BusinessData.Migrations.editDateTime.resources
 C:\Users\Doug Revell\source\repos\BusinessMVC\Business.Data\obj\Debug\BusinessData.Migrations.addVonigoDataPointsToClient.resources
 C:\Users\Doug Revell\source\repos\BusinessMVC\Business.Data\obj\Debug\BusinessData.Migrations.idk.resources
+C:\Users\Doug Revell\source\repos\BusinessMVC\Business.Data\obj\Debug\BusinessData.Migrations.updateInvoicewithContactEmailNumber.resources
+C:\Users\Doug Revell\source\repos\BusinessMVC\Business.Data\obj\Debug\BusinessData.Migrations.addVonigoInvoiceId.resources
+C:\Users\Doug Revell\source\repos\BusinessMVC\Business.Data\obj\Debug\BusinessData.Migrations.addVonigoFranchiseIdClientId.resources
+C:\Users\Doug Revell\source\repos\BusinessMVC\Business.Data\obj\Debug\BusinessData.Migrations.changeContactPhonetoString.resources
+C:\Users\Doug Revell\source\repos\BusinessMVC\Business.Data\obj\Debug\BusinessData.Migrations.addVonigoWorkOrderdataPoints.resources
+C:\Users\Doug Revell\source\repos\BusinessMVC\Business.Data\obj\Debug\BusinessData.Migrations.fixWOtypo.resources
+C:\Users\Doug Revell\source\repos\BusinessMVC\Business.Data\obj\Debug\BusinessData.Migrations.changeTitletoString.resources
+C:\Users\Doug Revell\source\repos\BusinessMVC\Business.Data\obj\Debug\BusinessData.Migrations.makeWOContactnullable.resources
+C:\Users\Doug Revell\source\repos\BusinessMVC\Business.Data\obj\Debug\BusinessData.Migrations.addChargedatapointsandupdateIdentityModels.resources
+C:\Users\Doug Revell\source\repos\BusinessMVC\Business.Data\obj\Debug\BusinessData.Migrations.editCharges.resources
+C:\Users\Doug Revell\source\repos\BusinessMVC\Business.Data\obj\Debug\BusinessData.Migrations.fixingChargeTotalnotReturning.resources
+C:\Users\Doug Revell\source\repos\BusinessMVC\Business.Data\obj\Debug\BusinessData.Migrations.addTotalChargestoWO.resources
+C:\Users\Doug Revell\source\repos\BusinessMVC\Business.Data\obj\Debug\BusinessData.Migrations.addValidEmails.resources

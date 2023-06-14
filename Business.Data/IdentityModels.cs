@@ -80,6 +80,24 @@ namespace BusinessData
                 .HasForeignKey(i => i.FranchiseId) // FranchiseId is the foreign key.
                 .WillCascadeOnDelete(false); // Turn off cascade delete.
 
+            modelBuilder.Entity<WorkOrder>()
+                .HasRequired(wo => wo.Invoice) // WorkOrder must have an Invoice.
+                .WithMany(i => i.WorkOrders) // An Invoice can have many WorkOrders.
+                .HasForeignKey(wo => wo.InvoiceId) // InvoiceId is the foreign key.
+                .WillCascadeOnDelete(false); // Turn off cascade delete.
+
+            modelBuilder.Entity<WorkOrder>()
+                .HasRequired(wo => wo.Franchise) // WorkOrder must have a Franchise.
+                .WithMany(f => f.WorkOrders) // A Franchise can have many WorkOrders.
+                .HasForeignKey(wo => wo.FranchiseId) // FranchiseId is the foreign key.
+                .WillCascadeOnDelete(false); // Turn off cascade delete.
+
+            modelBuilder.Entity<WOCharges>()
+                .HasRequired(woc => woc.Franchise) // WOCharges must have a Franchise.
+                .WithMany(f => f.WOCharges) // A Franchise can have many WOCharges.
+                .HasForeignKey(woc => woc.FranchiseId) // FranchiseId is the foreign key.
+                .WillCascadeOnDelete(false); // Turn off cascade delete.
+
 
             base.OnModelCreating(modelBuilder);
         }

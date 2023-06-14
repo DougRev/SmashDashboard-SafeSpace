@@ -272,7 +272,7 @@ namespace BusinessMVC2.Controllers
         {
             string ApplicationName = "Territory Info";
             string sheetId = "10JwDPXOTfCuGM8GUKkQJ4iDF4b3ksy6CEoxvr68lXSw";
-            string range = "Sheet1!A4:Z";
+            string range = "Franchises!A4:Z";
 
             var service = new SheetsService(new BaseClientService.Initializer()
             {
@@ -373,7 +373,7 @@ namespace BusinessMVC2.Controllers
             string[] Scopes = { SheetsService.Scope.Spreadsheets };
             string ApplicationName = "Territory Info";
             string sheetId = "10JwDPXOTfCuGM8GUKkQJ4iDF4b3ksy6CEoxvr68lXSw";
-            string range = "Sheet1!A4:Z";
+            string range = "Franchises!A4:Z";
 
             // Read the JSON credentials file and create the SheetsService
             UserCredential credential;
@@ -446,7 +446,7 @@ namespace BusinessMVC2.Controllers
             string[] Scopes = { SheetsService.Scope.Spreadsheets };
             string ApplicationName = "Territory Info";
             string sheetId = "10JwDPXOTfCuGM8GUKkQJ4iDF4b3ksy6CEoxvr68lXSw";
-            string range = "Sheet1!A4:Z";
+            string range = "Franchises!A4:Z";
 
             // Read the JSON credentials file and create the SheetsService
             UserCredential credential;
