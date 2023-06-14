@@ -15,6 +15,9 @@ namespace BusinessData
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int FranchiseId { get; set; }
+        public int VonigoFranchiseId { get; set; }
+        public int VonigoClientId { get; set; }
+
         public bool IsActive { get; set; }
         public Guid OwnerId { get; set; }
 
@@ -30,6 +33,9 @@ namespace BusinessData
         //public List<Client> Clients { get; } = new List<Client>();
         public ICollection<Client> Clients { get; set; } = new List<Client>();
         public virtual ICollection<Invoice> Invoices { get; set; }
+        public virtual ICollection<WorkOrder> WorkOrders { get; set; }
+        public virtual ICollection<WOCharges> WOCharges { get; set; }
+
 
 
         public List<Client> GetClientsByFranchiseId(int franchiseId)

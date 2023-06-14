@@ -174,6 +174,7 @@ C:\Users\Doug Revell\source\repos\BusinessMVC\Business.Data\obj\Debug\BusinessDa
 C:\Users\Doug Revell\source\repos\BusinessMVC\Business.Data\obj\Debug\BusinessData.Migrations.editDateTime.resources
 C:\Users\Doug Revell\source\repos\BusinessMVC\Business.Data\obj\Debug\BusinessData.Migrations.addVonigoDataPointsToClient.resources
 C:\Users\Doug Revell\source\repos\BusinessMVC\Business.Data\obj\Debug\BusinessData.Migrations.idk.resources
+<<<<<<< HEAD
 C:\Users\xXTur\Source\Repos\SmashDashboard-SafeSpace\Business.Data\bin\Debug\BusinessData.dll.config
 C:\Users\xXTur\Source\Repos\SmashDashboard-SafeSpace\Business.Data\bin\Debug\BusinessData.dll
 C:\Users\xXTur\Source\Repos\SmashDashboard-SafeSpace\Business.Data\bin\Debug\BusinessData.pdb
@@ -245,3 +246,31 @@ C:\Users\xXTur\Source\Repos\SmashDashboard-SafeSpace\Business.Data\obj\Debug\Bus
 C:\Users\xXTur\Source\Repos\SmashDashboard-SafeSpace\Business.Data\obj\Debug\BusinessData.csproj.CopyComplete
 C:\Users\xXTur\Source\Repos\SmashDashboard-SafeSpace\Business.Data\obj\Debug\BusinessData.dll
 C:\Users\xXTur\Source\Repos\SmashDashboard-SafeSpace\Business.Data\obj\Debug\BusinessData.pdb
+=======
+C:\Users\Doug Revell\source\repos\BusinessMVC\Business.Data\obj\Debug\BusinessData.Migrations.updateInvoicewithContactEmailNumber.resources
+C:\Users\Doug Revell\source\repos\BusinessMVC\Business.Data\obj\Debug\BusinessData.Migrations.addVonigoInvoiceId.resources
+C:\Users\Doug Revell\source\repos\BusinessMVC\Business.Data\obj\Debug\BusinessData.Migrations.addVonigoFranchiseIdClientId.resources
+C:\Users\Doug Revell\source\repos\BusinessMVC\Business.Data\obj\Debug\BusinessData.Migrations.changeContactPhonetoString.resources
+C:\Users\Doug Revell\source\repos\BusinessMVC\Business.Data\obj\Debug\BusinessData.Migrations.addVonigoWorkOrderdataPoints.resources
+C:\Users\Doug Revell\source\repos\BusinessMVC\Business.Data\obj\Debug\BusinessData.Migrations.fixWOtypo.resources
+C:\Users\Doug Revell\source\repos\BusinessMVC\Business.Data\obj\Debug\BusinessData.Migrations.changeTitletoString.resources
+C:\Users\Doug Revell\source\repos\BusinessMVC\Business.Data\obj\Debug\BusinessData.Migrations.makeWOContactnullable.resources
+C:\Users\Doug Revell\source\repos\BusinessMVC\Business.Data\obj\Debug\BusinessData.Migrations.addChargedatapointsandupdateIdentityModels.resources
+C:\Users\Doug Revell\source\repos\BusinessMVC\Business.Data\obj\Debug\BusinessData.Migrations.editCharges.resources
+C:\Users\Doug Revell\source\repos\BusinessMVC\Business.Data\obj\Debug\BusinessData.Migrations.fixingChargeTotalnotReturning.resources
+C:\Users\Doug Revell\source\repos\BusinessMVC\Business.Data\obj\Debug\BusinessData.Migrations.addTotalChargestoWO.resources
+C:\Users\Doug Revell\source\repos\BusinessMVC\Business.Data\obj\Debug\BusinessData.Migrations.addValidEmails.resources
+>>>>>>> e0cb4d673e4e0f01c10923cc369fd351eb0bd103
+C:\Users\xXTur\source\repos\SmashDashboard-SafeSpace\Business.Data\obj\Debug\BusinessData.Migrations.updateInvoicewithContactEmailNumber.resources
+C:\Users\xXTur\source\repos\SmashDashboard-SafeSpace\Business.Data\obj\Debug\BusinessData.Migrations.addVonigoInvoiceId.resources
+C:\Users\xXTur\source\repos\SmashDashboard-SafeSpace\Business.Data\obj\Debug\BusinessData.Migrations.addVonigoFranchiseIdClientId.resources
+C:\Users\xXTur\source\repos\SmashDashboard-SafeSpace\Business.Data\obj\Debug\BusinessData.Migrations.changeContactPhonetoString.resources
+C:\Users\xXTur\source\repos\SmashDashboard-SafeSpace\Business.Data\obj\Debug\BusinessData.Migrations.addVonigoWorkOrderdataPoints.resources
+C:\Users\xXTur\source\repos\SmashDashboard-SafeSpace\Business.Data\obj\Debug\BusinessData.Migrations.fixWOtypo.resources
+C:\Users\xXTur\source\repos\SmashDashboard-SafeSpace\Business.Data\obj\Debug\BusinessData.Migrations.changeTitletoString.resources
+C:\Users\xXTur\source\repos\SmashDashboard-SafeSpace\Business.Data\obj\Debug\BusinessData.Migrations.makeWOContactnullable.resources
+C:\Users\xXTur\source\repos\SmashDashboard-SafeSpace\Business.Data\obj\Debug\BusinessData.Migrations.addChargedatapointsandupdateIdentityModels.resources
+C:\Users\xXTur\source\repos\SmashDashboard-SafeSpace\Business.Data\obj\Debug\BusinessData.Migrations.editCharges.resources
+C:\Users\xXTur\source\repos\SmashDashboard-SafeSpace\Business.Data\obj\Debug\BusinessData.Migrations.fixingChargeTotalnotReturning.resources
+C:\Users\xXTur\source\repos\SmashDashboard-SafeSpace\Business.Data\obj\Debug\BusinessData.Migrations.addTotalChargestoWO.resources
+C:\Users\xXTur\source\repos\SmashDashboard-SafeSpace\Business.Data\obj\Debug\BusinessData.Migrations.addValidEmails.resources

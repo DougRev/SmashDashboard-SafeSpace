@@ -161,9 +161,62 @@
     <Compile Include="Migrations\202306021830165_idk.designer.cs">
       <DependentUpon>202306021830165_idk.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202306071251440_updateInvoicewithContactEmailNumber.cs" />
+    <Compile Include="Migrations\202306071251440_updateInvoicewithContactEmailNumber.designer.cs">
+      <DependentUpon>202306071251440_updateInvoicewithContactEmailNumber.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202306071258482_addVonigoInvoiceId.cs" />
+    <Compile Include="Migrations\202306071258482_addVonigoInvoiceId.designer.cs">
+      <DependentUpon>202306071258482_addVonigoInvoiceId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202306071317313_addVonigoFranchiseIdClientId.cs" />
+    <Compile Include="Migrations\202306071317313_addVonigoFranchiseIdClientId.designer.cs">
+      <DependentUpon>202306071317313_addVonigoFranchiseIdClientId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202306071442498_changeContactPhonetoString.cs" />
+    <Compile Include="Migrations\202306071442498_changeContactPhonetoString.designer.cs">
+      <DependentUpon>202306071442498_changeContactPhonetoString.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202306071539039_addVonigoWorkOrderdataPoints.cs" />
+    <Compile Include="Migrations\202306071539039_addVonigoWorkOrderdataPoints.designer.cs">
+      <DependentUpon>202306071539039_addVonigoWorkOrderdataPoints.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202306071720425_fixWOtypo.cs" />
+    <Compile Include="Migrations\202306071720425_fixWOtypo.designer.cs">
+      <DependentUpon>202306071720425_fixWOtypo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202306071732360_changeTitletoString.cs" />
+    <Compile Include="Migrations\202306071732360_changeTitletoString.designer.cs">
+      <DependentUpon>202306071732360_changeTitletoString.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202306071742301_makeWOContactnullable.cs" />
+    <Compile Include="Migrations\202306071742301_makeWOContactnullable.designer.cs">
+      <DependentUpon>202306071742301_makeWOContactnullable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202306081217562_addChargedatapointsandupdateIdentityModels.cs" />
+    <Compile Include="Migrations\202306081217562_addChargedatapointsandupdateIdentityModels.designer.cs">
+      <DependentUpon>202306081217562_addChargedatapointsandupdateIdentityModels.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202306081418173_editCharges.cs" />
+    <Compile Include="Migrations\202306081418173_editCharges.designer.cs">
+      <DependentUpon>202306081418173_editCharges.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202306081445390_fixingChargeTotalnotReturning.cs" />
+    <Compile Include="Migrations\202306081445390_fixingChargeTotalnotReturning.designer.cs">
+      <DependentUpon>202306081445390_fixingChargeTotalnotReturning.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202306081454187_addTotalChargestoWO.cs" />
+    <Compile Include="Migrations\202306081454187_addTotalChargestoWO.designer.cs">
+      <DependentUpon>202306081454187_addTotalChargestoWO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202306121433066_addValidEmails.cs" />
+    <Compile Include="Migrations\202306121433066_addValidEmails.designer.cs">
+      <DependentUpon>202306121433066_addValidEmails.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="NationalAccount.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ValidEmails.cs" />
     <Compile Include="WOCharges.cs" />
     <Compile Include="WorkOrder.cs" />
   </ItemGroup>
@@ -183,6 +236,45 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202306021830165_idk.resx">
       <DependentUpon>202306021830165_idk.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306071251440_updateInvoicewithContactEmailNumber.resx">
+      <DependentUpon>202306071251440_updateInvoicewithContactEmailNumber.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306071258482_addVonigoInvoiceId.resx">
+      <DependentUpon>202306071258482_addVonigoInvoiceId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306071317313_addVonigoFranchiseIdClientId.resx">
+      <DependentUpon>202306071317313_addVonigoFranchiseIdClientId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306071442498_changeContactPhonetoString.resx">
+      <DependentUpon>202306071442498_changeContactPhonetoString.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306071539039_addVonigoWorkOrderdataPoints.resx">
+      <DependentUpon>202306071539039_addVonigoWorkOrderdataPoints.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306071720425_fixWOtypo.resx">
+      <DependentUpon>202306071720425_fixWOtypo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306071732360_changeTitletoString.resx">
+      <DependentUpon>202306071732360_changeTitletoString.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306071742301_makeWOContactnullable.resx">
+      <DependentUpon>202306071742301_makeWOContactnullable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306081217562_addChargedatapointsandupdateIdentityModels.resx">
+      <DependentUpon>202306081217562_addChargedatapointsandupdateIdentityModels.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306081418173_editCharges.resx">
+      <DependentUpon>202306081418173_editCharges.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306081445390_fixingChargeTotalnotReturning.resx">
+      <DependentUpon>202306081445390_fixingChargeTotalnotReturning.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306081454187_addTotalChargestoWO.resx">
+      <DependentUpon>202306081454187_addTotalChargestoWO.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306121433066_addValidEmails.resx">
+      <DependentUpon>202306121433066_addValidEmails.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
