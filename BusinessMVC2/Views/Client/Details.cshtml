@@ -202,6 +202,65 @@
 
 <br />
 
+<h3>Invoices</h3>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Invoice Id</th>
+            <th>Account Type</th>
+            <th>Total Cost</th>
+            <th>Status</th>
+            <th>SMT Contact</th>
+            <th>Account Contact</th>
+            <th>Contact Email</th>
+            <th>Contact Phone</th>
+            <th>Work Orders</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var invoice in Model.Invoices)
+        {
+            <tr>
+                <td>@invoice.InvoiceId</td>
+                <td>@invoice.AccountType</td>
+                <td>@String.Format("{0:C}", invoice.TotalCost)</td>
+                <td>@invoice.Status</td>
+                <td>@invoice.SmtContact</td>
+                <td>@invoice.AccountContact</td>
+                <td>@invoice.ContactEmail</td>
+                <td>@(string.IsNullOrEmpty(invoice.ContactPhone) ? "N/A" : String.Format("{0:(###) ###-####}", double.Parse(invoice.ContactPhone)))</td>
+                <td>
+                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseWorkOrders_@invoice.InvoiceId" aria-expanded="false" aria-controls="collapseWorkOrders_@invoice.InvoiceId">
+                        Show Work Orders
+                    </button>
+                    <div class="collapse" id="collapseWorkOrders_@invoice.InvoiceId">
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Work Order Id</th>
+                                    <th>Title</th>
+                                    <!-- Add other WorkOrder properties as needed -->
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var workOrder in invoice.WorkOrders)
+                                {
+                                    <tr>
+                                        <td>@workOrder.WorkOrderId</td>
+                                        <td>@workOrder.Title</td>
+                                        <!-- Add other WorkOrder values as needed -->
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.BusinessId }, null) |
     @Html.ActionLink("Back to List", "Index")

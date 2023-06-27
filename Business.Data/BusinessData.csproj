@@ -213,6 +213,50 @@
     <Compile Include="Migrations\202306121433066_addValidEmails.designer.cs">
       <DependentUpon>202306121433066_addValidEmails.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202306211631019_addInvoiceType.cs" />
+    <Compile Include="Migrations\202306211631019_addInvoiceType.designer.cs">
+      <DependentUpon>202306211631019_addInvoiceType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202306221307253_usingLocations.cs" />
+    <Compile Include="Migrations\202306221307253_usingLocations.designer.cs">
+      <DependentUpon>202306221307253_usingLocations.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202306221311503_makeContactnullableforLocation.cs" />
+    <Compile Include="Migrations\202306221311503_makeContactnullableforLocation.designer.cs">
+      <DependentUpon>202306221311503_makeContactnullableforLocation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202306221314445_removeStreetNOfromClient.cs" />
+    <Compile Include="Migrations\202306221314445_removeStreetNOfromClient.designer.cs">
+      <DependentUpon>202306221314445_removeStreetNOfromClient.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202306221356351_makeZipString.cs" />
+    <Compile Include="Migrations\202306221356351_makeZipString.designer.cs">
+      <DependentUpon>202306221356351_makeZipString.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202306221414249_removeVonigoLabel.cs" />
+    <Compile Include="Migrations\202306221414249_removeVonigoLabel.designer.cs">
+      <DependentUpon>202306221414249_removeVonigoLabel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202306221426254_makeVinvoiceIdaString.cs" />
+    <Compile Include="Migrations\202306221426254_makeVinvoiceIdaString.designer.cs">
+      <DependentUpon>202306221426254_makeVinvoiceIdaString.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202306221846058_changeIdentityModelsforWO.cs" />
+    <Compile Include="Migrations\202306221846058_changeIdentityModelsforWO.designer.cs">
+      <DependentUpon>202306221846058_changeIdentityModelsforWO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202306271522248_addContactName.cs" />
+    <Compile Include="Migrations\202306271522248_addContactName.designer.cs">
+      <DependentUpon>202306271522248_addContactName.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202306271620356_addStreetNo.cs" />
+    <Compile Include="Migrations\202306271620356_addStreetNo.designer.cs">
+      <DependentUpon>202306271620356_addStreetNo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202306271651514_fixservicelocation.cs" />
+    <Compile Include="Migrations\202306271651514_fixservicelocation.designer.cs">
+      <DependentUpon>202306271651514_fixservicelocation.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="NationalAccount.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -275,6 +319,39 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202306121433066_addValidEmails.resx">
       <DependentUpon>202306121433066_addValidEmails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306211631019_addInvoiceType.resx">
+      <DependentUpon>202306211631019_addInvoiceType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306221307253_usingLocations.resx">
+      <DependentUpon>202306221307253_usingLocations.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306221311503_makeContactnullableforLocation.resx">
+      <DependentUpon>202306221311503_makeContactnullableforLocation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306221314445_removeStreetNOfromClient.resx">
+      <DependentUpon>202306221314445_removeStreetNOfromClient.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306221356351_makeZipString.resx">
+      <DependentUpon>202306221356351_makeZipString.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306221414249_removeVonigoLabel.resx">
+      <DependentUpon>202306221414249_removeVonigoLabel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306221426254_makeVinvoiceIdaString.resx">
+      <DependentUpon>202306221426254_makeVinvoiceIdaString.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306221846058_changeIdentityModelsforWO.resx">
+      <DependentUpon>202306221846058_changeIdentityModelsforWO.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306271522248_addContactName.resx">
+      <DependentUpon>202306271522248_addContactName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306271620356_addStreetNo.resx">
+      <DependentUpon>202306271620356_addStreetNo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306271651514_fixservicelocation.resx">
+      <DependentUpon>202306271651514_fixservicelocation.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

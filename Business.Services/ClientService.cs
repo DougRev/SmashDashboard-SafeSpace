@@ -13,11 +13,14 @@ namespace BusinessServices
     {
         private readonly ApplicationDbContext _context;
         private readonly IUserIdProvider _userIdProvider;
+        private InvoiceService _invoiceService;
+
 
         public ClientService(ApplicationDbContext context, IUserIdProvider userIdProvider)
         {
             _context = context;
             _userIdProvider = userIdProvider;
+            _invoiceService = new InvoiceService(context);
         }
 
         public QuoteResultViewModel PerformCalculations(BusinessCreate model)
@@ -58,7 +61,7 @@ namespace BusinessServices
                 State = model.State,
                 City = model.City,
                 Address = model.Address,
-                ZipCode = model.ZipCode ?? 0,
+                ZipCode = model.ZipCode,
                 FranchiseId = model.FranchiseId,
                 AccountId = model.AccountId,
                 HaulsPerDay = model.HaulsPerDay,
@@ -101,6 +104,16 @@ namespace BusinessServices
             }
         }
 
+        public Client GetClientById(int businessId)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var entity = ctx.Clients.Single(e => e.BusinessId == businessId);
+                return entity;
+            }
+        }
+
+
         public BusinessDetails GetBusinessById(int businessId)
         {
             using (var ctx = new ApplicationDbContext())
@@ -110,6 +123,9 @@ namespace BusinessServices
                 .Clients
                 .Include(e => e.Franchise) //Eager loading for Franchise
                 .Single(e => e.BusinessId == businessId);
+
+                // Fetch invoices based on service location of the business
+                var invoices = _invoiceService.GetInvoicesByVonigoClientId(entity.VonigoClientId);
 
                 return
                 new BusinessDetails
@@ -121,6 +137,7 @@ namespace BusinessServices
                     City = entity.City,
                     Address = entity.Address,
                     ZipCode = entity.ZipCode,
+                    Invoices = invoices,
                     //FranchiseeId = entity.FranchiseeId,
                     //FranchiseeName = entity.Franchisee.FranchiseeName,
                     FranchiseId = entity.Franchise.FranchiseId,

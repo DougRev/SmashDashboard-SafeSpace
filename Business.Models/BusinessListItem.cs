@@ -31,10 +31,12 @@ namespace BusinessModels
         public State State { get; set; }
 
         [Display(Name = "Zip Code")]
-        public int ZipCode { get; set; }
+        public string ZipCode { get; set; }
         public Guid OwnerId { get; set; }
         [DisplayName("Service Location")]
         public string ServiceLocation { get; set; }
+        public int NumberOfDumpsters { get; set; }
+        public int StreetNumber { get; set; }
 
     }
 }

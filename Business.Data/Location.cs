@@ -11,17 +11,17 @@ namespace BusinessData
     public class Location
     {
         public int LocationId { get; set; }
-        public string StreetNumber { get; set; }
+        //public string StreetNumber { get; set; }
         public string Street { get; set; }
         public string City { get; set; }
         public string Providence { get; set; }
-        public int ZipCode { get; set; }
+        public string ZipCode { get; set; }
         public string AccountType { get; set; }
         [Required]
         public int ClientId { get; set; }
         [ForeignKey("ClientId")]
         public virtual Client Client { get; set; }
-        public int ContactId { get; set; }
+        public int? ContactId { get; set; }
         [ForeignKey("ContactId")]
         public virtual Contact Contact { get; set; }
         // added virtual modifier for lazy loading

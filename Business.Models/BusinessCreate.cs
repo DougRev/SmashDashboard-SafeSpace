@@ -38,7 +38,7 @@ namespace BusinessModels
 
         [Display(Name = "Zip Code")]
         [Range(1, 99950, ErrorMessage = "Zip code must be between 00001 and 99950.")]
-        public int? ZipCode { get; set; }
+        public string ZipCode { get; set; }
 
         public Compactibility Compactibility { get; set; }
         public int FranchiseeId { get; set; }

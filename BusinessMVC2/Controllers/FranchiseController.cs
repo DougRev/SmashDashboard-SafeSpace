@@ -34,11 +34,8 @@ namespace BusinessMVC2.Controllers
         }
 
         // GET: Franchise
-        public ActionResult Index(int? page, bool showAll = false)
+        public ActionResult Index(bool showAll = false)
         {
-            int pageSize = 25;
-            int pageNumber = (page ?? 1);
-
             var franchises = _context.Franchises.AsQueryable();
 
             if (User.Identity.IsAuthenticated)
@@ -59,10 +56,27 @@ namespace BusinessMVC2.Controllers
                     var names = email.Split('@')[0].Split('.');
                     var formattedName = string.Join(" ", names.Select(name => char.ToUpper(name[0]) + name.Substring(1)));
 
+                    // Abbreviation map
+                    Dictionary<string, string> abbreviations = new Dictionary<string, string>()
+                    {
+                        { "Jonathan", "Jon" },
+                        {"James","Jim" },
+                        {"Matthew", "Matt" },
+                        // add more abbreviations as needed
+                    };
+
+                    // Check if first name is in the abbreviation map, if so replace with full name
+                    var firstFormattedName = formattedName.Split(' ')[0];
+                    if (abbreviations.ContainsKey(firstFormattedName))
+                    {
+                        formattedName = formattedName.Replace(firstFormattedName, abbreviations[firstFormattedName]);
+                    }
+
                     franchises = franchises.Where(f => f.Owner1.Trim() == formattedName ||
                                                        f.Owner2.Trim() == formattedName ||
                                                        f.Owner3.Trim() == formattedName ||
                                                        f.Owner4.Trim() == formattedName);
+
                 }
             }
             else if (!showAll)
@@ -78,11 +92,8 @@ namespace BusinessMVC2.Controllers
                 IsActive = f.IsActive
             }).ToList();
 
-            return View(franchiseListItems.ToPagedList(pageNumber, pageSize));
+            return View(franchiseListItems);
         }
-
-
-
 
 
         public ActionResult Create()
@@ -109,6 +120,11 @@ namespace BusinessMVC2.Controllers
         public ActionResult Details(int id)
         {
             var model = _franchiseService.GetClientsByFranchiseId(id);
+            // Ensure model is not null before passing it to the view
+            if (model == null)
+            {
+                // handle error, e.g., return an error view or redirect
+            }
             return View(model);
         }
 
@@ -181,12 +197,10 @@ namespace BusinessMVC2.Controllers
         //View to show Client list by FranchiseId
         // GET: List
         // Franchise/List/{id}
-        public ActionResult List(int id, int? page)
+        public ActionResult List(int id)
         {
-            int pageSize = 25;
-            int pageNumber = (page ?? 1);
-
             var clients = _franchiseService.GetClientsByFranchiseId(id);
+
             var model = clients.Clients.Select(c => new BusinessListItem
             {
                 BusinessId = c.BusinessId,
@@ -201,8 +215,9 @@ namespace BusinessMVC2.Controllers
                 ServiceLocation = c.ServiceLocation,
             }).ToList();
 
-            return View(model.ToPagedList(pageNumber, pageSize));
+            return View(model);
         }
+
 
 
         public ActionResult ListFranchises(int? page, int pageSize = 25)

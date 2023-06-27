@@ -12,16 +12,17 @@ namespace BusinessData
         public int BusinessId { get; set; }
         public bool IsActive { get; set; }
         public string BusinessName { get; set; }
-        public State State { get; set; }
 
         [Display(Name = "Facility ID")]
         public string FacilityID { get; set; }
-        public string City { get; set; }
+        public int? StreetNumber { get; set; }
         public string Address { get; set; }
-        public string ServiceLocation { get; set; }
+        public string City { get; set; }
+        public State State { get; set; }
 
         [Display(Name = "Zip Code")]
-        public int ZipCode { get; set; }
+        public string ZipCode { get; set; }
+        public string ServiceLocation { get; set; }
         public Guid OwnerId { get; set; }
         public int VonigoFranchiseId { get; set; }
         public int VonigoClientId { get; set; }
@@ -46,6 +47,7 @@ namespace BusinessData
 
         [Display(Name = "Contact Last Name")]
         public string LastName { get; set; }
+        public string ContactName { get; set; }
 
         [Display(Name = "Phone Number")]
         public int PhoneNumber { get; set; }

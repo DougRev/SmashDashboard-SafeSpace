@@ -274,3 +274,25 @@ C:\Users\xXTur\source\repos\SmashDashboard-SafeSpace\Business.Data\obj\Debug\Bus
 C:\Users\xXTur\source\repos\SmashDashboard-SafeSpace\Business.Data\obj\Debug\BusinessData.Migrations.fixingChargeTotalnotReturning.resources
 C:\Users\xXTur\source\repos\SmashDashboard-SafeSpace\Business.Data\obj\Debug\BusinessData.Migrations.addTotalChargestoWO.resources
 C:\Users\xXTur\source\repos\SmashDashboard-SafeSpace\Business.Data\obj\Debug\BusinessData.Migrations.addValidEmails.resources
+C:\Users\Doug Revell\source\repos\BusinessMVC\Business.Data\obj\Debug\BusinessData.Migrations.addInvoiceType.resources
+C:\Users\Doug Revell\source\repos\BusinessMVC\Business.Data\obj\Debug\BusinessData.Migrations.usingLocations.resources
+C:\Users\Doug Revell\source\repos\BusinessMVC\Business.Data\obj\Debug\BusinessData.Migrations.makeContactnullableforLocation.resources
+C:\Users\Doug Revell\source\repos\BusinessMVC\Business.Data\obj\Debug\BusinessData.Migrations.removeStreetNOfromClient.resources
+C:\Users\Doug Revell\source\repos\BusinessMVC\Business.Data\obj\Debug\BusinessData.Migrations.makeZipString.resources
+C:\Users\Doug Revell\source\repos\BusinessMVC\Business.Data\obj\Debug\BusinessData.Migrations.removeVonigoLabel.resources
+C:\Users\Doug Revell\source\repos\BusinessMVC\Business.Data\obj\Debug\BusinessData.Migrations.makeVinvoiceIdaString.resources
+C:\Users\Doug Revell\source\repos\BusinessMVC\Business.Data\obj\Debug\BusinessData.Migrations.changeIdentityModelsforWO.resources
+>>>>>>> fe72574738bfaf7633bacee9542ea95a1844bf36
+C:\Users\xXTur\source\repos\SmashDashboard-SafeSpace\Business.Data\obj\Debug\BusinessData.Migrations.addInvoiceType.resources
+C:\Users\xXTur\source\repos\SmashDashboard-SafeSpace\Business.Data\obj\Debug\BusinessData.Migrations.usingLocations.resources
+C:\Users\xXTur\source\repos\SmashDashboard-SafeSpace\Business.Data\obj\Debug\BusinessData.Migrations.makeContactnullableforLocation.resources
+C:\Users\xXTur\source\repos\SmashDashboard-SafeSpace\Business.Data\obj\Debug\BusinessData.Migrations.removeStreetNOfromClient.resources
+C:\Users\xXTur\source\repos\SmashDashboard-SafeSpace\Business.Data\obj\Debug\BusinessData.Migrations.makeZipString.resources
+C:\Users\xXTur\source\repos\SmashDashboard-SafeSpace\Business.Data\obj\Debug\BusinessData.Migrations.removeVonigoLabel.resources
+C:\Users\xXTur\source\repos\SmashDashboard-SafeSpace\Business.Data\obj\Debug\BusinessData.Migrations.makeVinvoiceIdaString.resources
+C:\Users\xXTur\source\repos\SmashDashboard-SafeSpace\Business.Data\obj\Debug\BusinessData.Migrations.changeIdentityModelsforWO.resources
+C:\Users\xXTur\source\repos\SmashDashboard-SafeSpace\Business.Data\obj\Debug\BusinessData.Migrations.addContactName.resources
+C:\Users\xXTur\source\repos\SmashDashboard-SafeSpace\Business.Data\obj\Debug\BusinessData.Migrations.addToBusinessListItem.resources
+C:\Users\xXTur\source\repos\SmashDashboard-SafeSpace\Business.Data\obj\Debug\BusinessData.Migrations.addStreetNo.resources
+C:\Users\xXTur\source\repos\SmashDashboard-SafeSpace\Business.Data\obj\Debug\BusinessData.Migrations.update.resources
+C:\Users\xXTur\source\repos\SmashDashboard-SafeSpace\Business.Data\obj\Debug\BusinessData.Migrations.fixservicelocation.resources

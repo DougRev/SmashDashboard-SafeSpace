@@ -1,8 +1,6 @@
-﻿@model IPagedList<BusinessModels.BusinessListItem>
-@using PagedList;
-@using PagedList.Mvc;
+﻿@model IEnumerable<BusinessModels.BusinessListItem>
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Clients";
 }
 
 <h2>Clients</h2>
@@ -10,76 +8,53 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-@using (Html.BeginForm("Index", "Client", FormMethod.Get))
-{
-    <p>
-        Find by name: @Html.TextBox("searchString")
-        <input type="submit" value="Search" />
-    </p>
-}
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.First().FranchiseName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.First().BusinessName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.First().ServiceLocation)
-        </th>
 
-        <th></th>
-
-    </tr>
-    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }),
-    options: new PagedListRenderOptions
-    {
-        DisplayPageCountAndCurrentLocation = true,
-        MaximumPageNumbersToDisplay = 10,
-    })
-    @foreach (var item in Model)
-    {
+<table id="clientTable" class="table display">
+    <thead>
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.FranchiseName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BusinessName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ServiceLocation)
-            </td>
+            <th>@Html.DisplayNameFor(model => model.First().FranchiseName)</th>
+            <th>@Html.DisplayNameFor(model => model.First().BusinessName)</th>
+            <th>@Html.DisplayNameFor(model => model.First().ServiceLocation)</th>
 
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.BusinessId }, null) |
-                @Html.ActionLink("Details", "Details", new { id = item.BusinessId }, null) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.BusinessId }, null)
 
-            </td>
 
+            <th>Actions</th>
         </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.FranchiseName)</td>
+                <td>@Html.DisplayFor(modelItem => item.BusinessName)</td>
+                <td>@Html.DisplayFor(modelItem => item.ServiceLocation)</td>
+    
 
-    }
-
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.BusinessId }, null) |
+                    @Html.ActionLink("Details", "Details", new { id = item.BusinessId }, null) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.BusinessId }, null)
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>
+
+<script>
+    $(document).ready( function () {
+        $('#clientTable').DataTable();
+    } );
+</script>
 <div id="upload-download-container">
     @if (User.Identity.IsAuthenticated && User.Identity.Name == "doug.revell@smashmytrash.com")
     {
         @Html.ActionLink("Export Google Sheet", "TestUpdateGoogleSheet", "Client", null, new { @class = "btn btn-primary" })
         <br />
         <br />
-        using (Html.BeginForm("ImportClientsFromGoogleSheet", "Client", FormMethod.Get))
+        using (Html.BeginForm("ImportFromGoogleSheet", "Client", FormMethod.Get))
         {
             <input type="submit" value="Import Clients" class="btn btn-primary" />
         }
     }
 </div>
-@Html.PagedListPager(Model, page => Url.Action("Index", new { page }),
-   options: new PagedListRenderOptions
-   {
-       DisplayPageCountAndCurrentLocation = true,
-       MaximumPageNumbersToDisplay = 10,
-   })
-

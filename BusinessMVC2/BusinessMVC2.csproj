@@ -414,7 +414,6 @@
     <Content Include="Content\smash-dashboard-6598082ac1fd.json" />
     <Content Include="Content\client_secret_846675010514-avrmk1feujf45l32pnt55bpsv74smkl4.apps.googleusercontent.com %281%29.json" />
     <Content Include="Content\smash-dashboard-2c07132e45eb.json" />
-    <Content Include="Content\smt-web-client.json" />
     <Content Include="Content\desktop-client-secret.json" />
     <Content Include="Content\web-client.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -580,6 +579,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\AuthCallback\" />
+    <Folder Include="Views\Hubspot\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

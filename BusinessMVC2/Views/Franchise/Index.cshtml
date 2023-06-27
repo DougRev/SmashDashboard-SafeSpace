@@ -1,6 +1,4 @@
-﻿@model IPagedList<BusinessModels.Franchise.FranchiseListItem>
-@using PagedList.Mvc;
-@using PagedList;
+﻿@model IEnumerable<BusinessModels.Franchise.FranchiseListItem>
 
 @{
     ViewBag.Title = "Index";
@@ -25,51 +23,49 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.First().FranchiseId)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.First().FranchiseName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.First().Status)
-        </th>
-        <th></th>
-        @Html.PagedListPager(Model, page => Url.Action("Index", new { page }),
-           options: new PagedListRenderOptions
-           {
-               DisplayPageCountAndCurrentLocation = true,
-               MaximumPageNumbersToDisplay = 10,
-           })
-    </tr>
 
-    @foreach (var item in Model)
-    {
+<table class="table" id="franchise-list">
+    <thead>
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.FranchiseId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FranchiseName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.FranchiseId }) |
-                @Html.ActionLink("Details", "Details", new { id = item.FranchiseId }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.FranchiseId }) |
-                @Html.ActionLink("Client List", "List", new { id = item.FranchiseId })
-            </td>
+            <th>
+                @Html.DisplayNameFor(model => model.First().FranchiseId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().FranchiseName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().Status)
+            </th>
+            <th>Actions</th>
         </tr>
-    }
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FranchiseId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FranchiseName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.FranchiseId }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.FranchiseId }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.FranchiseId }) |
+                    @Html.ActionLink("Client List", "List", new { id = item.FranchiseId })
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>
 
-@Html.PagedListPager(Model, page => Url.Action("Index", new { page }),
-   options: new PagedListRenderOptions
-   {
-       DisplayPageCountAndCurrentLocation = true,
-       MaximumPageNumbersToDisplay = 10,
-   })
+<script>
+    $(document).ready(function () {
+        $('#franchise-list').DataTable();
+    });
+</script>

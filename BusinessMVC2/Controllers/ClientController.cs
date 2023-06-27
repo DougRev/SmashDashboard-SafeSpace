@@ -11,7 +11,6 @@ using Google.Apis.Sheets.v4;
 using Google.Apis.Sheets.v4.Data;
 using Google.Apis.Util.Store;
 using Microsoft.AspNet.Identity;
-using PagedList;
 using SelectPdf;
 using System;
 using System.Collections.Generic;
@@ -49,12 +48,9 @@ namespace BusinessMVC2.Controllers
             _nationalAccountService = nationalAccountService;
             _clientService = clientService;
         }
-
         // GET: Clients
-        public ActionResult Index(int? page, string searchString)
+        public ActionResult Index(string searchString)
         {
-            int pageSize = 25;
-            int pageNumber = (page ?? 1);
             var franchises = _context.Franchises.AsQueryable();
 
             string email = User.Identity.Name;
@@ -66,11 +62,28 @@ namespace BusinessMVC2.Controllers
                 var names = email.Split('@')[0].Split('.');
                 var formattedName = string.Join(" ", names.Select(name => char.ToUpper(name[0]) + name.Substring(1)));
 
+                // Abbreviation map
+                Dictionary<string, string> abbreviations = new Dictionary<string, string>()
+                {
+                    { "Jonathan", "Jon" },
+                    {"James","Jim" },
+                    {"Matthew", "Matt" },
+
+                    // add more abbreviations as needed
+                };
+
+                // Check if first name is in the abbreviation map, if so replace with full name
+                var firstFormattedName = formattedName.Split(' ')[0];
+                if (abbreviations.ContainsKey(firstFormattedName))
+                {
+                    formattedName = formattedName.Replace(firstFormattedName, abbreviations[firstFormattedName]);
+                }
+
                 // Get all franchises owned by the currently logged-in user
                 franchises = franchises.Where(f => f.Owner1.Trim() == formattedName ||
-                                                       f.Owner2.Trim() == formattedName ||
-                                                       f.Owner3.Trim() == formattedName ||
-                                                       f.Owner4.Trim() == formattedName);
+                                                   f.Owner2.Trim() == formattedName ||
+                                                   f.Owner3.Trim() == formattedName ||
+                                                   f.Owner4.Trim() == formattedName);
 
                 // Get all client ids associated with these franchises
                 var clientIds = franchises.SelectMany(f => f.Clients.Select(c => c.BusinessId)).ToList();
@@ -88,7 +101,7 @@ namespace BusinessMVC2.Controllers
                 .OrderBy(b => b.BusinessName)
                 .ToList();
 
-            return View(businesses.ToPagedList(pageNumber, pageSize));
+            return View(businesses);
         }
 
         public ActionResult Create()
@@ -206,6 +219,8 @@ namespace BusinessMVC2.Controllers
         public ActionResult Details(int id)
         {
             var model = _clientService.GetBusinessById(id);
+            //model.Invoices = _context.Invoices.Where(i => i.ClientId == id).ToList();
+
             return View(model);
         }
 
@@ -456,44 +471,44 @@ namespace BusinessMVC2.Controllers
 
             // Prepare the data to be appended
             var values = new List<IList<object>>
-    {
-        new List<object>
-        {
-            client.BusinessId,
-            client.BusinessName,
-            client.State,
-            client.FacilityID,
-            client.City,
-            client.Address,
-            client.ZipCode,
-            client.OwnerId,
-            client.FranchiseId,
-            client.FranchiseName,
-            client.FirstName,
-            client.LastName,
-            client.PhoneNumber,
-            // Add more client properties as needed
-        }
-    };
+            {
+                new List<object>
+                {
+                    client.BusinessId,
+                    client.BusinessName,
+                    client.State,
+                    client.FacilityID,
+                    client.City,
+                    client.Address,
+                    client.ZipCode,
+                    client.OwnerId,
+                    client.FranchiseId,
+                    client.FranchiseName,
+                    client.FirstName,
+                    client.LastName,
+                    client.PhoneNumber,
+                    // Add more client properties as needed
+                }
+            };
 
             // Create a batch update request
             var requests = new List<Request>
-    {
-        new Request
-        {
-           UpdateCells = new UpdateCellsRequest
-    {
-        Start = new GridCoordinate
-        {
-            SheetId = 0, // Adjust the sheet ID as needed
-            RowIndex = startRow, // Start from the given row
-            ColumnIndex = 0 // Start from the first column
-        },
-        Rows = values.Select(row => new RowData { Values = row.Select(cell => new CellData { UserEnteredValue = new ExtendedValue { StringValue = cell?.ToString() ?? string.Empty } }).ToList() }).ToList(),
-        Fields = "*"
-    }
-   }
-  };
+            {
+                new Request
+                {
+                    UpdateCells = new UpdateCellsRequest
+                    {
+                        Start = new GridCoordinate
+                        {
+                            SheetId = 0, // Adjust the sheet ID as needed
+                            RowIndex = startRow, // Start from the given row
+                            ColumnIndex = 0 // Start from the first column
+                        },
+                        Rows = values.Select(row => new RowData { Values = row.Select(cell => new CellData { UserEnteredValue = new ExtendedValue { StringValue = cell?.ToString() ?? string.Empty } }).ToList() }).ToList(),
+                        Fields = "*"
+                    }
+                }
+            };
 
             // Execute the batch update request
             var batchUpdateRequest = new BatchUpdateSpreadsheetRequest { Requests = requests };
@@ -557,14 +572,77 @@ namespace BusinessMVC2.Controllers
             return values.Count - 1;
         }
 
-        public async Task<ActionResult> ImportClientsFromGoogleSheet(CancellationToken cancellationToken)
+
+        public Location ProcessLocationString(string locationString, Client client)
+        {
+            // Normalize the location string
+            locationString = locationString.Replace("\n", " ").Replace("\r", "");
+
+            // We'll break the string into words
+            var words = locationString.Split(' ');
+
+            // The last three or four words will form the city, state, and zip
+            var cityStateZipWords = words.Skip(Math.Max(0, words.Length - 4)).ToList();
+
+            // The words before the city, state, and zip will form the address
+            var addressWords = words.Take(words.Length - cityStateZipWords.Count).ToList();
+
+            client.Address = string.Join(" ", addressWords).Trim();
+
+            // Extract State and Zip (last two elements)
+            if (Enum.TryParse(cityStateZipWords[cityStateZipWords.Count - 2].Trim(), out State stateValue))
+            {
+                client.State = stateValue; // This is the state: GA, NC, AZ
+            }
+            else
+            {
+                // Handle the case where the string is not a valid member of the enum
+            }
+
+            client.ZipCode = cityStateZipWords[cityStateZipWords.Count - 1].Trim();
+
+
+            // Extract City (everything else)
+            client.City = string.Join(" ", cityStateZipWords.Take(cityStateZipWords.Count - 2)).Trim().TrimEnd(',');
+
+            // Create a new Location object and fill it
+            var location = new Location
+            {
+                ClientId = client.BusinessId, // Assign the ClientId to the location
+                                              //StreetNumber = client.StreetNumber,
+                Street = client.Address,
+                City = client.City,
+                Providence = client.State.ToString(),
+                ZipCode = client.ZipCode,
+            };
+
+            return location;
+        }
+
+
+        private async Task<IList<IList<object>>> GetSheetValues(UserCredential credential, string range)
+        {
+            string ApplicationName = "Smash Calc";
+            string sheetId = "10JwDPXOTfCuGM8GUKkQJ4iDF4b3ksy6CEoxvr68lXSw";
+
+            var service = new SheetsService(new BaseClientService.Initializer()
+            {
+                HttpClientInitializer = credential,
+                ApplicationName = ApplicationName,
+            });
+
+            var response = await service.Spreadsheets.Values.Get(sheetId, range).ExecuteAsync();
+            return response.Values;
+        }
+
+        public async Task<ActionResult> ImportFromGoogleSheet(CancellationToken cancellationToken)
         {
             var result = await new AuthorizationCodeMvcApp(this, new AppFlowMetadata()).AuthorizeAsync(cancellationToken);
 
             if (result.Credential != null)
             {
-                await ImportClientsAndInvoices(result.Credential);
-                return RedirectToAction("Index"); // Redirect to the desired view after importing clients
+                await ImportData(result.Credential);
+                return RedirectToAction("Index");
             }
             else
             {
@@ -572,150 +650,105 @@ namespace BusinessMVC2.Controllers
             }
         }
 
+        private async Task ImportData(UserCredential credential)
+        {
+            await ImportClients(credential);
+            await ImportInvoices(credential);
+            await ImportWorkOrders(credential);
+        }
         private async Task ImportClients(UserCredential credential)
         {
-            string ApplicationName = "Smash Calc";
-            string sheetId = "10JwDPXOTfCuGM8GUKkQJ4iDF4b3ksy6CEoxvr68lXSw";
-            string range = "Clients!A1:Z";
-
-            var service = new SheetsService(new BaseClientService.Initializer()
-            {
-                HttpClientInitializer = credential,
-                ApplicationName = ApplicationName,
-            });
-
-            var response = await service.Spreadsheets.Values.Get(sheetId, range).ExecuteAsync();
-            var values = response.Values;
-
-            var clients = new List<Client>();
+            var values = await GetSheetValues(credential, "Clients!A2:K");
 
             using (var db = new ApplicationDbContext())
             {
                 var franchises = await db.Franchises.ToListAsync();
-
-                foreach (var row in values)
-                {
-                    if (row.Count >= 6 &&
-                        !string.IsNullOrWhiteSpace(row[2].ToString()) &&
-                        int.TryParse(row[2].ToString(), out int vonigoFranchiseId) &&
-                        int.TryParse(row[4].ToString(), out int vonigoClientId) &&
-                        !string.IsNullOrWhiteSpace(row[3].ToString()))
-                    {
-                        var franchiseName = row[1].ToString().Trim();
-                        var franchise = franchises.SingleOrDefault(f => f.FranchiseName.Trim() == franchiseName);
-
-                        if (franchise != null)
-                        {
-                            var client = new Client
-                            {
-                                FranchiseId = franchise.FranchiseId,
-                                FranchiseName = franchiseName,
-                                VonigoFranchiseId = vonigoFranchiseId,
-                                BusinessName = row[3].ToString(),
-                                VonigoClientId = vonigoClientId,
-                                ServiceLocation = row[5].ToString(),
-                            };
-
-
-
-                            // Process the ServiceLocation to set Address, City, State, and ZipCode properties
-                            ProcessLocationString(client.ServiceLocation, client);
-
-                            clients.Add(client);
-                        }
-                    }
-                }
-
-
-                foreach (var client in clients)
-                {
-                    db.Clients.Add(client);
-                }
-
-                await db.SaveChangesAsync();
-            }
-        }
-
-        private async Task ImportClientsAndInvoices(UserCredential credential)
-        {
-            string ApplicationName = "Smash Calc";
-            string sheetId = "10JwDPXOTfCuGM8GUKkQJ4iDF4b3ksy6CEoxvr68lXSw";
-            string range = "Clients!A2:Z";
-
-            var service = new SheetsService(new BaseClientService.Initializer()
-            {
-                HttpClientInitializer = credential,
-                ApplicationName = ApplicationName,
-            });
-
-            var response = await service.Spreadsheets.Values.Get(sheetId, range).ExecuteAsync();
-            var values = response.Values;
-
-            var clients = new List<Client>();
-
-            using (var db = new ApplicationDbContext())
-            {
-                var franchises = await db.Franchises.ToListAsync();
-
-                foreach (var row in values)
-                {
-                    if (row.Count >= 6 &&
-                        !string.IsNullOrWhiteSpace(row[2].ToString()) &&
-                        int.TryParse(row[2].ToString(), out int vonigoFranchiseId) &&
-                        int.TryParse(row[4].ToString(), out int vonigoClientId) &&
-                        !string.IsNullOrWhiteSpace(row[3].ToString()))
-                    {
-                        var franchiseName = row[1].ToString().Trim();
-                        var franchise = franchises.SingleOrDefault(f => f.FranchiseName.Trim() == franchiseName);
-                        var existingClients = await db.Clients.ToListAsync();
-
-
-                        if (franchise != null)
-                        {
-                            var client = new Client
-                            {
-                                FranchiseId = franchise.FranchiseId,
-                                FranchiseName = franchiseName,
-                                VonigoFranchiseId = vonigoFranchiseId,
-                                BusinessName = row[3].ToString(),
-                                VonigoClientId = vonigoClientId,
-                                ServiceLocation = row[5].ToString(),
-                            };
-
-                            // Process the ServiceLocation to set Address, City, State, and ZipCode properties
-                            ProcessLocationString(client.ServiceLocation, client);
-
-                            // Only add client if it does not exist yet
-                            if (!existingClients.Any(c => c.BusinessName == client.BusinessName && c.ServiceLocation == client.ServiceLocation))
-                            {
-                                clients.Add(client);
-                            }
-                        }
-                    }
-                }
-
-                foreach (var client in clients)
-                {
-                    db.Clients.Add(client);
-                }
-
-                await db.SaveChangesAsync();
-
-
-                // Fetch the invoices
-                range = "Invoices!A2:Z";
-                response = await service.Spreadsheets.Values.Get(sheetId, range).ExecuteAsync();
-                values = response.Values;
-
-                var invoices = new List<Invoice>();
-                var clientList = _clientService.GetBusinesses();
-
 
                 foreach (var row in values)
                 {
                     if (row.Count >= 11 &&
                         !string.IsNullOrWhiteSpace(row[0].ToString()) &&
-                        int.TryParse(row[12].ToString(), out int vonigoInvoiceId) &&
+                        int.TryParse(row[1].ToString(), out int franchiseID) &&
+                        !string.IsNullOrWhiteSpace(row[2].ToString()) &&
+                        int.TryParse(row[3].ToString(), out int vonigoClientId) &&
+                        !string.IsNullOrWhiteSpace(row[4].ToString()) &&
+                        int.TryParse(row[5].ToString(), out int streetNo) &&
+                        !string.IsNullOrWhiteSpace(row[6].ToString()) &&
+                        !string.IsNullOrWhiteSpace(row[7].ToString()) &&
+                        !string.IsNullOrWhiteSpace(row[8].ToString()) &&
+                        !string.IsNullOrWhiteSpace(row[9].ToString()) &&
+                        !string.IsNullOrWhiteSpace(row[10].ToString()))
+                    {
+                        var franchiseName = row[0].ToString().Trim();
+                        var clientName = row[2].ToString().Trim();
+                        var serviceLocation = row[4].ToString().Trim();
+                        var street = row[6].ToString().Trim();
+                        var city = row[7].ToString().Trim();
+                        var state = row[8].ToString().Trim();
+                        var zip = row[9].ToString().Trim();
+                        var contactName = row[10].ToString().Trim();
+                        var existingClients = await db.Clients.ToListAsync();
+
+                        var franchise = franchises.SingleOrDefault(f => f.FranchiseName.Trim() == franchiseName);
+
+                        if (franchise != null)
+                        {
+                            var client = new Client
+                            {
+                                FranchiseId = franchise.FranchiseId,
+                                FranchiseName = franchiseName,
+                                VonigoFranchiseId = franchiseID,
+                                BusinessName = clientName,
+                                VonigoClientId = vonigoClientId,
+                                ServiceLocation = serviceLocation,
+                                StreetNumber = streetNo,
+                                Address = street,
+                                City = city,
+                                State = (State)Enum.Parse(typeof(State), state, true),
+                                ZipCode = zip,
+                                ContactName = contactName,
+                            };
+
+                            // Only add client if it does not exist yet
+                            if (!existingClients.Any(c => c.BusinessName == client.BusinessName && c.ServiceLocation == client.ServiceLocation))
+                            {
+                                db.Clients.Add(client);
+                                await db.SaveChangesAsync(); // Save client first
+
+                                // Process the ServiceLocation to set Address, City, State, and ZipCode properties
+                                var location = ProcessLocationString(client.ServiceLocation, client);
+
+                                // Add the created location to Locations table
+                                if (location != null)
+                                {
+                                    db.Locations.Add(location);
+                                    await db.SaveChangesAsync(); // Save location after client
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+
+
+
+        private async Task ImportInvoices(UserCredential credential)
+        {
+            var values = await GetSheetValues(credential, "Invoices!A2:Z");
+
+            var invoices = new List<Invoice>();
+
+            using (var db = new ApplicationDbContext())
+            {
+                var franchises = await db.Franchises.ToListAsync();
+                var clientList = _clientService.GetBusinesses();
+
+                foreach (var row in values)
+                {
+                    if (row.Count >= 11 &&
+                        !string.IsNullOrWhiteSpace(row[0].ToString()) &&
                         decimal.TryParse(row[5].ToString(), out decimal total) &&
                         int.TryParse(row[1].ToString(), out int vonigoFranchiseId) &&
                         int.TryParse(row[3].ToString(), out int vonigoClientId))
@@ -726,7 +759,9 @@ namespace BusinessMVC2.Controllers
                         var franchise = franchises.SingleOrDefault(f => f.FranchiseName.Trim() == franchiseName);
                         var client = clientList.FirstOrDefault(c => c.BusinessName.Trim() == clientName);
                         var existingInvoices = await db.Invoices.ToListAsync();
+                        var type = row[13].ToString().Trim();
 
+                        string vonigoInvoiceId = row[12].ToString().Trim();  // vonigoInvoiceId is now string
 
                         if (franchise != null && client != null)
                         {
@@ -748,6 +783,7 @@ namespace BusinessMVC2.Controllers
                                 ContactEmail = row[10].ToString(),
                                 ContactPhone = phoneStr,
                                 VonigoClientId = vonigoClientId,
+                                InvoiceType = type,
                             };
 
                             // Only add client if it does not exist yet
@@ -759,27 +795,31 @@ namespace BusinessMVC2.Controllers
                     }
                 }
 
-                // Import the invoices into the database
                 foreach (var invoice in invoices)
                 {
                     db.Invoices.Add(invoice);
                 }
 
-                db.SaveChanges();
+                await db.SaveChangesAsync();
+            }
+        }
 
-                // Fetch the work orders
-                range = "WorkOrders!A2:Z";
-                response = await service.Spreadsheets.Values.Get(sheetId, range).ExecuteAsync();
-                values = response.Values;
+        private async Task ImportWorkOrders(UserCredential credential)
+        {
+            var values = await GetSheetValues(credential, "WorkOrders!A2:Z");
 
-                var workOrders = new List<WorkOrder>();
-                var invoiceList = await db.Invoices.ToListAsync(); // Using async version here
+            var workOrders = new List<WorkOrder>();
 
+            using (var db = new ApplicationDbContext())
+            {
+                var franchises = await db.Franchises.ToListAsync();
+                var invoiceList = await db.Invoices.ToListAsync();
+                var clientList = _clientService.GetBusinesses();
+                var locationsList = await db.Locations.ToListAsync();
 
                 foreach (var row in values)
                 {
-
-                    if (row.Count >= 22 &&
+                    if (row.Count >= 18 &&
                         int.TryParse(row[0].ToString().Trim(), out int vonigoWorkOrderId) &&
                         int.TryParse(row[3].ToString(), out int vonigoFranchiseId) &&
                         int.TryParse(row[5].ToString(), out int vonigoClientId) &&
@@ -787,24 +827,30 @@ namespace BusinessMVC2.Controllers
                         DateTime.TryParse(row[7].ToString(), out DateTime completedTime) &&
                         int.TryParse(row[8].ToString(), out int streetNumber) &&
                         bool.TryParse(row[13].ToString(), out bool vonigoIsActive) &&
-                        int.TryParse(row[14].ToString(), out int dumpstersSmashed) &&
-                        int.TryParse(row[19].ToString(), out int vonigoInvoiceId) &&
-                        int.TryParse(row[20].ToString(), out int beforeFullness) &&
-                        int.TryParse(row[21].ToString(), out int afterFullness))
+                        int.TryParse(row[14].ToString(), out int dumpstersSmashed))
                     {
+                        string vonigoInvoiceId = row[18].ToString().Trim();  // vonigoInvoiceId is now string
+
                         var franchiseName = row[2].ToString().Trim();
                         var clientName = row[4].ToString().Trim();
                         var franchise = franchises.SingleOrDefault(f => f.FranchiseName.Trim() == franchiseName);
                         var invoice = invoiceList.SingleOrDefault(i => i.VonigoInvoiceId == vonigoInvoiceId);
-                        var client = clientList.FirstOrDefault(c => c.BusinessName.Trim() == clientName);
+                        string clientNameProcessed = Regex.Replace(clientName, @"[^0-9a-zA-Z]+", " ").ToLower();
+                        var client = clientList.FirstOrDefault(c =>
+                        {
+                            string businessNameProcessed = Regex.Replace(c.BusinessName, @"[^0-9a-zA-Z]+", " ").ToLower();
+                            return clientNameProcessed.Split(' ').All(part => businessNameProcessed.Contains(part));
+                        });
+
+
                         var existingWorkOrders = await db.WorkOrders.ToListAsync();
 
-                        if (franchise != null && invoice != null && client != null)
+                        if (franchise != null && client != null)
                         {
                             var workOrder = new WorkOrder
                             {
                                 VonigoWorkOrderId = vonigoWorkOrderId,
-                                InvoiceId = invoice.InvoiceId,
+                                InvoiceId = invoice?.InvoiceId,
                                 Title = row[1].ToString(),
                                 FranchiseId = franchise.FranchiseId,
                                 VonigoClientId = vonigoClientId,
@@ -821,55 +867,72 @@ namespace BusinessMVC2.Controllers
                                 Summary = row[15].ToString(),
                                 OnSiteContact = row[16].ToString(),
                                 ServiceType = row[17].ToString(),
-                                VonigoLabel = row[18].ToString(),
-                                BeforeFullness = beforeFullness,
-                                AfterFullness = afterFullness
                             };
 
+
+                            // If Invoice is null and ServiceType is "Recurring Service"
+                            if (invoice == null && workOrder.ServiceType == "Recurring Services")
+                            {
+                                var address = workOrder.StreetNumber + " " + workOrder.StreetAddress;
+                                var location = locationsList.FirstOrDefault(l => l.Street == address && l.City == workOrder.City && l.Providence == workOrder.State && l.ZipCode == workOrder.Zipcode);
+                                if (location != null)
+                                {
+                                    var trackedClient = await db.Clients.FirstOrDefaultAsync(c => c.BusinessId == location.ClientId);
+                                    if (trackedClient != null)
+                                    {
+                                        trackedClient.NumberOfDumpsters = dumpstersSmashed;
+                                    }
+                                }
+
+                            }
+
                             // Only add Work Order if it does not exist yet
-                            if (!existingWorkOrders.Any(c => c.VonigoWorkOrderId == workOrder.VonigoInvoiceId))
+                            if (!existingWorkOrders.Any(c => c.VonigoWorkOrderId == workOrder.VonigoWorkOrderId))
                             {
                                 workOrders.Add(workOrder);
                             }
                         }
-
                     }
                 }
 
-                // Import the work orders into the database
                 foreach (var workOrder in workOrders)
                 {
                     db.WorkOrders.Add(workOrder);
                 }
 
                 await db.SaveChangesAsync();
+            }
+        }
 
 
-                // Fetch the charges
-                range = "Charges!A2:Z";
-                response = await service.Spreadsheets.Values.Get(sheetId, range).ExecuteAsync();
-                values = response.Values;
 
-                var charges = new List<WOCharges>();
+        private async Task ImportCharges(UserCredential credential)
+        {
+            var values = await GetSheetValues(credential, "Charges!A2:Z");
+
+            var charges = new List<WOCharges>();
+
+            using (var db = new ApplicationDbContext())
+            {
+                var franchises = await db.Franchises.ToListAsync();
                 var workOrderList = db.WorkOrders.ToList();
-
 
                 foreach (var row in values)
                 {
                     if (row.Count >= 14 &&
-                        int.TryParse(row[0].ToString().Trim(), out int vonigoChargeId) &&
-                        DateTime.TryParse(row[4].ToString(), out DateTime createdDate) &&
-                        DateTime.TryParse(row[5].ToString(), out DateTime editedDate) &&
-                        bool.TryParse(row[6].ToString(), out bool activeCan) &&
-                        float.TryParse(row[7].ToString(), out float tax) &&
-                        float.TryParse(row[8].ToString(), out float subTotal) &&
-                        int.TryParse(row[9].ToString(), out int quantity) &&
-                        int.TryParse(row[12].ToString(), out int vonigoWorkOrderId) &&
-                        int.TryParse(row[15].ToString(), out int vonigoFranchiseId))
+                       int.TryParse(row[0].ToString().Trim(), out int vonigoChargeId) &&
+                       DateTime.TryParse(row[4].ToString(), out DateTime createdDate) &&
+                       DateTime.TryParse(row[5].ToString(), out DateTime editedDate) &&
+                       bool.TryParse(row[6].ToString(), out bool activeCan) &&
+                       float.TryParse(row[7].ToString(), out float tax) &&
+                       float.TryParse(row[8].ToString(), out float subTotal) &&
+                       int.TryParse(row[9].ToString(), out int quantity) &&
+                       int.TryParse(row[12].ToString(), out int vonigoWorkOrderId))// &&
+                                                                                   //int.TryParse(row[15].ToString(), out int vonigoFranchiseId))
                     {
-                        var franchiseName = row[16].ToString().Trim();
+                        var franchiseName = row[13].ToString().Trim();
                         var franchise = franchises.SingleOrDefault(f => f.FranchiseName.Trim() == franchiseName);
-                        var workOrder = workOrderList.SingleOrDefault(w => w.VonigoWorkOrderId == vonigoWorkOrderId);
+                        var workOrder = workOrderList.SingleOrDefault(w => w.VonigoWorkOrderId == vonigoWorkOrderId);//This line is the current error because it returns NULL
                         var invoice = await db.Invoices.ToListAsync(); // Using async version here
                         var existingCharges = await db.Charges.ToListAsync();
 
@@ -878,7 +941,7 @@ namespace BusinessMVC2.Controllers
                             var woCharge = new WOCharges
                             {
                                 VonigoChargeId = vonigoChargeId,
-                                VonigoInvoiceId = workOrder.InvoiceId,
+                                VonigoInvoiceId = workOrder.VonigoInvoiceId,
                                 ItemType = row[1].ToString(),
                                 ChargeName = row[2].ToString(),
                                 Title = row[3].ToString(),
@@ -891,9 +954,9 @@ namespace BusinessMVC2.Controllers
                                 Description = row[10].ToString(),
                                 Charge = row[11].ToString(),
                                 VonigoWorkOrderId = vonigoWorkOrderId,
-                                VonigoWorkOrderName = row[13].ToString(),
-                                VonigoPriceListName = row[14].ToString(),
-                                VonigoFranchiseId = vonigoFranchiseId,
+                                //VonigoWorkOrderName = row[13].ToString(),
+                                //VonigoPriceListName = row[14].ToString(),
+                                //VonigoFranchiseId = vonigoFranchiseId,
                                 FranchiseId = franchise.FranchiseId,
                                 WorkOrderId = workOrder.WorkOrderId,
                                 FranchiseName = franchise.FranchiseName,
@@ -909,14 +972,12 @@ namespace BusinessMVC2.Controllers
                     }
                 }
 
-                // Import the charges into the database
                 foreach (var charge in charges)
                 {
                     db.Charges.Add(charge);
                 }
 
                 await db.SaveChangesAsync();
-
 
                 // Calculate and update the total charges for each work order
                 foreach (var workOrderId in charges.Select(c => c.WorkOrderId).Distinct())
@@ -926,52 +987,16 @@ namespace BusinessMVC2.Controllers
                         .Where(c => c.WorkOrderId == workOrderId)
                         .SumAsync(c => c.Total);
                 }
+
                 await db.SaveChangesAsync();
-
             }
         }
 
-
-
-        public void ProcessLocationString(string location, Client client)
+        private static string RemoveSpecialCharacters(string str)
         {
-            // Normalize the location string
-            location = location.Replace("\n", " ").Replace("\r", "");
+            return Regex.Replace(str, "[^a-zA-Z0-9_. ]+", "", RegexOptions.Compiled);
 
-            // We'll break the string into words
-            var words = location.Split(' ');
-
-            // The last three or four words will form the city, state, and zip
-            var cityStateZipWords = words.Skip(Math.Max(0, words.Length - 4)).ToList();
-
-            // The words before the city, state, and zip will form the address
-            var addressWords = words.Take(words.Length - cityStateZipWords.Count).ToList();
-
-            client.Address = string.Join(" ", addressWords).Trim();
-
-            // Extract State and Zip (last two elements)
-            if (Enum.TryParse(cityStateZipWords[cityStateZipWords.Count - 2].Trim(), out State stateValue))
-            {
-                client.State = stateValue; // This is the state: GA, NC, AZ
-            }
-            else
-            {
-                // Handle the case where the string is not a valid member of the enum
-            }
-
-            if (int.TryParse(cityStateZipWords[cityStateZipWords.Count - 1].Trim(), out int zip))
-            {
-                client.ZipCode = zip; // This is the zip code: 30214, 28655, 85040
-            }
-            else
-            {
-                // Handle the case where the string is not a valid integer
-            }
-
-            // Extract City (everything else)
-            client.City = string.Join(" ", cityStateZipWords.Take(cityStateZipWords.Count - 2)).Trim().TrimEnd(',');
         }
-
     }
 
 }
