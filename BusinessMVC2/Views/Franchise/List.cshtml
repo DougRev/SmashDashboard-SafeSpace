@@ -10,7 +10,7 @@
     @Html.ActionLink("Create New", "Create", "Client")
 </p>
 
-<table class="table">
+<table id="clientsTable" class="table">
     <thead>
         <tr>
             <th>@Html.DisplayNameFor(model => model.FranchiseName)</th>
@@ -38,3 +38,10 @@
     </tbody>
 </table>
 
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#clientsTable').DataTable();
+        });
+    </script>
+}

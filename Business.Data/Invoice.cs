@@ -28,12 +28,13 @@ namespace BusinessData
         public string AccountType { get; set; }
         public float TotalCost { get; set; }
         public string Address { get; set; }
+        public string InvoiceType { get; set; }
         public string Status { get; set; }
         public string SmtContact { get; set; }
         public string AccountContact { get; set; }
         public string ContactEmail { get; set; }
         public string ContactPhone { get; set; }
-        public int VonigoInvoiceId { get; set; }
+        public string VonigoInvoiceId { get; set; }
 
     }
 }

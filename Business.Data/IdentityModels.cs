@@ -81,7 +81,7 @@ namespace BusinessData
                 .WillCascadeOnDelete(false); // Turn off cascade delete.
 
             modelBuilder.Entity<WorkOrder>()
-                .HasRequired(wo => wo.Invoice) // WorkOrder must have an Invoice.
+                .HasOptional(wo => wo.Invoice)
                 .WithMany(i => i.WorkOrders) // An Invoice can have many WorkOrders.
                 .HasForeignKey(wo => wo.InvoiceId) // InvoiceId is the foreign key.
                 .WillCascadeOnDelete(false); // Turn off cascade delete.

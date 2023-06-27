@@ -14,7 +14,7 @@ namespace BusinessData
         public int ChargeId { get; set; }
         public int VonigoChargeId { get; set; }
         public string ItemType { get; set; }
-        public int VonigoInvoiceId { get; set; }
+        public string VonigoInvoiceId { get; set; }
         public string ChargeName { get; set; }
         public string Title { get; set; }
         public DateTime CreatedDate { get; set; }
