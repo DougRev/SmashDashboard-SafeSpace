@@ -1,111 +1,117 @@
 ﻿@model BusinessModels.Franchise.FranchiseDetails
-@using Microsoft.AspNet.Identity;
-@{
-    double totalCO2Saved = 0;
-    double gallons = 0;
-    double coal = 0;
-    double vehicle = 0;
-    double smartphones = 0;
+@using System.ComponentModel.DataAnnotations
+@using System.ComponentModel
+@using BusinessData
 
-    foreach (var client in Model.Clients)
-    {
-        totalCO2Saved += client.TotalCO2SavedV2;
-    }
-    gallons = (float)(totalCO2Saved / 19.64);
-    coal = (float)(totalCO2Saved / 2);
-    vehicle = (float)(totalCO2Saved / .88);
-    smartphones = (float)(totalCO2Saved / .02);
-}
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Details</title>
+</head>
 
-
-@{
-    ViewBag.Title = "Details";
-}
-
-<h2>@Model.FranchiseName - Account Information</h2>
-
-<div>
-    <h4></h4>
-    <hr />
-    <dl>
-    </dl>
-
-    @if (Model.Clients.Any())
-    {
-        <h3></h3>
-
-        <table id="emissions">
-            <tr>
-                <th>Business Name</th>
-                <th>Emissions Saved (lbs)</th>
-            </tr>
-            @foreach (var client in Model.Clients)
-            {
-                <tr>
-                    <td>@client.BusinessName</td>
-                    <td>@client.TotalCO2SavedV2.ToString("N2")</td>
-                </tr>
-            }
-            <tr>
-                <td>Total CO2 Saved Across All Clients for this Franchise</td>
-                <td><strong>@totalCO2Saved.ToString("N2")</strong></td>
-            </tr>
-        </table>
-    }
-    else
-    {
-        <p>No clients found.</p>
-    }
-    <br />
-
-
+@if (Model != null)
+{
     <table id="emissions">
-        <tr>
-            <th>CO2 Equivalencies</th>
-            <th>Values</th>
-        </tr>
-        <tr>
-            <td>Gallons of gas not consumed</td>
-            <td>@gallons.ToString("N2")</td>
-        </tr>
-        <tr>
-            <td>Pounds of Coal not burned</td>
-            <td>@coal.ToString("N2")</td>
-        </tr>
-        <tr>
-            <td>Miles driven by the average passenger vehicle</td>
-            <td>@vehicle.ToString("N2")</td>
-        </tr>
-        <tr>
-            <td>Smartphones Charged</td>
-            <td>@smartphones.ToString("N2")</td>
-        </tr>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+        <tbody id="">
+            @foreach (var prop in Model.GetType().GetProperties())
+            {
+                if (prop.Name == "BusinessState") { continue; }
+
+                var displayName = prop.Name;
+
+                // Check for DisplayAttribute
+                var displayAttributes = prop.GetCustomAttributes(typeof(DisplayAttribute), false);
+                if (displayAttributes.Length > 0)
+                {
+                    var displayAttribute = displayAttributes[0] as DisplayAttribute;
+                    displayName = displayAttribute.Name;
+                }
+                // If DisplayName is not found, check for DisplayNameAttribute
+                else
+                {
+                    var displayNameAttributes = prop.GetCustomAttributes(typeof(DisplayNameAttribute), true)
+                                      .Cast<DisplayNameAttribute>()
+                                      .FirstOrDefault();
+                    if (displayNameAttributes != null)
+                    {
+                        displayName = displayNameAttributes.DisplayName;
+                    }
+                }
+
+                var value = prop.GetValue(Model, null);
+                if (value != null)
+                {
+                    // Check if the value is a collection of Clients
+                    if (prop.PropertyType == typeof(ICollection<Client>))
+                    {
+                        var clients = value as ICollection<Client>;
+
+                        // Define the list of Client properties we want to display
+                        var clientPropsToDisplay = new[] { "", "" };
+
+                        foreach (var client in clients)
+                        {
+                            foreach (var clientPropName in clientPropsToDisplay)
+                            {
+                                var clientProp = typeof(Client).GetProperty(clientPropName);
+                                if (clientProp != null)
+                                {
+                                    var clientDisplayName = clientProp.Name;
+                                    var clientDisplayAttributes = clientProp.GetCustomAttributes(typeof(DisplayAttribute), false);
+                                    if (clientDisplayAttributes.Length > 0)
+                                    {
+                                        var clientDisplayAttribute = clientDisplayAttributes[0] as DisplayAttribute;
+                                        clientDisplayName = clientDisplayAttribute.Name;
+                                    }
+                                    else
+                                    {
+                                        var clientDisplayNameAttributes = clientProp.GetCustomAttributes(typeof(DisplayNameAttribute), true)
+                                        .Cast<DisplayNameAttribute>()
+                                        .FirstOrDefault();
+                                        if (clientDisplayNameAttributes != null)
+                                        {
+                                            clientDisplayName = clientDisplayNameAttributes.DisplayName;
+                                        }
+                                    }
+                                    var clientValue = clientProp.GetValue(client, null);
+
+                                    <tr>
+                                        <td>@clientDisplayName</td>
+                                        <td>@clientValue</td>
+                                    </tr>
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td>@displayName</td>
+                            <td>@value</td>
+                        </tr>
+                    }
+                }
+            }
+        </tbody>
+
     </table>
 
-    <br />
-</div>
-@using (Html.BeginForm("SubmitAction", "Franchise", new { id = Model.FranchiseId }))
-{
-    @Html.AntiForgeryToken()
-
-    <div class="form-group">
-        <label for="TxtUrl"></label>
-        <input type="hidden" name="TxtUrl" id="TxtUrl" class="form-control" value="https://businessmvc220230407125015.azurewebsites.net/Franchise/FranchiseDetailsToPdf/@Model.FranchiseId" required />
-    </div>
-
-    <input type="hidden" name="DdlPageSize" value="Letter" />
-    <input type="hidden" name="DdlPageOrientation" value="Landscape" />
-    <input type="hidden" name="TxtWidth" value="1024" />
-    <input type="hidden" name="TxtHeight" value="0" />
-    <input type="hidden" name="FranchiseId" value="@Model.FranchiseId" />
-    @Html.Hidden("UserId", User.Identity.GetUserId())
-
-    <button type="submit" class="btn btn-primary">
-        Generate PDF
-    </button>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.FranchiseId }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+    <script>
+        $(document).ready(function () {
+            $('#clientsTable').DataTable();
+        });
+    </script>
 }
-
-
-<p>
-    @Html.ActionLink("Back to List", "Index")
-</p>
+else
+{
+    <div>No data available</div>
+}

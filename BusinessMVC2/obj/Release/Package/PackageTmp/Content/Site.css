@@ -542,3 +542,32 @@ position: relative;
     transform-origin: top left;
     transform: skewY(-45deg) translateY(-10%);
 }*/
+
+/* Franchise Page */
+
+#details-container {
+    padding: 10px;
+    height: 400px;
+}
+
+#franchise-details {
+    margin-top: 10px;
+}
+
+.dl-horizontal {
+    margin-bottom: 10px;
+}
+
+    .dl-horizontal dt {
+        float: left;
+        width: 100px;
+        padding-right: 10px;
+    }
+
+    .dl-horizontal dd {
+        margin-left: 110px;
+    }
+
+        .dl-horizontal dd .btn {
+            margin-top: 10px;
+        }

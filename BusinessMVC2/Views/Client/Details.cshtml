@@ -214,7 +214,6 @@
             <th>Account Contact</th>
             <th>Contact Email</th>
             <th>Contact Phone</th>
-            <th>Work Orders</th>
         </tr>
     </thead>
     <tbody>
@@ -229,32 +228,7 @@
                 <td>@invoice.AccountContact</td>
                 <td>@invoice.ContactEmail</td>
                 <td>@(string.IsNullOrEmpty(invoice.ContactPhone) ? "N/A" : String.Format("{0:(###) ###-####}", double.Parse(invoice.ContactPhone)))</td>
-                <td>
-                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseWorkOrders_@invoice.InvoiceId" aria-expanded="false" aria-controls="collapseWorkOrders_@invoice.InvoiceId">
-                        Show Work Orders
-                    </button>
-                    <div class="collapse" id="collapseWorkOrders_@invoice.InvoiceId">
-                        <table class="table table-sm">
-                            <thead>
-                                <tr>
-                                    <th>Work Order Id</th>
-                                    <th>Title</th>
-                                    <!-- Add other WorkOrder properties as needed -->
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var workOrder in invoice.WorkOrders)
-                                {
-                                    <tr>
-                                        <td>@workOrder.WorkOrderId</td>
-                                        <td>@workOrder.Title</td>
-                                        <!-- Add other WorkOrder values as needed -->
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                </td>
+                
             </tr>
         }
     </tbody>

@@ -34,14 +34,6 @@
             </dd>
 
             <dt>
-                @Html.DisplayNameFor(model => model.FacilityID)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.FacilityID)
-            </dd>
-
-            <dt>
                 @Html.DisplayNameFor(model => model.Address)
             </dt>
 
@@ -80,7 +72,13 @@
             <dd>
                 @Html.DisplayFor(model => model.FranchiseName)
             </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.AccountName)
+            </dt>
 
+            <dd>
+                @Html.DisplayFor(model => model.AccountName)
+            </dd>
             <dt>
                 @Html.DisplayNameFor(model => model.Compactibility)
             </dt>
@@ -203,6 +201,39 @@
 
 
 <br />
+
+<h3>Invoices</h3>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Invoice Id</th>
+            <th>Account Type</th>
+            <th>Total Cost</th>
+            <th>Status</th>
+            <th>SMT Contact</th>
+            <th>Account Contact</th>
+            <th>Contact Email</th>
+            <th>Contact Phone</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var invoice in Model.Invoices)
+        {
+            <tr>
+                <td>@invoice.InvoiceId</td>
+                <td>@invoice.AccountType</td>
+                <td>@String.Format("{0:C}", invoice.TotalCost)</td>
+                <td>@invoice.Status</td>
+                <td>@invoice.SmtContact</td>
+                <td>@invoice.AccountContact</td>
+                <td>@invoice.ContactEmail</td>
+                <td>@(string.IsNullOrEmpty(invoice.ContactPhone) ? "N/A" : String.Format("{0:(###) ###-####}", double.Parse(invoice.ContactPhone)))</td>
+                
+            </tr>
+        }
+    </tbody>
+</table>
+
 
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.BusinessId }, null) |

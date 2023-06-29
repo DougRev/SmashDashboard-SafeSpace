@@ -351,12 +351,13 @@ namespace BusinessMVC2.Controllers
 
                 if (changes > 0)
                 {
-                    Console.WriteLine($"{changes} records were updated.");
+                    TempData["Notification"] = $"{changes} records were updated.";
                 }
                 else
                 {
-                    Console.WriteLine("No changes were made.");
+                    TempData["Notification"] = "No changes were made.";
                 }
+
             }
         }
 

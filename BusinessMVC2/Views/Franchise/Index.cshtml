@@ -69,3 +69,11 @@
         $('#franchise-list').DataTable();
     });
 </script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var message = "@TempData["Notification"]";
+        if (message) {
+            toastr.info(message);
+        }
+    });
+</script>
