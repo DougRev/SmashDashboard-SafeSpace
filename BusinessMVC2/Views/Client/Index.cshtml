@@ -1,7 +1,6 @@
 ﻿@model IEnumerable<BusinessModels.BusinessListItem>
-
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Clients";
 }
 
 <h2>Clients</h2>
@@ -9,77 +8,53 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.FranchiseName)
-        </th>
-
-        <th>
-            @Html.DisplayNameFor(model => model.FacilityID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.BusinessName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Address)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.City)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.State)
-        </th>
 
 
-
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
+<table id="clientTable" class="table display">
+    <thead>
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.FranchiseName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FacilityID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BusinessName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Address)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.City)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.State)
-            </td>
+            <th>@Html.DisplayNameFor(model => model.First().FranchiseName)</th>
+            <th>@Html.DisplayNameFor(model => model.First().BusinessName)</th>
+            <th>@Html.DisplayNameFor(model => model.First().ServiceLocation)</th>
 
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.BusinessId }, null) |
-                @Html.ActionLink("Details", "Details", new { id = item.BusinessId }, null) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.BusinessId }, null)
 
-            </td>
 
+            <th>Actions</th>
         </tr>
-    }
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.FranchiseName)</td>
+                <td>@Html.DisplayFor(modelItem => item.BusinessName)</td>
+                <td>@Html.DisplayFor(modelItem => item.ServiceLocation)</td>
+    
 
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.BusinessId }, null) |
+                    @Html.ActionLink("Details", "Details", new { id = item.BusinessId }, null) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.BusinessId }, null)
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>
+
+<script>
+    $(document).ready( function () {
+        $('#clientTable').DataTable();
+    } );
+</script>
 <div id="upload-download-container">
     @if (User.Identity.IsAuthenticated && User.Identity.Name == "doug.revell@smashmytrash.com")
     {
         @Html.ActionLink("Export Google Sheet", "TestUpdateGoogleSheet", "Client", null, new { @class = "btn btn-primary" })
         <br />
         <br />
-        using (Html.BeginForm("ImportClientsFromGoogleSheet", "Client", FormMethod.Get))
+        using (Html.BeginForm("ImportFromGoogleSheet", "Client", FormMethod.Get))
         {
             <input type="submit" value="Import Clients" class="btn btn-primary" />
         }
     }
 </div>
-
-

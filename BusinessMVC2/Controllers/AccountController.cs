@@ -145,6 +145,8 @@ namespace BusinessMVC2.Controllers
 
         //
         // POST: /Account/Register
+
+
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -152,12 +154,24 @@ namespace BusinessMVC2.Controllers
         {
             if (ModelState.IsValid)
             {
+                // Check if the email is a corporate email
+                if (model.Email.EndsWith("@smashmytrash.com"))
+                {
+                    // Check if the email is in the list of valid corporate emails
+                    if (!ValidEmails.EmailList.Contains(model.Email))
+                    {
+                        // If the email is not in the list, add an error to the model and return the view
+                        ModelState.AddModelError("Email", "Access is restricted to specific corporate email addresses.");
+                        return View(model);
+                    }
+                }
+
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
@@ -172,6 +186,7 @@ namespace BusinessMVC2.Controllers
             // If we got this far, something failed, redisplay form
             return View(model);
         }
+
 
         //
         // GET: /Account/ConfirmEmail

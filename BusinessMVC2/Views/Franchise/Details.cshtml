@@ -8,128 +8,110 @@
     <title>Details</title>
 </head>
 
-
-<table id="emissions">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Value</th>
-        </tr>
-    </thead>
-    <tbody id="">
-        @foreach (var prop in Model.GetType().GetProperties())
-        {
-            if (prop.Name == "BusinessState") { continue; }
-
-            var displayName = prop.Name;
-
-            // Check for DisplayAttribute
-            var displayAttributes = prop.GetCustomAttributes(typeof(DisplayAttribute), false);
-            if (displayAttributes.Length > 0)
+@if (Model != null)
+{
+    <table id="emissions">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+        <tbody id="">
+            @foreach (var prop in Model.GetType().GetProperties())
             {
-                var displayAttribute = displayAttributes[0] as DisplayAttribute;
-                displayName = displayAttribute.Name;
-            }
-            // If DisplayName is not found, check for DisplayNameAttribute
-            else
-            {
-                var displayNameAttributes = prop.GetCustomAttributes(typeof(DisplayNameAttribute), true)
-                                  .Cast<DisplayNameAttribute>()
-                                  .FirstOrDefault();
-                if (displayNameAttributes != null)
+                if (prop.Name == "BusinessState") { continue; }
+
+                var displayName = prop.Name;
+
+                // Check for DisplayAttribute
+                var displayAttributes = prop.GetCustomAttributes(typeof(DisplayAttribute), false);
+                if (displayAttributes.Length > 0)
                 {
-                    displayName = displayNameAttributes.DisplayName;
+                    var displayAttribute = displayAttributes[0] as DisplayAttribute;
+                    displayName = displayAttribute.Name;
                 }
-            }
-
-            var value = prop.GetValue(Model, null);
-            if (value != null)
-            {
-                // Check if the value is a collection of Clients
-                if (prop.PropertyType == typeof(ICollection<Client>))
+                // If DisplayName is not found, check for DisplayNameAttribute
+                else
                 {
-                    var clients = value as ICollection<Client>;
-
-                    // Define the list of Client properties we want to display
-                    var clientPropsToDisplay = new[] { "BusinessName", "Address", "PhoneNumber" };
-
-                    foreach (var client in clients)
+                    var displayNameAttributes = prop.GetCustomAttributes(typeof(DisplayNameAttribute), true)
+                                      .Cast<DisplayNameAttribute>()
+                                      .FirstOrDefault();
+                    if (displayNameAttributes != null)
                     {
-                        foreach (var clientPropName in clientPropsToDisplay)
-                        {
-                            var clientProp = typeof(Client).GetProperty(clientPropName);
-                            if (clientProp != null)
-                            {
-                                var clientDisplayName = clientProp.Name;
-                                var clientDisplayAttributes = clientProp.GetCustomAttributes(typeof(DisplayAttribute), false);
-                                if (clientDisplayAttributes.Length > 0)
-                                {
-                                    var clientDisplayAttribute = clientDisplayAttributes[0] as DisplayAttribute;
-                                    clientDisplayName = clientDisplayAttribute.Name;
-                                }
-                                else
-                                {
-                                    var clientDisplayNameAttributes = clientProp.GetCustomAttributes(typeof(DisplayNameAttribute), true)
-                                    .Cast<DisplayNameAttribute>()
-                                    .FirstOrDefault();
-                                    if (clientDisplayNameAttributes != null)
-                                    {
-                                        clientDisplayName = clientDisplayNameAttributes.DisplayName;
-                                    }
-                                }
-                                var clientValue = clientProp.GetValue(client, null);
+                        displayName = displayNameAttributes.DisplayName;
+                    }
+                }
 
-                                <tr>
-                                    <td>@clientDisplayName</td>
-                                    <td>@clientValue</td>
-                                </tr>
+                var value = prop.GetValue(Model, null);
+                if (value != null)
+                {
+                    // Check if the value is a collection of Clients
+                    if (prop.PropertyType == typeof(ICollection<Client>))
+                    {
+                        var clients = value as ICollection<Client>;
+
+                        // Define the list of Client properties we want to display
+                        var clientPropsToDisplay = new[] { "", "" };
+
+                        foreach (var client in clients)
+                        {
+                            foreach (var clientPropName in clientPropsToDisplay)
+                            {
+                                var clientProp = typeof(Client).GetProperty(clientPropName);
+                                if (clientProp != null)
+                                {
+                                    var clientDisplayName = clientProp.Name;
+                                    var clientDisplayAttributes = clientProp.GetCustomAttributes(typeof(DisplayAttribute), false);
+                                    if (clientDisplayAttributes.Length > 0)
+                                    {
+                                        var clientDisplayAttribute = clientDisplayAttributes[0] as DisplayAttribute;
+                                        clientDisplayName = clientDisplayAttribute.Name;
+                                    }
+                                    else
+                                    {
+                                        var clientDisplayNameAttributes = clientProp.GetCustomAttributes(typeof(DisplayNameAttribute), true)
+                                        .Cast<DisplayNameAttribute>()
+                                        .FirstOrDefault();
+                                        if (clientDisplayNameAttributes != null)
+                                        {
+                                            clientDisplayName = clientDisplayNameAttributes.DisplayName;
+                                        }
+                                    }
+                                    var clientValue = clientProp.GetValue(client, null);
+
+                                    <tr>
+                                        <td>@clientDisplayName</td>
+                                        <td>@clientValue</td>
+                                    </tr>
+                                }
                             }
                         }
                     }
-                }
-                else
-                {
-                    <tr>
-                        <td>@displayName</td>
-                        <td>@value</td>
-                    </tr>
+                    else
+                    {
+                        <tr>
+                            <td>@displayName</td>
+                            <td>@value</td>
+                        </tr>
+                    }
                 }
             }
-        }
-    </tbody>
+        </tbody>
 
+    </table>
 
-
-
-</table>
-
-
-
-
-<h4>Clients</h4>
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Address</th>
-            <th>City</th>
-            <th>Zip Code</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var client in Model.Clients)
-        {
-            <tr>
-                <td>@client.BusinessName</td>
-                <td>@client.Address</td>
-                <td>@client.City</td>
-                <td>@client.ZipCode</td>
-            </tr>
-        }
-    </tbody>
-</table>
-
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.FranchiseId }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.FranchiseId }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+    <script>
+        $(document).ready(function () {
+            $('#clientsTable').DataTable();
+        });
+    </script>
+}
+else
+{
+    <div>No data available</div>
+}

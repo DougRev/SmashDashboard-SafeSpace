@@ -547,6 +547,7 @@ position: relative;
 
 #details-container {
     padding: 10px;
+    height: 400px;
 }
 
 #franchise-details {
@@ -570,3 +571,9 @@ position: relative;
         .dl-horizontal dd .btn {
             margin-top: 10px;
         }
+
+/*     Create Client Page    */
+
+#create-title {
+    padding-bottom: 60px;
+}

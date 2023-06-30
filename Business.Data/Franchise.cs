@@ -1,5 +1,4 @@
 ﻿using BusinessData.Enum;
-using BusinesssData;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,13 +15,14 @@ namespace BusinessData
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int FranchiseId { get; set; }
+        public int VonigoFranchiseId { get; set; }
+        public int VonigoClientId { get; set; }
+
         public bool IsActive { get; set; }
         public Guid OwnerId { get; set; }
 
         [DisplayName("Franchise Name")]
         public string FranchiseName { get; set; }
-
-        public virtual ICollection<FranchiseOwner> FranchiseOwners { get; set; }
 
         [Display(Name = "Account ID")]
         public int? AccountId { get; set; }
@@ -32,6 +32,11 @@ namespace BusinessData
 
         //public List<Client> Clients { get; } = new List<Client>();
         public ICollection<Client> Clients { get; set; } = new List<Client>();
+        public virtual ICollection<Invoice> Invoices { get; set; }
+        public virtual ICollection<WorkOrder> WorkOrders { get; set; }
+        public virtual ICollection<WOCharges> WOCharges { get; set; }
+
+
 
         public List<Client> GetClientsByFranchiseId(int franchiseId)
         {
@@ -43,7 +48,7 @@ namespace BusinessData
         public string Region { get; set; }
 
         [DisplayName("Launch Date")]
-        public string LaunchDate { get; set; }
+        public DateTime? LaunchDate { get; set; }
 
         [DisplayName("Business Address 1")]
         public string BusinessAddress { get; set; }

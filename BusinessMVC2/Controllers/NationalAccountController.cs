@@ -11,18 +11,25 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using BusinessModels.NationalAccount;
+using BusinessData.Interfaces;
 
 namespace BusinessMVC2.Controllers
 {
     public class NationalAccountController : Controller
     {
-        ApplicationDbContext _context;
+        private readonly NationalAccountService _nationalAccountService;
+
+        public NationalAccountController(NationalAccountService accountService)
+        {
+            _nationalAccountService = accountService;
+        }
+
+
         // GET: NationalAccount
         public ActionResult Index()
         {
             var userId = Guid.Parse(User.Identity.GetUserId());
-            var service = new NationalAccountService(userId);
-            var accounts = service.GetNationalAccounts();
+            var accounts = _nationalAccountService.GetNationalAccounts();
 
             var model = accounts.ToList().Select(f => new AccountListItem
             {
@@ -40,12 +47,6 @@ namespace BusinessMVC2.Controllers
             return View();
         }
 
-        private NationalAccountService CreateNationalAccountService()
-        {
-            var userId = Guid.Parse(User.Identity.GetUserId());
-            var accountService = new NationalAccountService(userId);
-            return accountService;
-        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -56,8 +57,7 @@ namespace BusinessMVC2.Controllers
                 return View(model);
             }
             var userId = Guid.Parse(User.Identity.GetUserId());
-            var service = new NationalAccountService(userId);
-            service.CreateNationalAccount(model);
+            _nationalAccountService.CreateNationalAccount(model);
 
             return RedirectToAction("Index");
         }
@@ -67,8 +67,7 @@ namespace BusinessMVC2.Controllers
         public ActionResult Details(int id)
         {
             var accountId = id;
-            var svc = CreateNationalAccountService();
-            var model = svc.GetClientsByNationalAccountId(id);
+            var model = _nationalAccountService.GetClientsByNationalAccountId(id);
             return View(model);
         }
 
@@ -77,8 +76,7 @@ namespace BusinessMVC2.Controllers
         //NationalAccount/Edit/{id}
         public ActionResult Edit(int id)
         {
-            var svc = CreateNationalAccountService();
-            var detail = svc.GetNationalAccountById(id);
+            var detail = _nationalAccountService.GetNationalAccountById(id);
             var model = new AccountEdit
             {
                 AccountId = detail.AccountId,
@@ -104,9 +102,8 @@ namespace BusinessMVC2.Controllers
                 return View(model);
             }
 
-            var service = CreateNationalAccountService();
 
-            if (service.UpdateNationalAccount(model))
+            if (_nationalAccountService.UpdateNationalAccount(model))
             {
                 TempData["SaveResult"] = "Your National Account has been updated.";
                 return RedirectToAction("Index");
@@ -121,20 +118,18 @@ namespace BusinessMVC2.Controllers
         [ActionName("Delete")]
         public ActionResult Delete(int id)
         {
-            var svc = CreateNationalAccountService();
-            var model = svc.GetNationalAccountById(id);
+            var model = _nationalAccountService.GetNationalAccountById(id);
             return View(model);
         }
 
         [HttpPost]
         [ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteFranchise(int id)
+        public ActionResult DeleteNationalAccount(int id)
         {
-            var service = CreateNationalAccountService();
 
             // Update the IsActive field of the Franchise instead of deleting it
-            service.DeleteNationalAccount(id);
+            _nationalAccountService.DeleteNationalAccount(id);
 
             TempData["SaveResult"] = "Your National Account has been marked as inactive.";
 
@@ -146,8 +141,7 @@ namespace BusinessMVC2.Controllers
         // NationalAccount/List/{id}
         public ActionResult List(int id)
         {
-            var svc = CreateNationalAccountService();
-            var clients = svc.GetClientsByNationalAccountId(id);
+            var clients = _nationalAccountService.GetClientsByNationalAccountId(id);
             var model = clients.Clients.Select(c => new BusinessListItem
             {
                 BusinessId = c.BusinessId,
@@ -173,13 +167,12 @@ namespace BusinessMVC2.Controllers
             Guid userGuid = Guid.Parse(userId);
             int accountId = Convert.ToInt32(collection["AccountId"]);
 
-            var svc = new NationalAccountService(userGuid);
-            var account = svc.GetNationalAccountById(accountId);
+            var account = _nationalAccountService.GetNationalAccountById(accountId);
 
             // Calculate the total CO2 saved for the franchise
-            double totalCO2Saved = svc.GetTotalCO2SavedForFranchiseById(accountId);
-            int states = svc.CountDistinctStatesWithClientsByFranchiseId(accountId);
-            int locations = svc.CountClientsByFranchiseId(accountId);
+            double totalCO2Saved = _nationalAccountService.GetTotalCO2SavedForFranchiseById(accountId);
+            int states = _nationalAccountService.CountDistinctStatesWithClientsByFranchiseId(accountId);
+            int locations = _nationalAccountService.CountClientsByFranchiseId(accountId);
             account.Locations = locations;
             account.TotalCO2Saved = totalCO2Saved;
             account.StateReach = states;

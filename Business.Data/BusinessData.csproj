@@ -136,29 +136,24 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Client.cs" />
-    <Compile Include="BusinesssFranchisee.cs" />
+    <Compile Include="Contact.cs" />
     <Compile Include="Emissions.cs" />
     <Compile Include="Enum\Compactibility.cs" />
     <Compile Include="Enum\State.cs" />
     <Compile Include="Franchise.cs" />
-    <Compile Include="FranchiseOwner.cs" />
     <Compile Include="IdentityModels.cs" />
-    <Compile Include="Migrations\202305191913194_init.cs" />
-    <Compile Include="Migrations\202305191913194_init.designer.cs">
-      <DependentUpon>202305191913194_init.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Interfaces\IUserProvider.cs" />
+    <Compile Include="Invoice.cs" />
+    <Compile Include="Location.cs" />
     <Compile Include="NationalAccount.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ValidEmails.cs" />
+    <Compile Include="WOCharges.cs" />
+    <Compile Include="WorkOrder.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\202305191913194_init.resx">
-      <DependentUpon>202305191913194_init.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

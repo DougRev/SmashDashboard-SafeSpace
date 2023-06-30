@@ -4,12 +4,13 @@
     ViewBag.Title = "Create";
 }
 
-<h2>Create A Client</h2>
-
+<h2 id="create-title">Create A Client</h2>
 
 @using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
+
+    <br />
     
 <div class="form-horizontal">
     <div id="create-form">

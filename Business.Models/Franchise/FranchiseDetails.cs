@@ -31,7 +31,7 @@ namespace BusinessModels.Franchise
         public string Region { get; set; }
 
         [DisplayName("Launch Date")]
-        public string LaunchDate { get; set; }
+        public DateTime? LaunchDate { get; set; }
 
         [DisplayName("Business Address 1")]
         public string BusinessAddress { get; set; }

@@ -1,8 +1,6 @@
 ﻿using BusinessData;
 using BusinessModels;
 using BusinessModels.Franchise;
-using BusinessMVC2.Models;
-using BusinesssData;
 using BusinessServices;
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Auth.OAuth2.Mvc;
@@ -12,6 +10,7 @@ using Google.Apis.Sheets.v4;
 using Google.Apis.Sheets.v4.Data;
 using Google.Apis.Util.Store;
 using Microsoft.AspNet.Identity;
+using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -25,44 +24,81 @@ namespace BusinessMVC2.Controllers
 {
     public class FranchiseController : Controller
     {
-        ApplicationDbContext _context;
+        private readonly FranchiseService _franchiseService;
+        private readonly ApplicationDbContext _context;
+
+        public FranchiseController(FranchiseService franchiseService, ApplicationDbContext context)
+        {
+            _franchiseService = franchiseService;
+            _context = context;
+        }
+
         // GET: Franchise
         public ActionResult Index(bool showAll = false)
         {
-            var userId = Guid.Parse(User.Identity.GetUserId());
-            var service = new FranchiseService(userId);
-            var franchises = service.GetFranchises();
+            var franchises = _context.Franchises.AsQueryable();
 
-            if (!showAll)
+            if (User.Identity.IsAuthenticated)
+            {
+                // If admin
+                if (User.Identity.Name == "doug.revell@smashmytrash.com")
+                {
+                    if (!showAll)
+                    {
+                        franchises = franchises.Where(f => f.IsActive);
+                    }
+                }
+                else if (User.Identity.Name.EndsWith("@smashmytrash.com"))
+                {
+                    // User is a franchise owner
+                    var email = User.Identity.Name;
+
+                    var names = email.Split('@')[0].Split('.');
+                    var formattedName = string.Join(" ", names.Select(name => char.ToUpper(name[0]) + name.Substring(1)));
+
+                    // Abbreviation map
+                    Dictionary<string, string> abbreviations = new Dictionary<string, string>()
+                    {
+                        { "Jonathan", "Jon" },
+                        {"James","Jim" },
+                        {"Matthew", "Matt" },
+                        // add more abbreviations as needed
+                    };
+
+                    // Check if first name is in the abbreviation map, if so replace with full name
+                    var firstFormattedName = formattedName.Split(' ')[0];
+                    if (abbreviations.ContainsKey(firstFormattedName))
+                    {
+                        formattedName = formattedName.Replace(firstFormattedName, abbreviations[firstFormattedName]);
+                    }
+
+                    franchises = franchises.Where(f => f.Owner1.Trim() == formattedName ||
+                                                       f.Owner2.Trim() == formattedName ||
+                                                       f.Owner3.Trim() == formattedName ||
+                                                       f.Owner4.Trim() == formattedName);
+
+                }
+            }
+            else if (!showAll)
             {
                 franchises = franchises.Where(f => f.IsActive);
             }
 
-            var model = franchises.ToList().Select(f => new FranchiseListItem
+            var franchiseListItems = franchises.Select(f => new FranchiseListItem
             {
                 FranchiseId = f.FranchiseId,
                 FranchiseName = f.FranchiseName,
                 Status = f.Status,
-                IsActive = f.IsActive,
-                // Add other properties as needed
-            });
+                IsActive = f.IsActive
+            }).ToList();
 
-            return View(model);
+            return View(franchiseListItems);
         }
-
-
 
 
         public ActionResult Create()
         {
             return View();
-        }
-
-        private FranchiseService CreateFranchiseService()
-        {
-            var userId = Guid.Parse(User.Identity.GetUserId());
-            var franchiseService = new FranchiseService(userId);
-            return franchiseService;
         }
 
         [HttpPost]
@@ -73,9 +109,8 @@ namespace BusinessMVC2.Controllers
             {
                 return View(model);
             }
-            var userId = Guid.Parse(User.Identity.GetUserId());
-            var service = new FranchiseService(userId);
-            service.CreateFranchise(model);
+
+            _franchiseService.CreateFranchise(model);
 
             return RedirectToAction("Index");
         }
@@ -84,8 +119,12 @@ namespace BusinessMVC2.Controllers
         //Franchise/Details/{id}
         public ActionResult Details(int id)
         {
-            var svc = CreateFranchiseService();
-            var model = svc.GetClientsByFranchiseId(id);
+            var model = _franchiseService.GetClientsByFranchiseId(id);
+            // Ensure model is not null before passing it to the view
+            if (model == null)
+            {
+                // handle error, e.g., return an error view or redirect
+            }
             return View(model);
         }
 
@@ -94,14 +133,18 @@ namespace BusinessMVC2.Controllers
         //Franchise/Edit/{id}
         public ActionResult Edit(int id)
         {
-            var svc = CreateFranchiseService();
-            var detail = svc.GetFranchiseById(id);
+            var detail = _franchiseService.GetFranchiseById(id);
             var model = new FranchiseEdit
             {
                 FranchiseId = detail.FranchiseId,
                 FranchiseName = detail.FranchiseName,
+                AccountId = detail.AccountId,
                 State = detail.State,
                 IsActive = detail.IsActive,
+                Owner1 = detail.Owner1,
+                Owner2 = detail.Owner2,
+                Owner3 = detail.Owner3,
+                Owner4 = detail.Owner4,
             };
             return View(model);
         }
@@ -122,9 +165,8 @@ namespace BusinessMVC2.Controllers
                 return View(model);
             }
 
-            var service = CreateFranchiseService();
 
-            if (service.UpdateFranchise(model))
+            if (_franchiseService.UpdateFranchise(model))
             {
                 TempData["SaveResult"] = "Your Franchise has been updated.";
                 return RedirectToAction("Index");
@@ -139,8 +181,7 @@ namespace BusinessMVC2.Controllers
         [ActionName("Delete")]
         public ActionResult Delete(int id)
         {
-            var svc = CreateFranchiseService();
-            var model = svc.GetFranchiseById(id);
+            var model = _franchiseService.GetFranchiseById(id);
             return View(model);
         }
 
@@ -149,10 +190,9 @@ namespace BusinessMVC2.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteFranchise(int id)
         {
-            var service = CreateFranchiseService();
 
             // Update the IsActive field of the Franchise instead of deleting it
-            service.SetFranchiseInactive(id);
+            _franchiseService.SetFranchiseInactive(id);
 
             TempData["SaveResult"] = "Your Franchise has been marked as inactive.";
 
@@ -164,8 +204,8 @@ namespace BusinessMVC2.Controllers
         // Franchise/List/{id}
         public ActionResult List(int id)
         {
-            var svc = CreateFranchiseService();
-            var clients = svc.GetClientsByFranchiseId(id);
+            var clients = _franchiseService.GetClientsByFranchiseId(id);
+
             var model = clients.Clients.Select(c => new BusinessListItem
             {
                 BusinessId = c.BusinessId,
@@ -177,11 +217,20 @@ namespace BusinessMVC2.Controllers
                 State = c.State,
                 ZipCode = c.ZipCode,
                 OwnerId = c.OwnerId,
-            });
+                ServiceLocation = c.ServiceLocation,
+            }).ToList();
+
             return View(model);
         }
 
 
+
+        public ActionResult ListFranchises(int? page, int pageSize = 25)
+        {
+            int pageNumber = (page ?? 1);
+            var franchises = _context.Franchises.OrderBy(f => f.FranchiseId);
+            return View(franchises.ToPagedList(pageNumber, pageSize));
+        }
 
 
 
@@ -224,78 +273,6 @@ namespace BusinessMVC2.Controllers
             return viewData;
         }
 
-        public ActionResult AddClient(int id)
-        {
-            var franchise = _context.Franchises.SingleOrDefault(f => f.FranchiseId == id);
-
-            if (franchise == null)
-                return HttpNotFound();
-
-            var viewModel = new ClientFormViewModel
-            {
-                Franchise = franchise,
-                Client = new Client()
-            };
-
-            return View("ClientForm", viewModel);
-        }
-
-        [HttpPost]
-        public ActionResult AddClient(Client client)
-        {
-            if (!ModelState.IsValid)
-            {
-                var viewModel = new ClientFormViewModel
-                {
-                    Client = client,
-                    Franchise = _context.Franchises.Single(f => f.FranchiseId == client.FranchiseId)
-                };
-
-                return View("ClientForm", viewModel);
-            }
-
-            _context.Clients.Add(client);
-            _context.SaveChanges();
-
-            return RedirectToAction("Index", "Franchise");
-        }
-
-        public ActionResult AddFranchiseOwner(int id)
-        {
-            var franchise = _context.Franchises.SingleOrDefault(f => f.FranchiseId == id);
-
-            if (franchise == null)
-                return HttpNotFound();
-
-            var viewModel = new FranchiseOwnerFormViewModel
-            {
-                Franchise = franchise,
-                FranchiseOwner = new FranchiseOwner()
-            };
-
-            return View("FranchiseOwnerForm", viewModel);
-        }
-
-        [HttpPost]
-        public ActionResult AddFranchiseOwner(FranchiseOwner franchiseOwner)
-        {
-            if (!ModelState.IsValid)
-            {
-                var viewModel = new FranchiseOwnerFormViewModel
-                {
-                    FranchiseOwner = franchiseOwner,
-                    Franchise = _context.Franchises.Single(f => f.FranchiseId == franchiseOwner.FranchiseId)
-                };
-
-                return View("FranchiseOwnerForm", viewModel);
-            }
-
-            _context.Franchisees.Add(franchiseOwner);
-            _context.SaveChanges();
-
-            return RedirectToAction("Index", "Franchise");
-        }
-
         public async Task<ActionResult> ImportFranchisesFromGoogleSheets(CancellationToken cancellationToken)
         {
             var result = await new AuthorizationCodeMvcApp(this, new AppFlowMetadata()).AuthorizeAsync(cancellationToken);
@@ -315,7 +292,7 @@ namespace BusinessMVC2.Controllers
         {
             string ApplicationName = "Territory Info";
             string sheetId = "10JwDPXOTfCuGM8GUKkQJ4iDF4b3ksy6CEoxvr68lXSw";
-            string range = "Sheet1!A4:Z";
+            string range = "Franchises!A4:Z";
 
             var service = new SheetsService(new BaseClientService.Initializer()
             {
@@ -379,12 +356,13 @@ namespace BusinessMVC2.Controllers
 
                 if (changes > 0)
                 {
-                    Console.WriteLine($"{changes} records were updated.");
+                    TempData["Notification"] = $"{changes} records were updated.";
                 }
                 else
                 {
-                    Console.WriteLine("No changes were made.");
+                    TempData["Notification"] = "No changes were made.";
                 }
+
             }
         }
 
@@ -416,7 +394,7 @@ namespace BusinessMVC2.Controllers
             string[] Scopes = { SheetsService.Scope.Spreadsheets };
             string ApplicationName = "Territory Info";
             string sheetId = "10JwDPXOTfCuGM8GUKkQJ4iDF4b3ksy6CEoxvr68lXSw";
-            string range = "Sheet1!A4:Z";
+            string range = "Franchises!A4:Z";
 
             // Read the JSON credentials file and create the SheetsService
             UserCredential credential;
@@ -489,7 +467,7 @@ namespace BusinessMVC2.Controllers
             string[] Scopes = { SheetsService.Scope.Spreadsheets };
             string ApplicationName = "Territory Info";
             string sheetId = "10JwDPXOTfCuGM8GUKkQJ4iDF4b3ksy6CEoxvr68lXSw";
-            string range = "Sheet1!A4:Z";
+            string range = "Franchises!A4:Z";
 
             // Read the JSON credentials file and create the SheetsService
             UserCredential credential;

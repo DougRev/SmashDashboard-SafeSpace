@@ -1,5 +1,4 @@
 ﻿using BusinessData.Enum;
-using BusinesssData;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -26,7 +25,7 @@ namespace BusinessModels
         public string Address { get; set; }
         [Display(Name = "Zip Code")]
         [Range(1, 99950, ErrorMessage = "Zip code must be between 00001 and 99950.")]
-        public int ZipCode { get; set; }
+        public string ZipCode { get; set; }
 
         public Guid OwnerId { get; set; }
 
