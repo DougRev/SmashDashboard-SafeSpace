@@ -26,6 +26,10 @@ namespace BusinessServices
                 FranchiseId = model.FranchiseId,
                 FranchiseName = model.FranchiseName,
                 State = model.State,
+                Owner1 = model.Owner1,
+                Owner2 = model.Owner2,
+                Owner3 = model.Owner3,
+                Owner4 = model.Owner4,
                 IsActive = true,
             };
             using (var ctx = new ApplicationDbContext())
@@ -163,6 +167,10 @@ namespace BusinessServices
                 entity.FranchiseName = model.FranchiseName;
                 entity.State = model.State;
                 entity.IsActive = model.IsActive;
+                entity.Owner1 = model.Owner1;
+                entity.Owner2 = model.Owner2;
+                entity.Owner3 = model.Owner3;
+                entity.Owner4 = model.Owner4;
 
                 // Save the changes to the database.
                 ctx.SaveChanges();

@@ -145,11 +145,6 @@
     <Compile Include="Interfaces\IUserProvider.cs" />
     <Compile Include="Invoice.cs" />
     <Compile Include="Location.cs" />
-    <Compile Include="Migrations\202306281507128_init.cs" />
-    <Compile Include="Migrations\202306281507128_init.designer.cs">
-      <DependentUpon>202306281507128_init.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="NationalAccount.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ValidEmails.cs" />
@@ -159,11 +154,6 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\202306281507128_init.resx">
-      <DependentUpon>202306281507128_init.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

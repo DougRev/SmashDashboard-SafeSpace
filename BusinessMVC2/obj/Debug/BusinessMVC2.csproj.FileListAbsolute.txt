@@ -964,6 +964,8 @@ C:\Users\Doug Revell\Documents\MVC\BusinessMVC2\obj\Debug\BusinessMVC2.csproj.Co
 C:\Users\Doug Revell\Documents\MVC\BusinessMVC2\obj\Debug\BusinessMVC2.csproj.CopyComplete
 C:\Users\Doug Revell\Documents\MVC\BusinessMVC2\obj\Debug\BusinessMVC2.dll
 C:\Users\Doug Revell\Documents\MVC\BusinessMVC2\obj\Debug\BusinessMVC2.pdb
+C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\obj\Debug\BusinessMVC2.csproj.AssemblyReference.cache
+C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\obj\Debug\BusinessMVC2.csproj.CoreCompileInputs.cache
 C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\bin\Microsoft.Azure.Cosmos.ServiceInterop.dll
 C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\bin\Cosmos.CRTCompat.dll
 C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\bin\msvcp140.dll
@@ -1007,6 +1009,8 @@ C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\bin\roslyn\VBCSCo
 C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\bin\Antlr3.Runtime.dll
 C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\bin\Autofac.dll
 C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\bin\Autofac.Integration.Mvc.dll
+C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\bin\Autofac.Integration.Mvc.Owin.dll
+C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\bin\Autofac.Integration.Owin.dll
 C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\bin\Azure.Core.dll
 C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\bin\Azure.Identity.dll
 C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\bin\Azure.Storage.Blobs.dll
@@ -1081,19 +1085,18 @@ C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\bin\System.Text.E
 C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\bin\System.Text.Json.dll
 C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\bin\System.Threading.Tasks.Extensions.dll
 C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\bin\System.ValueTuple.dll
+C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\bin\System.Web.Helpers.dll
 C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\bin\System.Web.Http.dll
 C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\bin\System.Web.Http.Owin.dll
 C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\bin\System.Web.Mvc.dll
 C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\bin\System.Web.Optimization.dll
 C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\bin\System.Web.Razor.dll
-C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\bin\WebGrease.dll
-C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\bin\System.Buffers.dll
-C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\bin\System.IO.Hashing.dll
-C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\bin\System.Collections.Immutable.dll
-C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\bin\System.Numerics.Vectors.dll
+C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\bin\System.Web.WebPages.Deployment.dll
 C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\bin\System.Web.WebPages.dll
 C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\bin\System.Web.WebPages.Razor.dll
-C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\bin\System.Web.WebPages.Deployment.dll
+C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\bin\WebGrease.dll
+C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\bin\System.Buffers.dll
+C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\bin\System.Numerics.Vectors.dll
 C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\bin\BusinessData.pdb
 C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\bin\BusinessData.dll.config
 C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\bin\BusinessModels.pdb
@@ -1103,6 +1106,8 @@ C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\bin\BusinessServi
 C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\bin\BusinessShared.pdb
 C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\bin\Autofac.xml
 C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\bin\Autofac.Integration.Mvc.xml
+C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\bin\Autofac.Integration.Mvc.Owin.xml
+C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\bin\Autofac.Integration.Owin.xml
 C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\bin\Azure.Core.xml
 C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\bin\Azure.Identity.xml
 C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\bin\Azure.Storage.Blobs.xml
@@ -1159,11 +1164,15 @@ C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\bin\System.Text.E
 C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\bin\System.Text.Json.xml
 C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\bin\System.Threading.Tasks.Extensions.xml
 C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\bin\System.ValueTuple.xml
+C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\bin\System.Web.Helpers.xml
 C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\bin\System.Web.Http.xml
 C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\bin\System.Web.Http.Owin.xml
 C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\bin\System.Web.Mvc.xml
-C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\bin\System.Web.Optimization.xml
 C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\bin\System.Web.Razor.xml
+C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\bin\System.Web.WebPages.xml
+C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\bin\System.Web.WebPages.Deployment.xml
+C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\bin\System.Web.WebPages.Razor.xml
+C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\bin\System.Web.Optimization.xml
 C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\bin\Antlr3.Runtime.pdb
 C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\bin\EntityFramework.xml
 C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\bin\EntityFramework.SqlServer.xml
@@ -1179,11 +1188,6 @@ C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\bin\Microsoft.Owi
 C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\bin\Microsoft.Owin.Security.Twitter.xml
 C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
 C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\bin\Microsoft.Owin.Security.OAuth.xml
-C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\bin\System.IO.Hashing.xml
-C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\bin\System.Collections.Immutable.xml
-C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\bin\System.Web.WebPages.xml
-C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\bin\System.Web.WebPages.Razor.xml
-C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\bin\System.Web.WebPages.Deployment.xml
 C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\bin\de\Microsoft.Data.SqlClient.resources.dll
 C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\bin\es\Microsoft.Data.SqlClient.resources.dll
 C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\bin\fr\Microsoft.Data.SqlClient.resources.dll
@@ -1195,8 +1199,6 @@ C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\bin\ru\Microsoft.
 C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\bin\zh-Hans\Microsoft.Data.SqlClient.resources.dll
 C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\bin\zh-Hant\Microsoft.Data.SqlClient.resources.dll
 C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\bin\Select.Html.dep
-C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\obj\Debug\BusinessMVC2.csproj.AssemblyReference.cache
-C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\obj\Debug\BusinessMVC2.csproj.CoreCompileInputs.cache
 C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\obj\Debug\BusinessMVC2.csproj.CopyComplete
 C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\obj\Debug\BusinessMVC2.dll
 C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessMVC2\obj\Debug\BusinessMVC2.pdb

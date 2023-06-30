@@ -23,7 +23,7 @@ namespace BusinessModels
         [Display(Name = "Franchise Name")]
         public string FranchiseName { get; set; }
 
-        [Display(Name = "National Account")]
+        [Display(Name = "ONLY FOR NATIONAL ACCOUNTS TEAM")]
         public int? AccountId { get; set; }
 
         [Display(Name = "Account Name")]
@@ -46,7 +46,7 @@ namespace BusinessModels
         [Display(Name = "Number of Dumpsters")]
         public int NumberOfDumpsters { get; set; }
 
-        [Display(Name = "Hauls Per Week")]
+        [Display(Name = "Pre-SMT Hauls Per Week")]
         public int HaulsPerDay { get; set; }
 
         [Display(Name = "Distance to Landfill (One Way)")]

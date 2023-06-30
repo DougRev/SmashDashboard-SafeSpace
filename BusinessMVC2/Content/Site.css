@@ -571,3 +571,9 @@ position: relative;
         .dl-horizontal dd .btn {
             margin-top: 10px;
         }
+
+/*     Create Client Page    */
+
+#create-title {
+    padding-bottom: 60px;
+}

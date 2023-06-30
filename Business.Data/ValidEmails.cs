@@ -145,5 +145,14 @@ namespace BusinessData
             "todd.wilson@smashmytrash.com",
             "zach.beam@smashmytrash.com"
         };
+
+        public static List<string> NationalAccountsEmailList = new List<string>
+        {
+            // email addresses that have access to the National Accounts page
+            "chris.bone@smashmytrash.com",
+            "craig.czubik@smashmytrash.com",
+            "chuck.adams@smashmytrash.com",
+            "doug.revell@smashmytrash.com",
+        };
     }
 }

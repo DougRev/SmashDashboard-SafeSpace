@@ -22,3 +22,9 @@ C:\Users\Doug Revell\Documents\MVC\BusinessShared\obj\Debug\BusinessShared.cspro
 C:\Users\Doug Revell\Documents\MVC\BusinessShared\obj\Debug\BusinessShared.csproj.CoreCompileInputs.cache
 C:\Users\Doug Revell\Documents\MVC\BusinessShared\obj\Debug\BusinessShared.dll
 C:\Users\Doug Revell\Documents\MVC\BusinessShared\obj\Debug\BusinessShared.pdb
+C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessShared\bin\Debug\BusinessShared.dll
+C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessShared\bin\Debug\BusinessShared.pdb
+C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessShared\obj\Debug\BusinessShared.csproj.AssemblyReference.cache
+C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessShared\obj\Debug\BusinessShared.csproj.CoreCompileInputs.cache
+C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessShared\obj\Debug\BusinessShared.dll
+C:\Users\Doug Revell\source\repos\Smash Dashboard\BusinessShared\obj\Debug\BusinessShared.pdb

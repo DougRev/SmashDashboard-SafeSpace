@@ -138,8 +138,13 @@ namespace BusinessMVC2.Controllers
             {
                 FranchiseId = detail.FranchiseId,
                 FranchiseName = detail.FranchiseName,
+                AccountId = detail.AccountId,
                 State = detail.State,
                 IsActive = detail.IsActive,
+                Owner1 = detail.Owner1,
+                Owner2 = detail.Owner2,
+                Owner3 = detail.Owner3,
+                Owner4 = detail.Owner4,
             };
             return View(model);
         }

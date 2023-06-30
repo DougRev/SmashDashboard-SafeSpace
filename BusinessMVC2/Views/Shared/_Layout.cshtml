@@ -47,7 +47,11 @@
                     {
                         <li>@Html.ActionLink("Franchises", "Index", "Franchise")</li>
                         <li>@Html.ActionLink("Clients", "Index", "Client")</li>
-                        <li>@Html.ActionLink("National Accounts", "Index", "NationalAccount")</li>
+                        if (User.Identity.IsAuthenticated && BusinessData.ValidEmails.NationalAccountsEmailList.Contains(User.Identity.Name))
+                        {
+                            <li>@Html.ActionLink("National Accounts", "Index", "NationalAccount")</li>
+                        }
+
                     }
                 </ul>
                 @Html.Partial("_LoginPartial")
