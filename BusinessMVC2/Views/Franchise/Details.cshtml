@@ -102,8 +102,16 @@
     </table>
 
     <p>
-        @Html.ActionLink("Edit", "Edit", new { id = Model.FranchiseId }) |
+        @{
+            var userEmail = User.Identity.Name;
+            if (userEmail == "doug.revell@smashmytrash.com")
+            {
+                @Html.ActionLink("Edit", "Edit", new { id = Model.FranchiseId })
+                @:|
+                @:<br />
+            }
         @Html.ActionLink("Back to List", "Index")
+        }
     </p>
     <script>
         $(document).ready(function () {

@@ -73,7 +73,7 @@ namespace BusinessData
         [Display(Name = "Hauler Distance to Next Customer")]
         public float FromHaulerDist { get; set; }
 
-        [Display(Name = "Hauls Per Week")]
+        [Display(Name = "Hauls Per Week (Per Dumpster")]
         public int HaulsPerDay { get; set; }
 
         [Display(Name = "Number of Dumpsters")]

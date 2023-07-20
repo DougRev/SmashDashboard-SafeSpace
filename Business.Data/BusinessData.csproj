@@ -154,6 +154,14 @@
     <Compile Include="Migrations\202307031715574_InitialCreate.designer.cs">
       <DependentUpon>202307031715574_InitialCreate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202307111257518_addTestClient.cs" />
+    <Compile Include="Migrations\202307111257518_addTestClient.designer.cs">
+      <DependentUpon>202307111257518_addTestClient.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202307111301297_addTestClients.cs" />
+    <Compile Include="Migrations\202307111301297_addTestClients.designer.cs">
+      <DependentUpon>202307111301297_addTestClients.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="NationalAccount.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -162,6 +170,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="TestClient.cs" />
     <Compile Include="ValidEmails.cs" />
     <Compile Include="WOCharges.cs" />
     <Compile Include="WorkOrder.cs" />
@@ -188,6 +197,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202307031715574_InitialCreate.resx">
       <DependentUpon>202307031715574_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202307111257518_addTestClient.resx">
+      <DependentUpon>202307111257518_addTestClient.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202307111301297_addTestClients.resx">
+      <DependentUpon>202307111301297_addTestClients.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

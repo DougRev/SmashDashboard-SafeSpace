@@ -23,7 +23,7 @@ namespace BusinessData
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
+            : base("LocalConnection", throwIfV1Schema: false)
         {
         }
 
@@ -39,6 +39,7 @@ namespace BusinessData
         public DbSet<Invoice> Invoices { get; set; }
         public DbSet<WorkOrder> WorkOrders { get; set; }
         public DbSet<WOCharges> Charges { get; set; }
+        public DbSet<TestClient> TestClients { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder
