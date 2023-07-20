@@ -9,16 +9,12 @@
     @Html.ActionLink("Create New", "Create")
 </p>
 
-
 <table id="clientTable" class="table display">
     <thead>
         <tr>
             <th>@Html.DisplayNameFor(model => model.First().FranchiseName)</th>
             <th>@Html.DisplayNameFor(model => model.First().BusinessName)</th>
             <th>@Html.DisplayNameFor(model => model.First().ServiceLocation)</th>
-
-
-
             <th>Actions</th>
         </tr>
     </thead>
@@ -29,8 +25,6 @@
                 <td>@Html.DisplayFor(modelItem => item.FranchiseName)</td>
                 <td>@Html.DisplayFor(modelItem => item.BusinessName)</td>
                 <td>@Html.DisplayFor(modelItem => item.ServiceLocation)</td>
-    
-
                 <td>
                     @Html.ActionLink("Edit", "Edit", new { id = item.BusinessId }, null) |
                     @Html.ActionLink("Details", "Details", new { id = item.BusinessId }, null) |
@@ -42,10 +36,11 @@
 </table>
 
 <script>
-    $(document).ready( function () {
+    $(document).ready(function () {
         $('#clientTable').DataTable();
-    } );
+    });
 </script>
+
 <div id="upload-download-container">
     @if (User.Identity.IsAuthenticated && User.Identity.Name == "doug.revell@smashmytrash.com")
     {

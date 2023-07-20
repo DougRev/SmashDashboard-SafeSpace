@@ -46,7 +46,7 @@ namespace BusinessModels
         [Display(Name = "Number of Dumpsters")]
         public int NumberOfDumpsters { get; set; }
 
-        [Display(Name = "Pre-SMT Hauls Per Week")]
+        [Display(Name = "Hauls Per Week (Per Dumpster)")]
         public int HaulsPerDay { get; set; }
 
         [Display(Name = "Distance to Landfill (One Way)")]

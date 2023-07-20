@@ -39,6 +39,7 @@ namespace BusinessData
         public DbSet<Invoice> Invoices { get; set; }
         public DbSet<WorkOrder> WorkOrders { get; set; }
         public DbSet<WOCharges> Charges { get; set; }
+        public DbSet<TestClient> TestClients { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder

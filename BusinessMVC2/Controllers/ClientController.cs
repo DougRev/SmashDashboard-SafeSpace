@@ -16,6 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.Entity;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -637,10 +638,12 @@ namespace BusinessMVC2.Controllers
 
         private async Task ImportData(UserCredential credential)
         {
-            await ImportClients(credential);
-            await ImportInvoices(credential);
-            await ImportWorkOrders(credential);
+           await ImportClients(credential);
+            //await ImportNationalAccounts(credential);
+            //await ImportInvoices(credential);
+            //await ImportWorkOrders(credential);
         }
+
         private async Task ImportClients(UserCredential credential)
         {
             var values = await GetSheetValues(credential, "Clients!A2:K");
@@ -692,6 +695,91 @@ namespace BusinessMVC2.Controllers
                                 State = (State)Enum.Parse(typeof(State), state, true),
                                 ZipCode = zip,
                                 ContactName = contactName,
+                            };
+
+                            // Only add client if it does not exist yet
+                            if (!existingClients.Any(c => c.BusinessName == client.BusinessName && c.ServiceLocation == client.ServiceLocation))
+                            {
+                                db.Clients.Add(client);
+                                await db.SaveChangesAsync(); // Save client first
+
+                                Trace.WriteLine($"Client {client.BusinessName} at {client.ServiceLocation} added.");
+
+                                // Process the ServiceLocation to set Address, City, State, and ZipCode properties
+                                var location = ProcessLocationString(client.ServiceLocation, client);
+
+                                // Add the created location to Locations table
+                                if (location != null)
+                                {
+                                    db.Locations.Add(location);
+                                    await db.SaveChangesAsync(); // Save location after client
+                                }
+                            }
+                            else
+                            {
+                                Trace.WriteLine($"Client {client.BusinessName} at {client.ServiceLocation} already exists.");
+                            }
+                        }
+                        else
+                        {
+                            Trace.WriteLine($"Franchise with name {franchiseName} does not exist.");
+                        }
+                    }
+                }
+            }
+        }
+
+        private async Task ImportNationalAccounts(UserCredential credential)
+        {
+            var values = await GetSheetValues(credential, "National Accounts!A2:K");
+
+            using (var db = new ApplicationDbContext())
+            {
+                var franchises = await db.Franchises.ToListAsync();
+                var accounts = await db.NationalAccounts.ToListAsync();
+
+                foreach (var row in values)
+                {
+                    if (row.Count >= 8 &&
+                        !string.IsNullOrWhiteSpace(row[0].ToString()) &&
+                        int.TryParse(row[1].ToString(), out int franchiseID) &&
+                        !string.IsNullOrWhiteSpace(row[2].ToString()) &&
+                        int.TryParse(row[3].ToString(), out int accountId) &&
+                        !string.IsNullOrWhiteSpace(row[4].ToString()) &&
+                        !string.IsNullOrWhiteSpace(row[5].ToString()) &&
+                        !string.IsNullOrWhiteSpace(row[6].ToString()) &&
+                        !string.IsNullOrWhiteSpace(row[7].ToString()) &&
+                        !string.IsNullOrWhiteSpace(row[8].ToString()))
+                    {
+                        var franchiseName = row[0].ToString().Trim();
+                        var clientName = row[2].ToString().Trim();
+                        var serviceLocation = row[4].ToString().Trim();
+                        var street = row[5].ToString().Trim();
+                        var city = row[6].ToString().Trim();
+                        var state = row[7].ToString().Trim();
+                        var zip = row[8].ToString().Trim();
+                        var existingClients = await db.Clients.ToListAsync();
+
+                        var franchise = franchises.SingleOrDefault(f => f.FranchiseName.Trim() == franchiseName);
+                        var account = accounts.SingleOrDefault(a => a.AccountId == accountId);
+
+                        if (franchise != null)
+                        {
+                            var client = new Client
+                            {
+                                FranchiseId = franchise.FranchiseId,
+                                FranchiseName = franchiseName,
+                                VonigoFranchiseId = franchiseID,
+                                BusinessName = clientName,
+                                //VonigoClientId = vonigoClientId,
+                                ServiceLocation = serviceLocation,
+                                //StreetNumber = streetNo,
+                                Address = street,
+                                City = city,
+                                State = (State)Enum.Parse(typeof(State), state, true),
+                                ZipCode = zip,
+                                AccountId = account.AccountId,
+                                //ContactName = contactName,
                             };
 
                             // Only add client if it does not exist yet
