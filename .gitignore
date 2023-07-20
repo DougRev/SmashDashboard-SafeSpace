@@ -1,0 +1,7 @@
+.vs/
+*.vsidx
+Business.Data/bin/
+Business.Data/obj/
+Business.Services/bin/
+BusinessMVC2/bin/
+BusinessMVC2/obj/
