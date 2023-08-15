@@ -202,37 +202,67 @@
 
 <br />
 
-@*<h3>Invoices</h3>
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>Invoice Id</th>
-            <th>Account Type</th>
-            <th>Total Cost</th>
-            <th>Status</th>
-            <th>SMT Contact</th>
-            <th>Account Contact</th>
-            <th>Contact Email</th>
-            <th>Contact Phone</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var invoice in Model.Invoices)
-        {
+
+    @*<table id="emissions">
+        <thead>
             <tr>
-                <td>@invoice.InvoiceId</td>
-                <td>@invoice.AccountType</td>
-                <td>@String.Format("{0:C}", invoice.TotalCost)</td>
-                <td>@invoice.Status</td>
-                <td>@invoice.SmtContact</td>
-                <td>@invoice.AccountContact</td>
-                <td>@invoice.ContactEmail</td>
-                <td>@(string.IsNullOrEmpty(invoice.ContactPhone) ? "N/A" : String.Format("{0:(###) ###-####}", double.Parse(invoice.ContactPhone)))</td>
-                
+                <th>Emissions</th>
+                <th>4-Day Value (lbs)</th>
             </tr>
-        }
-    </tbody>*@
+        </thead>
+        <tbody id="emissionsBody">
+            <tr>
+                <td>Total Baseline</td>
+                <td>@string.Format("{0:N2}", Model.FourDayTotalBaseline)</td>
+            </tr>
+            <tr>
+                <td>Total With Smash</td>
+                <td>@string.Format("{0:N2}", Model.FourDayTotalWithSmash)</td>
+            </tr>
+            <tr>
+                <td>Total Saved</td>
+                <td>@string.Format("{0:N2}", Model.FourDayTotalSaved)</td>
+            </tr>
+            <tr>
+                <td>Savings Total</td>
+                <td>@string.Format("{0:N2}", Model.FourDaySavingsTotal)</td>
+            </tr>
+        </tbody>
+    </table>*@
+
+
+@*<h3>Invoices</h3>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Invoice Id</th>
+                <th>Account Type</th>
+                <th>Total Cost</th>
+                <th>Status</th>
+                <th>SMT Contact</th>
+                <th>Account Contact</th>
+                <th>Contact Email</th>
+                <th>Contact Phone</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var invoice in Model.Invoices)
+            {
+                <tr>
+                    <td>@invoice.InvoiceId</td>
+                    <td>@invoice.AccountType</td>
+                    <td>@String.Format("{0:C}", invoice.TotalCost)</td>
+                    <td>@invoice.Status</td>
+                    <td>@invoice.SmtContact</td>
+                    <td>@invoice.AccountContact</td>
+                    <td>@invoice.ContactEmail</td>
+                    <td>@(string.IsNullOrEmpty(invoice.ContactPhone) ? "N/A" : String.Format("{0:(###) ###-####}", double.Parse(invoice.ContactPhone)))</td>
+
+                </tr>
+            }
+        </tbody>*@
 </table>
+
 
 
 <p>

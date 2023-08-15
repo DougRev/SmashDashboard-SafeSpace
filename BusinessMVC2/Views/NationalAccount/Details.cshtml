@@ -37,17 +37,20 @@
         <table id="emissions">
             <tr>
                 <th>Business Name</th>
+                <th>Facility</th>
                 <th>Emissions Saved (lbs)</th>
             </tr>
             @foreach (var client in Model.Clients)
             {
                 <tr>
                     <td>@client.BusinessName</td>
+                    <td>@client.FacilityID</td>
                     <td>@client.TotalCO2SavedV2.ToString("N2")</td>
                 </tr>
             }
             <tr>
                 <td>Total CO2 Saved Across All Clients for this Franchise</td>
+                <td></td>
                 <td><strong>@totalCO2Saved.ToString("N2")</strong></td>
             </tr>
         </table>

@@ -75,6 +75,118 @@ namespace BusinessModels
         public double AllEmissionsSavedWithSmashV2 { get; set; }
         public string AllSavingsTotalV2 { get; set; }
 
+        public double FourDayTotalBaseline { get { return CalculateFourDayEmissions(AllEmissionsBaselineTotalsV2); } }
+        public double FourDayTotalWithSmash { get { return CalculateFourDayEmissions(AllEmissionsWithSmashTotalsV2); } }
+        public double FourDayTotalSaved { get { return CalculateFourDayEmissions(AllEmissionsSavedWithSmashV2); } }
+        public string FourDaySavingsTotal
+        {
+            get
+            {
+                if (FourDayTotalBaseline > 0)
+                {
+                    double savingsPercent = (FourDayTotalSaved / FourDayTotalBaseline) * 100;
+                    return savingsPercent.ToString("N2") + "%";
+                }
+                else
+                {
+                    return "Invalid value";
+                }
+            }
+        }
+
+        public string CarsRemoved
+        {
+            get
+            {
+                double carsRemoved = FourDayTotalSaved / (4.6 * 2204.62 / 365); // convert metric tons to pounds and per year to per day
+                return carsRemoved.ToString("N2");
+            }
+        }
+
+        public string TreesPlanted
+        {
+            get
+            {
+                double treesPlanted = FourDayTotalSaved / (48 / 365); // per year to per day
+                return treesPlanted.ToString("N2");
+            }
+        }
+
+        public string GallonsOfGasolineSaved
+        {
+            get
+            {
+                double gallonsSaved = FourDayTotalSaved / 19.6;
+                return gallonsSaved.ToString("N2");
+            }
+        }
+
+        public string EnergySavedKWh
+        {
+            get
+            {
+                double energySaved = FourDayTotalSaved / 1.222;
+                return energySaved.ToString("N2");
+            }
+        }
+
+        public string DistanceTravelled
+        {
+            get
+            {
+                double distanceTravelled = FourDayTotalSaved / (404 / 2204.62); // grams to pounds
+                return distanceTravelled.ToString("N2");
+            }
+        }
+
+
+
+
+
+        // NOX
+        public double FourDayTotalNOXEmissionsV2 { get { return CalculateFourDayEmissions(TotalNOXBaselineTruckEmissionsV2); } }
+        public double FourDayTotalNOXEmissionsWithSmashV2 { get { return CalculateFourDayEmissions(TotalNOXEmissionsWithSmashV2); } }
+
+        // N2O
+        public double FourDayTotalN2OEmissionsV2 { get { return CalculateFourDayEmissions(TotalN20BaselineTruckEmissionsV2); } }
+        public double FourDayTotalN2OEmissionsWithSmashV2 { get { return CalculateFourDayEmissions(TotalN20EmissionsWithSmashV2); } }
+
+        // PM2.5
+        public double FourDayTotalPM25EmissionsV2 { get { return CalculateFourDayEmissions(TotalPM25BaselineTruckEmissionsV2); } }
+        public double FourDayTotalPM25EmissionsWithSmashV2 { get { return CalculateFourDayEmissions(TotalPM25EmissionsWithSmashV2); } }
+
+        // PM10
+        public double FourDayTotalPM10EmissionsV2 { get { return CalculateFourDayEmissions(TotalPM10BaselineTruckEmissionsV2); } }
+        public double FourDayTotalPM10EmissionsWithSmashV2 { get { return CalculateFourDayEmissions(TotalPM10EmissionsWithSmashV2); } }
+
+        // SO2
+        public double FourDayTotalSO2EmissionsV2 { get { return CalculateFourDayEmissions(TotalSO2BaselineTruckEmissionsV2); } }
+        public double FourDayTotalSO2EmissionsWithSmashV2 { get { return CalculateFourDayEmissions(TotalSO2EmissionsWithSmashV2); } }
+
+        // CH4
+        public double FourDayTotalCH4EmissionsV2 { get { return CalculateFourDayEmissions(TotalCH4BaselineTruckEmissionsV2); } }
+        public double FourDayTotalCH4EmissionsWithSmashV2 { get { return CalculateFourDayEmissions(TotalCH4EmissionsWithSmashV2); } }
+
+        // CO
+        public double FourDayTotalCOEmissionsV2 { get { return CalculateFourDayEmissions(TotalCOBaselineTruckEmissionsV3); } }
+        public double FourDayTotalCOEmissionsWithSmashV2 { get { return CalculateFourDayEmissions(TotalCOEmissionsWithSmashV3); } }
+
+        // VOC
+        public double FourDayTotalVOCEmissionsV2 { get { return CalculateFourDayEmissions(TotalVOCBaselineTruckEmissionsV2); } }
+        public double FourDayTotalVOCEmissionsWithSmashV2 { get { return CalculateFourDayEmissions(TotalVOCEmissionsWithSmashV2); } }
+
+        // CO2
+        public double FourDayTotalCO2EmissionsV2 { get { return CalculateFourDayEmissions(TotalCO2BaselineTruckEmissionsV2); } }
+        public double FourDayTotalCO2EmissionsWithSmashV2 { get { return CalculateFourDayEmissions(TotalCO2EmissionsWithSmashV2); } }
+
+        public double FourDayCO2Saved { get { return CalculateFourDayEmissions(TotalCO2SavedV2); } }
+
+
+        private double CalculateFourDayEmissions(double yearlyEmissions)
+        {
+            return (yearlyEmissions / 365) * 4;
+        }
+
 
 
         //NOX

@@ -87,6 +87,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClientService.cs" />
+    <Compile Include="FranchiseLeadNotifierService.cs" />
     <Compile Include="FranchiseService.cs" />
     <Compile Include="InvoiceService.cs" />
     <Compile Include="NationalAccountService.cs" />

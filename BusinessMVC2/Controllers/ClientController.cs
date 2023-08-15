@@ -49,6 +49,8 @@ namespace BusinessMVC2.Controllers
             _nationalAccountService = nationalAccountService;
             _clientService = clientService;
         }
+
+
         // GET: Clients
         public ActionResult Index(string searchString)
         {
