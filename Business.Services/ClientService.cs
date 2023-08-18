@@ -27,7 +27,7 @@ namespace BusinessServices
         {
             // Perform calculations here and return the results
             string businessName = model.BusinessName;
-            int yearlyHauls = model.PreSMTYearlyHauls;
+            float yearlyHauls = model.PreSMTYearlyHauls;
             double haulerEm = model.TotalCO2BaselineTruckEmissionsV2;
             double smtEm = model.TotalCO2EmissionsWithSmashV2;
             double co2 = model.TotalCO2SavedV2;

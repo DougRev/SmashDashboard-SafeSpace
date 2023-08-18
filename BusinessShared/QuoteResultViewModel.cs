@@ -9,7 +9,7 @@ namespace BusinessShared
     public class QuoteResultViewModel
     {
         public string BusinessName { get; set; }
-        public int PreSMTYearlyHauls { get; set; }
+        public float PreSMTYearlyHauls { get; set; }
         public double TotalCO2BaselineTruckEmissionsV2 { get; set; }
         public double TotalCO2EmissionsWithSmashV2 { get; set; }
         public double TotalCO2SavedV2 { get; set; }

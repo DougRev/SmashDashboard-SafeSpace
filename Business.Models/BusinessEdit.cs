@@ -60,13 +60,13 @@ namespace BusinessModels
         public float LandfillDist { get; set; }
 
         [Display(Name = "Hauls Per Week (Per Dumpster)")]
-        public int HaulsPerDay { get; set; }
+        public float HaulsPerDay { get; set; }
 
         [Display(Name = "Number of Dumpsters")]
-        public int NumberOfDumpsters { get; set; }
+        public float NumberOfDumpsters { get; set; }
 
         [Display(Name = "Pre-SMT Est. Yearly Hauls")]
-        public int PreSMTYearlyHauls { get; set; }
+        public float PreSMTYearlyHauls { get; set; }
 
         //public virtual Franchisee Franchisee { get; set; }
     }

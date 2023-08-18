@@ -44,10 +44,10 @@ namespace BusinessModels
         public int FranchiseeId { get; set; }
 
         [Display(Name = "Number of Dumpsters")]
-        public int NumberOfDumpsters { get; set; }
+        public float NumberOfDumpsters { get; set; }
 
         [Display(Name = "Hauls Per Week (Per Dumpster)")]
-        public int HaulsPerDay { get; set; }
+        public float HaulsPerDay { get; set; }
 
         [Display(Name = "Distance to Landfill (One Way)")]
         public float LandfillDist { get; set; }
@@ -68,11 +68,11 @@ namespace BusinessModels
         public float FromHaulerDist { get; set; }
 
         [Display(Name = "Pre-SMT Est. Yearly Hauls ")]
-        public int PreSMTYearlyHauls
+        public float PreSMTYearlyHauls
         {
             get
             {
-                int preSmtYearlyHauls = NumberOfDumpsters * HaulsPerDay * 52;
+                float preSmtYearlyHauls = NumberOfDumpsters * HaulsPerDay * 52;
                 return preSmtYearlyHauls;
             }
         }
@@ -112,7 +112,7 @@ namespace BusinessModels
             get
             {
                 Emissions emissions = new Emissions();
-                int yearlyHauls = PreSMTYearlyHauls;
+                float yearlyHauls = PreSMTYearlyHauls;
                 float vmt = (LandfillDist * 2);// + ToHaulerDist + FromHaulerDist;
                 //float vmt = 34;
                 double emissionFactor = emissions.RunningCO2;
@@ -127,7 +127,7 @@ namespace BusinessModels
             get
             {
                 Emissions emissions = new Emissions();
-                int yearlyHauls = PreSMTYearlyHauls;
+                float yearlyHauls = PreSMTYearlyHauls;
                 double vit = 0.7;
                 double emissionFactor = emissions.IdleCO2;
                 double conversionFactor = .002204622622;
@@ -141,7 +141,7 @@ namespace BusinessModels
             get
             {
                 Emissions emissions = new Emissions();
-                int yearlyHauls = PreSMTYearlyHauls;
+                float yearlyHauls = PreSMTYearlyHauls;
                 double smashingTime = .083333333;
                 double emissionFactor = emissions.SmashCO2;
                 double conversionFactor = .002204622622;

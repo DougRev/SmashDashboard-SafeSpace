@@ -162,6 +162,14 @@
     <Compile Include="Migrations\202307111301297_addTestClients.designer.cs">
       <DependentUpon>202307111301297_addTestClients.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202308181240342_changeDumpstersIntToFloat.cs" />
+    <Compile Include="Migrations\202308181240342_changeDumpstersIntToFloat.designer.cs">
+      <DependentUpon>202308181240342_changeDumpstersIntToFloat.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202308181245189_changeHaulsPerDaytoFLOAT.cs" />
+    <Compile Include="Migrations\202308181245189_changeHaulsPerDaytoFLOAT.designer.cs">
+      <DependentUpon>202308181245189_changeHaulsPerDaytoFLOAT.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="NationalAccount.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -203,6 +211,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202307111301297_addTestClients.resx">
       <DependentUpon>202307111301297_addTestClients.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202308181240342_changeDumpstersIntToFloat.resx">
+      <DependentUpon>202308181240342_changeDumpstersIntToFloat.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202308181245189_changeHaulsPerDaytoFLOAT.resx">
+      <DependentUpon>202308181245189_changeHaulsPerDaytoFLOAT.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
