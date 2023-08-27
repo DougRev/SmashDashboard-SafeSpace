@@ -87,6 +87,10 @@ namespace BusinessModels.Franchise
         [DisplayName("Owner 4 Phone")]
         public string Owner4Phone { get; set; }
 
+        public string Locations { get; set; }
+        public string StateReach { get; set; }
+        public float TotalCO2Saved { get; set; }
+
         public string BusinessState
         {
             get

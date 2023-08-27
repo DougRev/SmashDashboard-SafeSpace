@@ -2,15 +2,14 @@
 @using System.ComponentModel.DataAnnotations
 @using Microsoft.AspNet.Identity;
 
-
-
 @{
     ViewBag.Title = "Details";
 }
 
 <h2>@Model.BusinessName</h2>
 
-<div id="details-container">
+<div id="details-container"> 
+
 
     <div id="client-details">
         <h4></h4>
@@ -96,11 +95,11 @@
             </dd>
 
             <dt>
-                @Html.DisplayNameFor(model => model.HaulsPerDay)
+                @Html.DisplayNameFor(model => model.HaulsPerWeek)
             </dt>
 
             <dd>
-                @Html.DisplayFor(model => model.HaulsPerDay)
+                @Html.DisplayFor(model => model.HaulsPerWeek)
             </dd>
 
             <dt>
@@ -149,6 +148,9 @@
 
             </tbody>
         </table>
+
+
+
         <button id="NOXEmissions" class="emissions-btn">NOX</button>
         <button id="N20Emissions" class="emissions-btn">N20</button>
         <button id="PM25Emissions" class="emissions-btn">PM25</button>
@@ -175,6 +177,46 @@
                 </tr>
             </tbody>
         </table>
+
+        @{
+            // Calculate CO2 equivalents
+            double totalCO2Saved = Model.TotalCO2SavedV2; // Assuming TotalCO2Saved is available in your BusinessDetails model
+            double gallons = totalCO2Saved / 19.64;
+            double coal = totalCO2Saved / 2;
+            double vehicle = totalCO2Saved / .88;
+            double smartphones = totalCO2Saved / .02;
+            double dieselSaved = totalCO2Saved / 22.38;
+        }
+
+        <h4><strong>CO2 Equivalencies</strong></h4>
+        <table id="emissions">
+            <tr>
+                <th>Equivalent Description</th>
+                <th>Value</th>
+            </tr>
+            <tr>
+                <td>Gallons of gas not consumed</td>
+                <td>@gallons.ToString("N2")</td>
+            </tr>
+            <tr>
+                <td>Pounds of Coal not burned</td>
+                <td>@coal.ToString("N2")</td>
+            </tr>
+            <tr>
+                <td>Miles driven by the average passenger vehicle</td>
+                <td>@vehicle.ToString("N2")</td>
+            </tr>
+            <tr>
+                <td>Smartphones Charged</td>
+                <td>@smartphones.ToString("N2")</td>
+            </tr>
+            <tr>
+                <td>Gallons of diesel not consumed</td>
+                <td>@dieselSaved.ToString("N2")</td>
+            </tr>
+        </table>
+    
+        <br />
     </div>
 
 </div>
@@ -203,7 +245,7 @@
 <br />
 
 
-    @*<table id="emissions">
+@*<table id="emissions">
         <thead>
             <tr>
                 <th>Emissions</th>

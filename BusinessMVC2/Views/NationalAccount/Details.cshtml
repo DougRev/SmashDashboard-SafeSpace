@@ -6,6 +6,7 @@
     double coal = 0;
     double vehicle = 0;
     double smartphones = 0;
+    double dieselSaved = 0; 
 
     foreach (var client in Model.Clients)
     {
@@ -15,8 +16,8 @@
     coal = (float)(totalCO2Saved / 2);
     vehicle = (float)(totalCO2Saved / .88);
     smartphones = (float)(totalCO2Saved / .02);
+    dieselSaved = (float)(totalCO2Saved / 22.38); // Calculation for diesel saved
 }
-
 
 @{
     ViewBag.Title = "Details";
@@ -61,7 +62,6 @@
     }
     <br />
 
-
     <table id="emissions">
         <tr>
             <th>CO2 Equivalencies</th>
@@ -82,6 +82,10 @@
         <tr>
             <td>Smartphones Charged</td>
             <td>@smartphones.ToString("N2")</td>
+        </tr>
+        <tr>
+            <td>Gallons of diesel not consumed</td>
+            <td>@dieselSaved.ToString("N2")</td>
         </tr>
     </table>
 
@@ -112,4 +116,3 @@
 <p>
     @Html.ActionLink("Back to List", "Index")
 </p>
-

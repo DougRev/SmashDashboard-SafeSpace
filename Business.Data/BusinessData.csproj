@@ -170,6 +170,14 @@
     <Compile Include="Migrations\202308181245189_changeHaulsPerDaytoFLOAT.designer.cs">
       <DependentUpon>202308181245189_changeHaulsPerDaytoFLOAT.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202308272220272_changePreSMTtoSMTYearlyHauls.cs" />
+    <Compile Include="Migrations\202308272220272_changePreSMTtoSMTYearlyHauls.designer.cs">
+      <DependentUpon>202308272220272_changePreSMTtoSMTYearlyHauls.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202308272227426_changetoTotalHaulsPerWeek.cs" />
+    <Compile Include="Migrations\202308272227426_changetoTotalHaulsPerWeek.designer.cs">
+      <DependentUpon>202308272227426_changetoTotalHaulsPerWeek.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="NationalAccount.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -217,6 +225,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202308181245189_changeHaulsPerDaytoFLOAT.resx">
       <DependentUpon>202308181245189_changeHaulsPerDaytoFLOAT.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202308272220272_changePreSMTtoSMTYearlyHauls.resx">
+      <DependentUpon>202308272220272_changePreSMTtoSMTYearlyHauls.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202308272227426_changetoTotalHaulsPerWeek.resx">
+      <DependentUpon>202308272227426_changetoTotalHaulsPerWeek.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

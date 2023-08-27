@@ -64,7 +64,7 @@ namespace BusinessServices
                 ZipCode = model.ZipCode,
                 FranchiseId = model.FranchiseId,
                 AccountId = model.AccountId,
-                HaulsPerDay = model.HaulsPerDay,
+                HaulsPerWeek = model.HaulsPerWeek,
                 NumberOfDumpsters = model.NumberOfDumpsters,
                 LandfillDist = model.LandfillDist,
                 Compactibility = model.Compactibility,
@@ -150,7 +150,7 @@ namespace BusinessServices
                     ToHaulerDist = entity.ToHaulerDist,
                     FromHaulerDist = entity.FromHaulerDist,
                     LandfillDist = entity.LandfillDist,
-                    HaulsPerDay = entity.HaulsPerDay,
+                    HaulsPerWeek = entity.HaulsPerWeek,
                     NumberOfDumpsters = entity.NumberOfDumpsters,
                     PreSMTYearlyHauls = entity.PreSMTYearlyHauls,
                     TotalCO2SavedV2 = entity.TotalCO2SavedV2,
@@ -294,7 +294,7 @@ namespace BusinessServices
                 entity.ToHaulerDist = model.ToHaulerDist;
                 entity.FromHaulerDist = model.FromHaulerDist;
                 entity.LandfillDist = model.LandfillDist;
-                entity.HaulsPerDay = model.HaulsPerDay;
+                entity.HaulsPerWeek = model.HaulsPerWeek;
                 entity.NumberOfDumpsters = model.NumberOfDumpsters;
 
                 // Update the franchise if it has changed.
@@ -382,7 +382,7 @@ namespace BusinessServices
                         ToHaulerDist = entity.ToHaulerDist,
                         FromHaulerDist = entity.FromHaulerDist,
                         LandfillDist = entity.LandfillDist,
-                        HaulsPerDay = entity.HaulsPerDay,
+                        HaulsPerWeek = entity.HaulsPerWeek,
                         NumberOfDumpsters = entity.NumberOfDumpsters,
                         PreSMTYearlyHauls = entity.PreSMTYearlyHauls,
                         TotalCO2SavedV2 = entity.TotalCO2SavedV2,

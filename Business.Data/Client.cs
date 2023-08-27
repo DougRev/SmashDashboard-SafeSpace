@@ -73,18 +73,20 @@ namespace BusinessData
         [Display(Name = "Hauler Distance to Next Customer")]
         public float FromHaulerDist { get; set; }
 
-        [Display(Name = "Hauls Per Week (Per Dumpster")]
-        public float HaulsPerDay { get; set; }
+        [Display(Name = "Total Hauls Per Week")]
+        public float HaulsPerWeek { get; set; }
 
         [Display(Name = "Number of Dumpsters")]
         public float NumberOfDumpsters { get; set; }
 
-        [Display(Name = "Pre-SMT Est. Yearly Hauls ")]
+
+
+        [Display(Name = "Est. Yearly Hauls ")]
         public float PreSMTYearlyHauls
         {
             get
             {
-                float preSmtYearlyHauls =  NumberOfDumpsters * HaulsPerDay * 52; 
+                float preSmtYearlyHauls =  HaulsPerWeek * 52; 
                 return preSmtYearlyHauls;
             }
         }

@@ -250,7 +250,7 @@ namespace BusinessMVC2.Controllers
                 ToHaulerDist = detail.ToHaulerDist,
                 FromHaulerDist = detail.FromHaulerDist,
                 LandfillDist = detail.LandfillDist,
-                HaulsPerDay = detail.HaulsPerDay,
+                HaulsPerWeek = detail.HaulsPerWeek,
                 NumberOfDumpsters = detail.NumberOfDumpsters,
             };
 
