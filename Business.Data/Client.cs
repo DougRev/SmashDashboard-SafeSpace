@@ -65,7 +65,7 @@ namespace BusinessData
         public float FromClientDist { get; set; }
 
         [Display(Name = "Hauler Distance to Client")]
-        public float ToHaulerDist { get; set; }
+        public float ToHaulerDist { get; set; } // 13.9
 
         [Display(Name = "Hauler Distance to Landfill")]
         public float LandfillDist { get; set; }
@@ -1135,7 +1135,7 @@ namespace BusinessData
             {
                 Emissions emissions = new Emissions();
                 float yearlyHauls = PreSMTYearlyHauls;
-                float vmt = (LandfillDist * 2);// + ToHaulerDist + FromHaulerDist;
+                float vmt = (LandfillDist * 2) + 14;// + ToHaulerDist + FromHaulerDist;
                 //float vmt = 34;
                 double emissionFactor = emissions.RunningCO2;
                 double conversionFactor = .002204622622;
@@ -1150,7 +1150,7 @@ namespace BusinessData
             {
                 Emissions emissions = new Emissions();
                 float yearlyHauls = PreSMTYearlyHauls;
-                double vit = 0.7;
+                double vit = 0.722916667;
                 double emissionFactor = emissions.IdleCO2;
                 double conversionFactor = .002204622622;
                 double baselineHaulerTruckIdlingEmissions = yearlyHauls * vit * emissionFactor * conversionFactor;
@@ -1172,7 +1172,7 @@ namespace BusinessData
 
             }
         }
-
+        // DOUBLE CHECK BECUASE THIS CALC HAS NOT VMT AND COULD BE CAUSING ISSUES WITH WRONG CALCULATION
         public double CO2SMTRunningEmissions
         {
             get
@@ -1181,9 +1181,10 @@ namespace BusinessData
                 double yearlyHauls = PreSMTYearlyHauls;
                 //double roundTrip = ToClientDist + FromClientDist;
                 double roundTrip = 2;
+                double vmt = 2.9;
                 double emissionFactor = emissions.SmashRunCO2;
                 double conversionFactor = .002204622622;
-                double runningEmissions = yearlyHauls * roundTrip * emissionFactor * conversionFactor;
+                double runningEmissions = yearlyHauls * vmt * emissionFactor * conversionFactor;
                 return runningEmissions;
             }
         }
