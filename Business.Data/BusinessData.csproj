@@ -178,6 +178,10 @@
     <Compile Include="Migrations\202308272227426_changetoTotalHaulsPerWeek.designer.cs">
       <DependentUpon>202308272227426_changetoTotalHaulsPerWeek.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202309081258461_addToClientAndToHauler.cs" />
+    <Compile Include="Migrations\202309081258461_addToClientAndToHauler.designer.cs">
+      <DependentUpon>202309081258461_addToClientAndToHauler.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="NationalAccount.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -231,6 +235,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202308272227426_changetoTotalHaulsPerWeek.resx">
       <DependentUpon>202308272227426_changetoTotalHaulsPerWeek.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202309081258461_addToClientAndToHauler.resx">
+      <DependentUpon>202309081258461_addToClientAndToHauler.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

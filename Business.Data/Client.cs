@@ -81,7 +81,7 @@ namespace BusinessData
 
 
 
-        [Display(Name = "Est. Yearly Hauls ")]
+        [Display(Name = "Est. Yearly Hauls (Pre SMT) ")]
         public float PreSMTYearlyHauls
         {
             get
@@ -164,27 +164,65 @@ namespace BusinessData
 
         // NOx Emissions
 
+
+        //3.1
         public double NOXBaselineHaulerTruckRunningEmissionsV2
         {
             get
             {
                 Emissions emissions = new Emissions();
                 float yearlyHauls = PreSMTYearlyHauls;
-                float vmt = (LandfillDist * 2);// + ToHaulerDist + FromHaulerDist;
-                //float vmt = 34;
+
+                // If ToHaulerDist is not provided, default to 10
+                float defaultToHaulerDist = 10;
+                float vmt = (LandfillDist * 2) + (ToHaulerDist != 0 ? ToHaulerDist : defaultToHaulerDist);
+
                 double emissionFactor = emissions.RunningNOX;
                 double conversionFactor = .002204622622;
                 double baslineHaulerTruckRunningEmissions = yearlyHauls * vmt * emissionFactor * conversionFactor;
+
                 return baslineHaulerTruckRunningEmissions;
             }
         }
+
+
+        //3.2
+        public double NOXHaulerRunningEmissionsWithCompactibilityV2
+        {
+            get
+            {
+                double total = NOXBaselineHaulerTruckRunningEmissionsV2 * CompactibilityValue;
+                return total;
+            }
+        }
+
+        //3.3
+        public double NOXSMTRunningEmissions
+        {
+            get
+            {
+                Emissions emissions = new Emissions();
+                double yearlyHauls = PreSMTYearlyHauls;
+
+                // If ToHaulerDist is not provided, default to 10
+                float defaultToClientDist = 2;
+                double svmt = (ToClientDist != 0 ? ToClientDist : defaultToClientDist); ;
+
+                double emissionFactor = emissions.SmashRunNOX;
+                double conversionFactor = .002204622622;
+                double runningEmissions = yearlyHauls * svmt * (emissionFactor * conversionFactor);
+                return runningEmissions;
+            }
+        }
+
+        //3.4
         public double NOXBaselineHaulerTruckIdlingEmissions
         {
             get
             {
                 Emissions emissions = new Emissions();
                 float yearlyHauls = PreSMTYearlyHauls;
-                double vit = 0.722916667;
+                double vit = 0.7;
                 double emissionFactor = emissions.IdleNOX;
                 double conversionFactor = .002204622622;
                 double baselineHaulerTruckIdlingEmissions = yearlyHauls * vit * emissionFactor * conversionFactor;
@@ -193,6 +231,32 @@ namespace BusinessData
             }
         }
 
+        //3.5
+        public double NOXHaulerIdlingEmissionsWithCompactibility
+        {
+            get
+            {
+                double total = NOXBaselineHaulerTruckIdlingEmissions * CompactibilityValue;
+                return total;
+            }
+        }
+
+        //3.6
+        public double NOXSMTIdlingEmissions
+        {
+            get
+            {
+                Emissions emissions = new Emissions();
+                double yearlyHauls = PreSMTYearlyHauls;
+                double svit = 0.083333333;
+                double emissionFactor = emissions.SmashIdleNOX;
+                double conversionFactor = .002204622622;
+                double idlingEmissions = yearlyHauls * svit * emissionFactor * conversionFactor;
+                return idlingEmissions;
+            }
+        }
+
+        //3.7
         public double NOXSmashingEmissions
         {
             get
@@ -208,52 +272,7 @@ namespace BusinessData
             }
         }
 
-        public double NOXSMTRunningEmissions
-        {
-            get
-            {
-                Emissions emissions = new Emissions();
-                double yearlyHauls = PreSMTYearlyHauls;
-                //double roundTrip = ToClientDist + FromClientDist;
-                double roundTrip = 2;
-                double emissionFactor = emissions.SmashRunNOX;
-                double conversionFactor = .002204622622;
-                double runningEmissions = yearlyHauls * roundTrip * emissionFactor * conversionFactor;
-                return runningEmissions;
-            }
-        }
 
-        public double NOXSMTIdlingEmissions
-        {
-            get
-            {
-                Emissions emissions = new Emissions();
-                double yearlyHauls = PreSMTYearlyHauls;
-                double idlingTime = .083333333;
-                double emissionFactor = emissions.SmashIdleNOX;
-                double conversionFactor = .002204622622;
-                double idlingEmissions = yearlyHauls * idlingTime * emissionFactor * conversionFactor;
-                return idlingEmissions;
-            }
-        }
-
-        public double NOXHaulerRunningEmissionsWithCompactibilityV2
-        {
-            get
-            {
-                double total = NOXBaselineHaulerTruckRunningEmissionsV2 * CompactibilityValue;
-                return total;
-            }
-        }
-
-        public double NOXHaulerIdlingEmissionsWithCompactibility
-        {
-            get
-            {
-                double total = NOXBaselineHaulerTruckIdlingEmissions * CompactibilityValue;
-                return total;
-            }
-        }
         [DisplayFormat(DataFormatString = "{0:N2}")]
         public double TotalNOXBaselineTruckEmissionsV2
         {
@@ -293,8 +312,11 @@ namespace BusinessData
             {
                 Emissions emissions = new Emissions();
                 float yearlyHauls = PreSMTYearlyHauls;
-                float vmt = (LandfillDist * 2);// + ToHaulerDist + FromHaulerDist;
-                //float vmt = 34;
+
+                // If ToHaulerDist is not provided, default to 10
+                float defaultToHaulerDist = 10;
+                float vmt = (LandfillDist * 2) + (ToHaulerDist != 0 ? ToHaulerDist : defaultToHaulerDist);
+
                 double emissionFactor = emissions.RunningN20;
                 double conversionFactor = .002204622622;
                 double baslineHaulerTruckRunningEmissions = yearlyHauls * vmt * emissionFactor * conversionFactor;
@@ -336,11 +358,14 @@ namespace BusinessData
             {
                 Emissions emissions = new Emissions();
                 double yearlyHauls = PreSMTYearlyHauls;
-                //double roundTrip = ToClientDist + FromClientDist;
-                double roundTrip = 2;
+
+                // If ToHaulerDist is not provided, default to 10
+                float defaultToClientDist = 2;
+                double svmt = (ToClientDist != 0 ? ToClientDist : defaultToClientDist); ;
+
                 double emissionFactor = emissions.SmashRunN20;
                 double conversionFactor = .002204622622;
-                double runningEmissions = yearlyHauls * roundTrip * emissionFactor * conversionFactor;
+                double runningEmissions = yearlyHauls * svmt * emissionFactor * conversionFactor;
                 return runningEmissions;
             }
         }
@@ -413,8 +438,11 @@ namespace BusinessData
             {
                 Emissions emissions = new Emissions();
                 float yearlyHauls = PreSMTYearlyHauls;
-                float vmt = (LandfillDist * 2);// + ToHaulerDist + FromHaulerDist;
-                //float vmt = 34;
+
+                // If ToHaulerDist is not provided, default to 10
+                float defaultToHaulerDist = 10;
+                float vmt = (LandfillDist * 2) + (ToHaulerDist != 0 ? ToHaulerDist : defaultToHaulerDist);
+
                 double emissionFactor = emissions.RunningPM25;
                 double conversionFactor = .002204622622;
                 double baslineHaulerTruckRunningEmissions = yearlyHauls * vmt * emissionFactor * conversionFactor;
@@ -456,11 +484,14 @@ namespace BusinessData
             {
                 Emissions emissions = new Emissions();
                 double yearlyHauls = PreSMTYearlyHauls;
-                //double roundTrip = ToClientDist + FromClientDist;
-                double roundTrip = 2;
+
+                // If ToHaulerDist is not provided, default to 10
+                float defaultToClientDist = 2;
+                double svmt = (ToClientDist != 0 ? ToClientDist : defaultToClientDist); ;
+
                 double emissionFactor = emissions.SmashRunPM25;
                 double conversionFactor = .002204622622;
-                double runningEmissions = yearlyHauls * roundTrip * emissionFactor * conversionFactor;
+                double runningEmissions = yearlyHauls * svmt * emissionFactor * conversionFactor;
                 return runningEmissions;
             }
         }
@@ -532,8 +563,11 @@ namespace BusinessData
             {
                 Emissions emissions = new Emissions();
                 float yearlyHauls = PreSMTYearlyHauls;
-                float vmt = (LandfillDist * 2);// + ToHaulerDist + FromHaulerDist;
-                //float vmt = 34;
+
+                // If ToHaulerDist is not provided, default to 10
+                float defaultToHaulerDist = 10;
+                float vmt = (LandfillDist * 2) + (ToHaulerDist != 0 ? ToHaulerDist : defaultToHaulerDist);
+
                 double emissionFactor = emissions.RunningPM10;
                 double conversionFactor = .002204622622;
                 double baslineHaulerTruckRunningEmissions = yearlyHauls * vmt * emissionFactor * conversionFactor;
@@ -575,11 +609,14 @@ namespace BusinessData
             {
                 Emissions emissions = new Emissions();
                 double yearlyHauls = PreSMTYearlyHauls;
-                //double roundTrip = ToClientDist + FromClientDist;
-                double roundTrip = 2;
+
+                // If ToHaulerDist is not provided, default to 10
+                float defaultToClientDist = 2;
+                double svmt = (ToClientDist != 0 ? ToClientDist : defaultToClientDist); ;
+
                 double emissionFactor = emissions.SmashRunPM10;
                 double conversionFactor = .002204622622;
-                double runningEmissions = yearlyHauls * roundTrip * emissionFactor * conversionFactor;
+                double runningEmissions = yearlyHauls * svmt * emissionFactor * conversionFactor;
                 return runningEmissions;
             }
         }
@@ -653,8 +690,11 @@ namespace BusinessData
             {
                 Emissions emissions = new Emissions();
                 float yearlyHauls = PreSMTYearlyHauls;
-                float vmt = (LandfillDist * 2);// + ToHaulerDist + FromHaulerDist;
-                //float vmt = 34;
+
+                // If ToHaulerDist is not provided, default to 10
+                float defaultToHaulerDist = 10;
+                float vmt = (LandfillDist * 2) + (ToHaulerDist != 0 ? ToHaulerDist : defaultToHaulerDist);
+
                 double emissionFactor = emissions.RunningSO2;
                 double conversionFactor = .002204622622;
                 double baslineHaulerTruckRunningEmissions = yearlyHauls * vmt * emissionFactor * conversionFactor;
@@ -696,11 +736,14 @@ namespace BusinessData
             {
                 Emissions emissions = new Emissions();
                 double yearlyHauls = PreSMTYearlyHauls;
-                //double roundTrip = ToClientDist + FromClientDist;
-                double roundTrip = 2;
+
+                // If ToHaulerDist is not provided, default to 10
+                float defaultToClientDist = 2;
+                double svmt = (ToClientDist != 0 ? ToClientDist : defaultToClientDist); ;
+
                 double emissionFactor = emissions.SmashRunSO2;
                 double conversionFactor = .002204622622;
-                double runningEmissions = yearlyHauls * roundTrip * emissionFactor * conversionFactor;
+                double runningEmissions = yearlyHauls * svmt * emissionFactor * conversionFactor;
                 return runningEmissions;
             }
         }
@@ -774,8 +817,11 @@ namespace BusinessData
             {
                 Emissions emissions = new Emissions();
                 float yearlyHauls = PreSMTYearlyHauls;
-                float vmt = (LandfillDist * 2);// + ToHaulerDist + FromHaulerDist;
-                //float vmt = 34;
+
+                // If ToHaulerDist is not provided, default to 10
+                float defaultToHaulerDist = 10;
+                float vmt = (LandfillDist * 2) + (ToHaulerDist != 0 ? ToHaulerDist : defaultToHaulerDist);
+
                 double emissionFactor = emissions.RunningCH4;
                 double conversionFactor = .002204622622;
                 double baslineHaulerTruckRunningEmissions = yearlyHauls * vmt * emissionFactor * conversionFactor;
@@ -817,11 +863,14 @@ namespace BusinessData
             {
                 Emissions emissions = new Emissions();
                 double yearlyHauls = PreSMTYearlyHauls;
-                //double roundTrip = ToClientDist + FromClientDist;
-                double roundTrip = 2;
+
+                // If ToHaulerDist is not provided, default to 10
+                float defaultToClientDist = 2;
+                double svmt = (ToClientDist != 0 ? ToClientDist : defaultToClientDist); ;
+
                 double emissionFactor = emissions.SmashRunCH4;
                 double conversionFactor = .002204622622;
-                double runningEmissions = yearlyHauls * roundTrip * emissionFactor * conversionFactor;
+                double runningEmissions = yearlyHauls * svmt * emissionFactor * conversionFactor;
                 return runningEmissions;
             }
         }
@@ -894,8 +943,11 @@ namespace BusinessData
             {
                 Emissions emissions = new Emissions();
                 float yearlyHauls = PreSMTYearlyHauls;
-                float vmt = (LandfillDist * 2);// + ToHaulerDist + FromHaulerDist;
-                //float vmt = 34;
+
+                // If ToHaulerDist is not provided, default to 10
+                float defaultToHaulerDist = 10;
+                float vmt = (LandfillDist * 2) + (ToHaulerDist != 0 ? ToHaulerDist : defaultToHaulerDist);
+
                 double emissionFactor = emissions.RunningCO;
                 double conversionFactor = .002204622622;
                 double baslineHaulerTruckRunningEmissions = yearlyHauls * vmt * emissionFactor * conversionFactor;
@@ -937,11 +989,14 @@ namespace BusinessData
             {
                 Emissions emissions = new Emissions();
                 double yearlyHauls = PreSMTYearlyHauls;
-                //double roundTrip = ToClientDist + FromClientDist;
-                double roundTrip = 2;
+
+                // If ToHaulerDist is not provided, default to 10
+                float defaultToClientDist = 2;
+                double svmt = (ToClientDist != 0 ? ToClientDist : defaultToClientDist); ;
+
                 double emissionFactor = emissions.SmashRunCO;
                 double conversionFactor = .002204622622;
-                double runningEmissions = yearlyHauls * roundTrip * emissionFactor * conversionFactor;
+                double runningEmissions = yearlyHauls * svmt * emissionFactor * conversionFactor;
                 return runningEmissions;
             }
         }
@@ -1015,8 +1070,11 @@ namespace BusinessData
             {
                 Emissions emissions = new Emissions();
                 float yearlyHauls = PreSMTYearlyHauls;
-                float vmt = (LandfillDist * 2);// + ToHaulerDist + FromHaulerDist;
-                //float vmt = 34;
+
+                // If ToHaulerDist is not provided, default to 10
+                float defaultToHaulerDist = 10;
+                float vmt = (LandfillDist * 2) + (ToHaulerDist != 0 ? ToHaulerDist : defaultToHaulerDist);
+
                 double emissionFactor = emissions.RunningVOC;
                 double conversionFactor = .002204622622;
                 double baslineHaulerTruckRunningEmissions = yearlyHauls * vmt * emissionFactor * conversionFactor;
@@ -1058,11 +1116,14 @@ namespace BusinessData
             {
                 Emissions emissions = new Emissions();
                 double yearlyHauls = PreSMTYearlyHauls;
-                //double roundTrip = ToClientDist + FromClientDist;
-                double roundTrip = 2;
+
+                // If ToHaulerDist is not provided, default to 10
+                float defaultToClientDist = 2;
+                double svmt = (ToClientDist != 0 ? ToClientDist : defaultToClientDist); ;
+
                 double emissionFactor = emissions.SmashRunVOC;
                 double conversionFactor = .002204622622;
-                double runningEmissions = yearlyHauls * roundTrip * emissionFactor * conversionFactor;
+                double runningEmissions = yearlyHauls * svmt * emissionFactor * conversionFactor;
                 return runningEmissions;
             }
         }
@@ -1135,8 +1196,11 @@ namespace BusinessData
             {
                 Emissions emissions = new Emissions();
                 float yearlyHauls = PreSMTYearlyHauls;
-                float vmt = (LandfillDist * 2) + 14;// + ToHaulerDist + FromHaulerDist;
-                //float vmt = 34;
+
+                // If ToHaulerDist is not provided, default to 10
+                float defaultToHaulerDist = 10;
+                float vmt = (LandfillDist * 2) + (ToHaulerDist != 0 ? ToHaulerDist : defaultToHaulerDist);
+
                 double emissionFactor = emissions.RunningCO2;
                 double conversionFactor = .002204622622;
                 double baslineHaulerTruckRunningEmissions = yearlyHauls * vmt * emissionFactor * conversionFactor;
@@ -1172,19 +1236,20 @@ namespace BusinessData
 
             }
         }
-        // DOUBLE CHECK BECUASE THIS CALC HAS NOT VMT AND COULD BE CAUSING ISSUES WITH WRONG CALCULATION
         public double CO2SMTRunningEmissions
         {
             get
             {
                 Emissions emissions = new Emissions();
                 double yearlyHauls = PreSMTYearlyHauls;
-                //double roundTrip = ToClientDist + FromClientDist;
-                double roundTrip = 2;
-                double vmt = 2.9;
+
+                // If ToHaulerDist is not provided, default to 10
+                float defaultToClientDist = 2;
+                double svmt = (ToClientDist != 0 ? ToClientDist : defaultToClientDist); ;
+
                 double emissionFactor = emissions.SmashRunCO2;
                 double conversionFactor = .002204622622;
-                double runningEmissions = yearlyHauls * vmt * emissionFactor * conversionFactor;
+                double runningEmissions = yearlyHauls * svmt * emissionFactor * conversionFactor;
                 return runningEmissions;
             }
         }
@@ -1267,8 +1332,11 @@ namespace BusinessData
             {
                 Emissions emissions = new Emissions();
                 float yearlyHauls = PreSMTYearlyHauls;
-                float vmt = (LandfillDist * 2);// + ToHaulerDist + FromHaulerDist;
-                //float vmt = 34;
+
+                // If ToHaulerDist is not provided, default to 10
+                float defaultToHaulerDist = 10;
+                float vmt = (LandfillDist * 2) + (ToHaulerDist != 0 ? ToHaulerDist : defaultToHaulerDist);
+
                 double emissionFactor = emissions.RunningCO2EQ;
                 double conversionFactor = .002204622622;
                 double baslineHaulerTruckRunningEmissions = yearlyHauls * vmt * emissionFactor * conversionFactor;
@@ -1311,11 +1379,14 @@ namespace BusinessData
             {
                 Emissions emissions = new Emissions();
                 double yearlyHauls = PreSMTYearlyHauls;
-                //double roundTrip = ToClientDist + FromClientDist;
-                double roundTrip = 2;
+
+                // If ToHaulerDist is not provided, default to 10
+                float defaultToClientDist = 2;
+                double svmt = (ToClientDist != 0 ? ToClientDist : defaultToClientDist); ;
+
                 double emissionFactor = emissions.SmashRunCO2EQ;
                 double conversionFactor = .002204622622;
-                double runningEmissions = yearlyHauls * roundTrip * emissionFactor * conversionFactor;
+                double runningEmissions = yearlyHauls * svmt * emissionFactor * conversionFactor;
                 return runningEmissions;
             }
         }

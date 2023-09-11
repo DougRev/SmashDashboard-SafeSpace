@@ -66,7 +66,7 @@ namespace BusinessModels
         [Display(Name = "Number of Dumpsters")]
         public float NumberOfDumpsters { get; set; }
 
-        [Display(Name = "Est. Yearly Hauls ")]
+        [Display(Name = "Est. Yearly Hauls (Pre SMT) ")]
         public float PreSMTYearlyHauls { get; set; }
 
        
