@@ -10,6 +10,7 @@ using Google.Apis.Services;
 using Google.Apis.Sheets.v4;
 using Google.Apis.Sheets.v4.Data;
 using Google.Apis.Util.Store;
+using log4net;
 using Microsoft.AspNet.Identity;
 using SelectPdf;
 using System;
@@ -27,6 +28,7 @@ using System.Web.Mvc;
 
 namespace BusinessMVC2.Controllers
 {
+
     public class ClientController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -49,6 +51,8 @@ namespace BusinessMVC2.Controllers
             _nationalAccountService = nationalAccountService;
             _clientService = clientService;
         }
+
+        private static readonly ILog Log = LogManager.GetLogger(typeof(Client));
 
 
         // GET: Clients
@@ -106,6 +110,7 @@ namespace BusinessMVC2.Controllers
 
             return View(businesses);
         }
+
 
         public ActionResult Create()
         {
@@ -228,6 +233,8 @@ namespace BusinessMVC2.Controllers
         }
 
 
+
+
         //GET: Edit
         //Client/Edit/{id}
         public ActionResult Edit(int id)
@@ -291,7 +298,7 @@ namespace BusinessMVC2.Controllers
             if (_clientService.UpdateBusinesses(model))
             {
                 TempData["SaveResult"] = "Your Client has been updated.";
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", new { id = id });
             }
 
             ModelState.AddModelError("", "Your Client could not be updated.");

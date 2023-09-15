@@ -1,0 +1,8 @@
+﻿@model IEnumerable<string>
+
+<h2>Select a Region</h2>
+
+@foreach (var region in Model)
+{
+    <h3>@Html.ActionLink(region, "FranchiseClients", "Client", new { region }, null)</h3>
+}

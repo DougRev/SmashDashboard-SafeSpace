@@ -50,6 +50,7 @@ namespace BusinessServices
 
 
 
+
         public bool CreateBusiness(BusinessCreate model, bool saveToDatabase = true)
         {
             var entity = new Client()
@@ -104,14 +105,7 @@ namespace BusinessServices
             }
         }
 
-        public Client GetClientById(int businessId)
-        {
-            using (var ctx = new ApplicationDbContext())
-            {
-                var entity = ctx.Clients.Single(e => e.BusinessId == businessId);
-                return entity;
-            }
-        }
+
 
 
         public BusinessDetails GetBusinessById(int businessId)

@@ -18,8 +18,9 @@ namespace BusinessMVC2
     {
         protected void Application_Start()
         {
-           
-           var builder = new ContainerBuilder();
+            log4net.Config.XmlConfigurator.Configure();
+
+            var builder = new ContainerBuilder();
 
             // Register your MVC controllers. (MvcApplication is the name of
             // the class in Global.asax.)
