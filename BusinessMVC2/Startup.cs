@@ -10,5 +10,6 @@ namespace BusinessMVC2
         {
             ConfigureAuth(app);
         }
+
     }
 }

@@ -106,6 +106,9 @@
     <Reference Include="K4os.Hash.xxHash, Version=1.0.8.0, Culture=neutral, PublicKeyToken=32cd54395057cec3, processorArchitecture=MSIL">
       <HintPath>..\packages\K4os.Hash.xxHash.1.0.8\lib\net462\K4os.Hash.xxHash.dll</HintPath>
     </Reference>
+    <Reference Include="log4net, Version=2.0.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.15\lib\net45\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Azure.Cosmos.Client, Version=3.33.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Azure.Cosmos.3.33.0\lib\netstandard2.0\Microsoft.Azure.Cosmos.Client.dll</HintPath>
     </Reference>
@@ -410,6 +413,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Images\favicon.ico" />
     <Content Include="Content\Images\navi-MGSdS-gXpoc-unsplash %281%29.png" />
     <Content Include="Content\Images\Trinity Logo.png" />
     <Content Include="Content\PagedList.css" />
@@ -597,6 +601,8 @@
     <Content Include="Views\Franchise\Details.cshtml" />
     <Content Include="Views\NationalAccount\AccountDetailsToPDF.cshtml" />
     <Content Include="Views\Client\4DayPdf.cshtml" />
+    <Content Include="Views\Client\View.cshtml" />
+    <Content Include="Views\Manage\HttpNotFound.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
