@@ -60,7 +60,7 @@ namespace BusinessModels
         [Display(Name = "Distance to Landfill (One Way)")]
         public float LandfillDist { get; set; }
 
-        [Display(Name = "Total Hauls Per Week")]
+        [Display(Name = "Total Hauls Per Week (Pre SMT)")]
         public float HaulsPerWeek { get; set; }
 
         [Display(Name = "Number of Dumpsters")]

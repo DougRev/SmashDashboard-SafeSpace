@@ -46,7 +46,7 @@ namespace BusinessModels
         [Display(Name = "Number of Dumpsters")]
         public float NumberOfDumpsters { get; set; }
 
-        [Display(Name = "Total Hauls Per Week")]
+        [Display(Name = "Total Hauls Per Week (Pre SMT)")]
         public float HaulsPerWeek { get; set; }
 
         [Display(Name = "Distance to Landfill (One Way)")]
@@ -67,7 +67,7 @@ namespace BusinessModels
         [Display(Name = "Hauler Distance to Next Customer")]
         public float FromHaulerDist { get; set; }
 
-        [Display(Name = "Est. Yearly Hauls ")]
+        [Display(Name = "Est. Yearly Hauls (Pre SMT)")]
         public float PreSMTYearlyHauls
         {
             get
