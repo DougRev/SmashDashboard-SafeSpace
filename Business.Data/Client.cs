@@ -65,7 +65,7 @@ namespace BusinessData
         public float FromClientDist { get; set; }
 
         [Display(Name = "Hauler Distance to Client")]
-        public float ToHaulerDist { get; set; } // 13.9
+        public float ToHaulerDist { get; set; } 
 
         [Display(Name = "Hauler Distance to Landfill")]
         public float LandfillDist { get; set; }
@@ -75,6 +75,16 @@ namespace BusinessData
 
         [Display(Name = "Total Hauls Per Week (Pre SMT)")]
         public float HaulsPerWeek { get; set; }
+
+        //[Display(Name = "Estimated Adjusted Hauls using SMT")]
+        //public float HaulsWithSMT
+        //{
+        //    get
+        //    {
+        //        return PreSMTYearlyHauls;
+        //        //return PreSMTYearlyHauls * (float)CompactibilityValue;
+        //    }
+        //}
 
         [Display(Name = "Number of Dumpsters")]
         public float NumberOfDumpsters { get; set; }

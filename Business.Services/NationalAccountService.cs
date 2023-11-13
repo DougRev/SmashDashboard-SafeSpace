@@ -68,6 +68,8 @@ namespace BusinessServices
                 }
 
                 var clients = ctx.Clients
+                    .Include(c => c.Franchise) // Make sure to include the Franchise navigation property
+                                               // Include other necessary properties as needed
                     .Where(c => c.AccountId == accountId)
                     .ToList();
 
@@ -79,6 +81,9 @@ namespace BusinessServices
                 };
             }
         }
+
+
+
 
 
 
@@ -123,14 +128,71 @@ namespace BusinessServices
                 return true;
             }
         }
+        
+        // OLD DELETE CHANGED 11/9/23
 
+        //public bool DeleteNationalAccount(int accountId)
+        //{
+        //    using (var ctx = new ApplicationDbContext())
+        //    {
+        //        var entity = ctx.NationalAccounts.Single(e => e.AccountId == accountId);
+        //        ctx.NationalAccounts.Remove(entity);
+        //        return ctx.SaveChanges() == 1;
+        //    }
+        //}
         public bool DeleteNationalAccount(int accountId)
         {
             using (var ctx = new ApplicationDbContext())
             {
-                var entity = ctx.NationalAccounts.Single(e => e.AccountId == accountId);
-                ctx.NationalAccounts.Remove(entity);
-                return ctx.SaveChanges() == 1;
+                // Start a transaction to ensure full rollback in case of failure
+                using (var transaction = ctx.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        // Load the NationalAccount including its related Clients
+                        var nationalAccount = ctx.NationalAccounts
+                                                 .Include(na => na.Clients.Select(c => c.Locations)) // Include Clients and their Locations
+                                                 .SingleOrDefault(na => na.AccountId == accountId);
+
+                        if (nationalAccount == null)
+                        {
+                            // If the national account does not exist, no need to delete
+                            return false;
+                        }
+
+                        // Handle the Locations before deleting the Clients
+                        foreach (var client in nationalAccount.Clients.ToList())
+                        {
+                            // Handle each location related to the client
+                            foreach (var location in client.Locations.ToList())
+                            {
+                                // Delete the locations or handle them as necessary
+                                ctx.Locations.Remove(location);
+                            }
+
+                            // After handling locations, now it's safe to delete the client
+                            ctx.Clients.Remove(client);
+                        }
+
+                        // Save changes for the Locations and Clients
+                        ctx.SaveChanges();
+
+                        // Now it's safe to delete the NationalAccount
+                        ctx.NationalAccounts.Remove(nationalAccount);
+                        ctx.SaveChanges();
+
+                        // Commit the transaction if all operations were successful
+                        transaction.Commit();
+                        return true;
+                    }
+                    catch (Exception ex)
+                    {
+                        // Rollback the transaction if any exception occurs
+                        transaction.Rollback();
+                        // Log the exception, rethrow, or handle as appropriate
+                        throw;
+                    }
+                }
             }
         }
 

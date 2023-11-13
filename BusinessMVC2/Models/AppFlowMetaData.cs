@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Web.Mvc;
 
 using Google.Apis.Auth.OAuth2;
@@ -17,10 +18,11 @@ namespace Google.Apis.Sample.MVC4
             {
                 ClientSecrets = new ClientSecrets
                 {
-                    ClientId = "432455542638-vn8j33hbmbvltarfhhdgcn3a2hojpbr0.apps.googleusercontent.com",
-                    ClientSecret = "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"
+                    ClientId = ConfigurationManager.AppSettings["GoogleClientId"],
+                    ClientSecret = ConfigurationManager.AppSettings["GoogleClientSecret"]
+
                 },
-                Scopes = new[] { SheetsService.Scope.Drive },
+                Scopes = new[] { SheetsService.Scope.Spreadsheets },
                 DataStore = new FileDataStore("Drive.Api.Auth.Store")
             });
 

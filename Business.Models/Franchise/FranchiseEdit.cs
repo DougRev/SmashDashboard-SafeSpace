@@ -15,7 +15,7 @@ namespace BusinessModels.Franchise
     {
         [Display(Name = "Franchise ID")]
         public int FranchiseId { get; set; }
-        [Display(Name = "Account Name")]
+        [Display(Name = "Franchise Name")]
         public string FranchiseName { get; set; }
         [Required]
         public State State { get; set; }

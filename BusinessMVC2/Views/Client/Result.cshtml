@@ -14,19 +14,19 @@
             <p>@Model.PreSMTYearlyHauls</p>
         </div>
         <div class="result-row">
-            <h4>Hauler CO2 Emissions</h4>
+            <h4>Est. Yearly Hauls with SMT Services</h4>
+            <p>@Model.HaulsWithSMT</p>
+        </div>
+        <div class="result-row">
+            <h4>Est. Current CO2 Emissions</h4>
             <p>@Model.TotalCO2BaselineTruckEmissionsV2.ToString("N2") lbs</p>
         </div>
         <div class="result-row">
-            <h4>SMT CO2 Emissions</h4>
+            <h4>Est. CO2 Emissions with SMT Services</h4>
             <p>@Model.TotalCO2EmissionsWithSmashV2.ToString("N2") lbs</p>
         </div>
         <div class="result-row">
-            <h4>Total CO2 Saved</h4>
-            <p>@Model.TotalCO2SavedV2.ToString("N2") lbs</p>
-        </div>
-        <div class="result-row">
-            <h4>CO2 Percent Saved</h4>
+            <h4>Est. CO2 Saved using SMT</h4>
             <p>@Model.CO2PercentSavedV2</p>
         </div>
 

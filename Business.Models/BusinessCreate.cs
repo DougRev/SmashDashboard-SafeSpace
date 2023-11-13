@@ -49,6 +49,15 @@ namespace BusinessModels
         [Display(Name = "Total Hauls Per Week (Pre SMT)")]
         public float HaulsPerWeek { get; set; }
 
+        [Display(Name = "Estimated Adjusted Hauls using SMT")]
+        public float HaulsWithSMT
+        {
+            get
+            {
+                return PreSMTYearlyHauls * (float)CompactibilityValue;
+            }
+        }
+
         [Display(Name = "Distance to Landfill (One Way)")]
         public float LandfillDist { get; set; }
 
@@ -113,8 +122,11 @@ namespace BusinessModels
             {
                 Emissions emissions = new Emissions();
                 float yearlyHauls = PreSMTYearlyHauls;
-                float vmt = (LandfillDist * 2);// + ToHaulerDist + FromHaulerDist;
-                //float vmt = 34;
+
+                // If ToHaulerDist is not provided, default to 10
+                float defaultToHaulerDist = 10;
+                float vmt = (LandfillDist * 2) + (ToHaulerDist != 0 ? ToHaulerDist : defaultToHaulerDist);
+
                 double emissionFactor = emissions.RunningCO2;
                 double conversionFactor = .002204622622;
                 double baslineHaulerTruckRunningEmissions = yearlyHauls * vmt * emissionFactor * conversionFactor;

@@ -403,6 +403,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AppFlowMetaData.cs" />
     <Compile Include="Models\ClientFormViewModel.cs" />
+    <Compile Include="Models\ClientIndexViewModel.cs" />
     <Compile Include="Models\FranchiseOwnerViewModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -421,7 +422,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="Content\client_secret_432455542638-cj5rs7gp7f7e5r7sua1kqqvjg8lmn6ap.apps.googleusercontent.com.json" />
     <Content Include="libman.json" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -435,13 +435,6 @@
     <Content Include="Scripts\esm\popper-utils.min.js.map" />
     <Content Include="Scripts\esm\popper-utils.js.map" />
     <Content Include="Content\DigiCertGlobalRootCA.crt.pem" />
-    <Content Include="Content\smash-dashboard-6598082ac1fd.json" />
-    <Content Include="Content\client_secret_846675010514-avrmk1feujf45l32pnt55bpsv74smkl4.apps.googleusercontent.com %281%29.json" />
-    <Content Include="Content\smash-dashboard-2c07132e45eb.json" />
-    <Content Include="Content\desktop-client-secret.json" />
-    <Content Include="Content\web-client.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\smt-webclient.json" />
@@ -603,6 +596,7 @@
     <Content Include="Views\Client\4DayPdf.cshtml" />
     <Content Include="Views\Client\View.cshtml" />
     <Content Include="Views\Manage\HttpNotFound.cshtml" />
+    <Content Include="Views\NationalAccount\List.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

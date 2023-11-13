@@ -44,7 +44,7 @@
 <div id="upload-download-container">
     @if (User.Identity.IsAuthenticated && User.Identity.Name == "doug.revell@smashmytrash.com")
     {
-        @Html.ActionLink("Export Google Sheet", "TestUpdateGoogleSheet", "Client", null, new { @class = "btn btn-primary" })
+        @Html.ActionLink("Export Google Sheet", "ExportToGoogleSheet", "Client", null, new { @class = "btn btn-primary" })
         <br />
         <br />
         using (Html.BeginForm("ImportFromGoogleSheet", "Client", FormMethod.Get))

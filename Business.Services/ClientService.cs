@@ -33,6 +33,7 @@ namespace BusinessServices
             double co2 = model.TotalCO2SavedV2;
             string co2Percent = model.CO2PercentSavedV2;
             float landfillDist = model.LandfillDist;
+            float hauls = model.HaulsWithSMT;
 
             var quoteResult = new QuoteResultViewModel
             {
@@ -43,6 +44,7 @@ namespace BusinessServices
                 TotalCO2SavedV2 = co2,
                 CO2PercentSavedV2 = co2Percent,
                 LandfillDist = landfillDist,
+                HaulsWithSMT = hauls,
             };
 
             return quoteResult;

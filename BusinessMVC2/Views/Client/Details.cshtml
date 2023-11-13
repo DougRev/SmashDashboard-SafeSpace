@@ -86,13 +86,13 @@
                 @Html.DisplayFor(model => model.Compactibility)
             </dd>
 
-            <dt>
+            @*<dt>
                 @Html.DisplayNameFor(model => model.NumberOfDumpsters)
             </dt>
 
             <dd>
                 @Html.DisplayFor(model => model.NumberOfDumpsters)
-            </dd>
+            </dd>*@
 
             <dt>
                 @Html.DisplayNameFor(model => model.HaulsPerWeek)
@@ -235,13 +235,13 @@
     </div>
 
 </div>
-@using (Html.BeginForm("SubmitAction", "Client", new { id = Model.BusinessId }))
+@*@using (Html.BeginForm("SubmitAction", "Client", new { id = Model.BusinessId }))
 {
     @Html.AntiForgeryToken()
 
     <div class="form-group">
         <label for="TxtUrl"></label>
-        <input type="hidden" name="TxtUrl" id="TxtUrl" class="form-control" value="https://businessmvc220230407125015.azurewebsites.net/Client/BusinessDetailsToPdf/@Model.BusinessId" required />
+        <input type="hidden" name="TxtUrl" id="TxtUrl" class="form-control" value="https://smashmytrash.com/Client/@Model.BusinessId" required />
     </div>
 
     <input type="hidden" name="DdlPageSize" value="Letter" />
@@ -254,7 +254,7 @@
     <button type="submit" class="btn btn-primary">
         Generate PDF
     </button>
-}
+}*@
 
 
 <br />
@@ -320,7 +320,9 @@
         </tbody>*@
 </table>
 
-
+<br />
+<br />
+<br />
 
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.BusinessId }, null) |

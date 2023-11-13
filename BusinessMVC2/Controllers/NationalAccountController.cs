@@ -155,6 +155,13 @@ namespace BusinessMVC2.Controllers
                 ZipCode = c.ZipCode,
                 OwnerId = c.OwnerId,
             });
+
+            // Retrieve the National Account name using the service method or any other way
+            var nationalAccountName = _nationalAccountService.GetNationalAccountById(id)?.AccountName;
+
+            // Pass the National Account name to the ViewBag
+            ViewBag.NationalAccountName = nationalAccountName;
+
             return View(model);
         }
 

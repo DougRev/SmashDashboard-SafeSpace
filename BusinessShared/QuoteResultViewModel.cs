@@ -15,6 +15,7 @@ namespace BusinessShared
         public double TotalCO2SavedV2 { get; set; }
         public string CO2PercentSavedV2 { get; set; }
         public float LandfillDist { get; set; }
+        public float HaulsWithSMT { get; set; }
 
     }
 }

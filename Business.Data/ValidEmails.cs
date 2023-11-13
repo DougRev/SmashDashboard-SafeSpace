@@ -92,6 +92,7 @@ namespace BusinessData
             "karen.seeley@smashmytrash.com",
             "karen.zwink@smashmytrash.com",
             "keegan.orellana@smashmytrash.com",
+            "kemer.quirk@smashmytrash.com",
             "keith.leimbach@smashmytrash.com",
             "kevin.brown@smashmytrash.com",
             "kevin.moyer@smashmytrash.com",

@@ -380,7 +380,7 @@ namespace BusinessMVC2.Controllers
             converter.Options.WebPageHeight = webPageHeight;
 
             // create a new pdf document converting an url
-            PdfDocument doc = converter.ConvertHtmlString(htmlString, "https://businessmvc220230407125015.azurewebsites.net/");
+            PdfDocument doc = converter.ConvertHtmlString(htmlString, "https://smashmytrash.com/");
 
             // save pdf document
             byte[] pdf = doc.Save();
@@ -435,113 +435,114 @@ namespace BusinessMVC2.Controllers
             return viewData;
         }
 
-        public async Task<ActionResult> TestUpdateGoogleSheet()
+        //public async Task<ActionResult> TestUpdateGoogleSheet()
+        //{
+        //    // Retrieve the list of clients from the database
+        //    var db = new ApplicationDbContext();
+        //    var clients = db.Clients.ToList();
+
+        //    // Read the sheet data to find the last used row
+        //    int lastUsedRow = await GetLastUsedRow();
+
+        //    // Call UpdateGoogleSheet for each client, starting from the row after the last used row
+        //    foreach (var client in clients)
+        //    {
+        //        lastUsedRow++;
+        //        await UpdateGoogleSheet(client, lastUsedRow);
+        //    }
+
+        //    return RedirectToAction("Index");
+        //}
+
+        public async Task<int> GetLastUsedRow(UserCredential credential)
         {
-            // Retrieve the list of clients from the database
-            var db = new ApplicationDbContext();
-            var clients = db.Clients.ToList();
-
-            // Read the sheet data to find the last used row
-            int lastUsedRow = await GetLastUsedRow();
-
-            // Call UpdateGoogleSheet for each client, starting from the row after the last used row
-            foreach (var client in clients)
-            {
-                lastUsedRow++;
-                await UpdateGoogleSheet(client, lastUsedRow);
-            }
-
-            return RedirectToAction("Index");
-        }
-
-        public async Task<int> GetLastUsedRow()
-        {
-            string credentialsPath = Server.MapPath(ConfigurationManager.AppSettings["GoogleSheetsCredentialsPath"]);
-            string tokenFolderPath = Server.MapPath(ConfigurationManager.AppSettings["GoogleSheetsTokenFolderPath"]);
-
-
-            string[] Scopes = { SheetsService.Scope.Spreadsheets };
-            string ApplicationName = "Smash-Dashboard";
-            string sheetId = "17PA6YsX6PaCSQfHWYyNZmIvZp_WOMYBNtfa-7eZWldE";
-            string range = "Sheet2:A2"; // Adjust the range as needed to cover the entire sheet
-
-            // Read the JSON credentials file and create the SheetsService
-            UserCredential credential;
-            using (var stream = new FileStream(credentialsPath, FileMode.Open, FileAccess.Read))
-            {
-                credential = await GoogleWebAuthorizationBroker.AuthorizeAsync(
-                    GoogleClientSecrets.FromStream(stream).Secrets,
-                    Scopes,
-                    "user",
-                    CancellationToken.None,
-                    new FileDataStore(tokenFolderPath, true));
-            }
-
             var service = new SheetsService(new BaseClientService.Initializer()
             {
                 HttpClientInitializer = credential,
-                ApplicationName = ApplicationName,
+                ApplicationName = "Smash-Dashboard",
             });
+
+            string sheetId = "17PA6YsX6PaCSQfHWYyNZmIvZp_WOMYBNtfa-7eZWldE"; // Replace with your sheet ID
+            string range = "Sheet2!A2:A"; // Adjust the range to start from A2 and include all cells in column A
 
             // Read the sheet data
             var response = await service.Spreadsheets.Values.Get(sheetId, range).ExecuteAsync();
             var values = response.Values;
 
-            // Return the last used row index
-            return values.Count - 1;
+            // Check if values is null and return 1 (for A2) if it is, otherwise return the last used row index
+            return values == null ? 1 : values.Count + 1;  // +1 to get the next row index for insertion
         }
 
 
-        public async Task UpdateGoogleSheet(Client client, int startRow)
+        private async Task<UserCredential> GetGoogleCredential(CancellationToken cancellationToken)
         {
-            string credentialsPath = Server.MapPath(ConfigurationManager.AppSettings["GoogleSheetsCredentialsPath"]);
-            string tokenFolderPath = Server.MapPath(ConfigurationManager.AppSettings["GoogleSheetsTokenFolderPath"]);
+            var result = await new AuthorizationCodeMvcApp(this, new AppFlowMetadata()).AuthorizeAsync(cancellationToken);
+            return result.Credential;
+        }
 
-
-            string[] Scopes = { SheetsService.Scope.Spreadsheets };
-            string ApplicationName = "Smash-Dashboard";
-            string sheetId = "17PA6YsX6PaCSQfHWYyNZmIvZp_WOMYBNtfa-7eZWldE";
-            string range = "Sheet2!A2"; // Adjust the range as needed
-
-            // Read the JSON credentials file and create the SheetsService
-            UserCredential credential;
-            using (var stream = new FileStream(credentialsPath, FileMode.Open, FileAccess.Read))
-            {
-                credential = await GoogleWebAuthorizationBroker.AuthorizeAsync(
-                    GoogleClientSecrets.FromStream(stream).Secrets,
-                    Scopes,
-                    "user",
-                    CancellationToken.None,
-                    new FileDataStore(tokenFolderPath, true));
-            }
-
+        public async Task UpdateGoogleSheet(Client client, int startRow, UserCredential credential)
+        {
             var service = new SheetsService(new BaseClientService.Initializer()
             {
                 HttpClientInitializer = credential,
-                ApplicationName = ApplicationName,
+                ApplicationName = "Smash-Dashboard",
             });
 
-            // Prepare the data to be appended
-            var values = new List<IList<object>>
+            string sheetId = "17PA6YsX6PaCSQfHWYyNZmIvZp_WOMYBNtfa-7eZWldE"; // Replace with your sheet ID
+            string range = "Sheet2!A2"; // Adjust the range as needed
+
+            int? desiredSheetId = await FetchSheetIdForName("Sheet2", credential);
+            if (!desiredSheetId.HasValue)
             {
-                new List<object>
-                {
-                    client.BusinessId,
-                    client.BusinessName,
-                    client.State,
-                    client.FacilityID,
-                    client.City,
-                    client.Address,
-                    client.ZipCode,
-                    client.OwnerId,
-                    client.FranchiseId,
-                    client.FranchiseName,
-                    client.FirstName,
-                    client.LastName,
-                    client.PhoneNumber,
-                    // Add more client properties as needed
-                }
+                // Handle error: Could not fetch the SheetId for the given sheet name
+                throw new Exception("Could not fetch the SheetId for the given sheet name.");
+            }
+
+            // Define headers
+            var headers = new List<string>
+            {
+                "BusinessId",
+                "BusinessName",
+                "State",
+                "FacilityID",
+                "City",
+                "Address",
+                "ZipCode",
+                "OwnerId",
+                "FranchiseId",
+                "FranchiseName",
+                "FirstName",
+                "LastName",
+                "PhoneNumber",
+                // Add more client property names as headers
             };
+
+            // Prepare the data to be appended
+            var values = new List<IList<object>>();
+
+            // If we are starting from the first row, add the headers first
+            if (startRow == 2)
+            {
+                values.Add(headers.Cast<object>().ToList());
+            }
+
+            values.Add(new List<object>
+            {
+                client.BusinessId,
+                client.BusinessName,
+                client.State,
+                client.FacilityID,
+                client.City,
+                client.Address,
+                client.ZipCode,
+                client.OwnerId,
+                client.FranchiseId,
+                client.FranchiseName,
+                client.FirstName,
+                client.LastName,
+                client.PhoneNumber,
+                // Add more client properties as needed
+            });
 
             // Create a batch update request
             var requests = new List<Request>
@@ -552,8 +553,8 @@ namespace BusinessMVC2.Controllers
                     {
                         Start = new GridCoordinate
                         {
-                            SheetId = 0, // Adjust the sheet ID as needed
-                            RowIndex = startRow, // Start from the given row
+                            SheetId = desiredSheetId.Value, // Use the correct SheetId for Sheet2
+                            RowIndex = startRow - 1, // Start from the given row (adjust for zero-based index)
                             ColumnIndex = 0 // Start from the first column
                         },
                         Rows = values.Select(row => new RowData { Values = row.Select(cell => new CellData { UserEnteredValue = new ExtendedValue { StringValue = cell?.ToString() ?? string.Empty } }).ToList() }).ToList(),
@@ -568,7 +569,7 @@ namespace BusinessMVC2.Controllers
         }
 
 
-       
+
         public Location ProcessLocationString(string locationString, Client client)
         {
             // Normalize the location string
@@ -647,10 +648,58 @@ namespace BusinessMVC2.Controllers
 
         private async Task ImportData(UserCredential credential)
         {
-           await ImportClients(credential);
+            await ImportClients(credential);
             //await ImportNationalAccounts(credential);
             //await ImportInvoices(credential);
             //await ImportWorkOrders(credential);
+        }
+
+        public async Task<ActionResult> ExportToGoogleSheet(CancellationToken cancellationToken)
+        {
+            var result = await new AuthorizationCodeMvcApp(this, new AppFlowMetadata()).AuthorizeAsync(cancellationToken);
+
+            if (result.Credential != null)
+            {
+                await ExportData(result.Credential);
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return new RedirectResult(result.RedirectUri);
+            }
+        }
+
+        private async Task ExportData(UserCredential credential)
+        {
+            await ExportClients(credential);
+
+        }
+
+
+        private async Task ExportClients(UserCredential credential)
+        {
+            // Fetch clients from the local database
+            List<Client> clientsToExport;
+            using (var db = new ApplicationDbContext())
+            {
+                clientsToExport = await db.Clients.ToListAsync();
+            }
+
+            // Use the Google Sheets API to export clients
+            var service = new SheetsService(new BaseClientService.Initializer()
+            {
+                HttpClientInitializer = credential,
+                ApplicationName = "Smash-Dashboard",
+            });
+
+            string sheetId = "17PA6YsX6PaCSQfHWYyNZmIvZp_WOMYBNtfa-7eZWldE"; // Replace with your sheet ID
+            int startRow = await GetLastUsedRow(credential) + 1; // Get the last used row and start exporting from the next row
+
+            foreach (var client in clientsToExport)
+            {
+                await UpdateGoogleSheet(client, startRow, credential);
+                startRow++;
+            }
         }
 
         private async Task ImportClients(UserCredential credential)
@@ -1070,6 +1119,22 @@ namespace BusinessMVC2.Controllers
 
                 await db.SaveChangesAsync();
             }
+        }
+
+        public async Task<int?> FetchSheetIdForName(string desiredSheetName, UserCredential credential)
+        {
+            var service = new SheetsService(new BaseClientService.Initializer()
+            {
+                HttpClientInitializer = credential,
+                ApplicationName = "Smash-Dashboard",
+            });
+
+            string spreadsheetId = "17PA6YsX6PaCSQfHWYyNZmIvZp_WOMYBNtfa-7eZWldE";
+
+            var spreadsheet = await service.Spreadsheets.Get(spreadsheetId).ExecuteAsync();
+            var desiredSheet = spreadsheet.Sheets.FirstOrDefault(s => s.Properties.Title == desiredSheetName);
+
+            return desiredSheet?.Properties.SheetId;
         }
 
         private static string RemoveSpecialCharacters(string str)
