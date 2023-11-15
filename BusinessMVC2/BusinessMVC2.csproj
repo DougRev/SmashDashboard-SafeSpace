@@ -406,6 +406,7 @@
     <Compile Include="Models\ClientIndexViewModel.cs" />
     <Compile Include="Models\FranchiseOwnerViewModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\OutOfStateClientViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -438,6 +439,7 @@
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\smt-webclient.json" />
+    <Content Include="Content\Uploads\import.csv" />
     <None Include="Properties\PublishProfiles\BusinessMVC220230407125015 - Web Deploy.pubxml" />
     <Content Include="Scripts\jquery-3.6.4.js" />
     <Content Include="Scripts\jquery-3.6.4.min.js" />
@@ -597,6 +599,11 @@
     <Content Include="Views\Client\View.cshtml" />
     <Content Include="Views\Manage\HttpNotFound.cshtml" />
     <Content Include="Views\NationalAccount\List.cshtml" />
+    <Content Include="Views\Client\SelectFranchise.cshtml" />
+    <Content Include="Views\Client\ReviewClients.cshtml" />
+    <Content Include="Views\Client\FranchisesWithOutOfStateClients.cshtml" />
+    <Content Include="Views\Client\ViewOutOfStateClients.cshtml" />
+    <Content Include="Views\Client\Import.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

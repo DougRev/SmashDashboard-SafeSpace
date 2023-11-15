@@ -1,0 +1,33 @@
+﻿@model IEnumerable<BusinessModels.BusinessListItem>
+
+@using (Html.BeginForm("DeleteClients", "Client", FormMethod.Post))
+{
+    <h2>Review Clients for Deletion</h2>
+
+    <div>
+        <input type="checkbox" id="selectAll" /> Select All
+    </div>
+
+    foreach (var client in Model)
+    {
+        <div>
+            <input type="checkbox" name="clientIds" value="@client.BusinessId" class="client-checkbox" />
+            @client.BusinessName - @client.ServiceLocation
+        </div>
+    }
+
+    <input type="submit" value="Delete Selected Clients" />
+}
+
+<script>
+    $(document).ready(function () {
+        $('#selectAll').click(function () {
+            $('.client-checkbox').prop('checked', this.checked);
+        });
+
+        $('.client-checkbox').change(function () {
+            var all = $('.client-checkbox').length == $('.client-checkbox:checked').length;
+            $('#selectAll').prop('checked', all);
+        });
+    });
+</script>

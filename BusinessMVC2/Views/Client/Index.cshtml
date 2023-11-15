@@ -1,4 +1,4 @@
-﻿﻿@model IEnumerable<BusinessModels.BusinessListItem>
+﻿@model IEnumerable<BusinessModels.BusinessListItem>
 @{
     ViewBag.Title = "Clients";
 }
@@ -6,7 +6,9 @@
 <h2>Clients</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New", "Create") @*|
+    @Html.ActionLink("Select Franchise", "SelectFranchise") |
+    @Html.ActionLink("View Franchises with Out-of-State Clients", "FranchisesWithOutOfStateClients", "Client")*@
 </p>
 
 <table id="clientTable" class="table display">
@@ -26,9 +28,9 @@
                 <td>@Html.DisplayFor(modelItem => item.BusinessName)</td>
                 <td>@Html.DisplayFor(modelItem => item.ServiceLocation)</td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.BusinessId }, null) |
-                    @Html.ActionLink("Details", "Details", new { id = item.BusinessId }, null) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.BusinessId }, null)
+                    @Html.ActionLink("Edit", "Edit", new { id = item.BusinessId }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.BusinessId }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.BusinessId })
                 </td>
             </tr>
         }
@@ -45,11 +47,7 @@
     @if (User.Identity.IsAuthenticated && User.Identity.Name == "doug.revell@smashmytrash.com")
     {
         @Html.ActionLink("Export Google Sheet", "ExportToGoogleSheet", "Client", null, new { @class = "btn btn-primary" })
-        <br />
-        <br />
-        using (Html.BeginForm("ImportFromGoogleSheet", "Client", FormMethod.Get))
-        {
-            <input type="submit" value="Import Clients" class="btn btn-primary" />
-        }
+        <br /><br />
+        @Html.ActionLink("Import Clients from CSV", "Import", "Client", null, new { @class = "btn btn-primary" })
     }
 </div>

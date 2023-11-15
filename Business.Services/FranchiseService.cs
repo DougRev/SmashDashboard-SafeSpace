@@ -1,6 +1,8 @@
 ﻿using BusinessData;
+using BusinessData.Enum;
 using BusinessData.Interfaces;
 using BusinessModels.Franchise;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -258,6 +260,52 @@ namespace BusinessServices
                 _context.SaveChanges();
             }
         }
+
+        public IEnumerable<FranchiseDetails> GetFranchisesWithOutOfStateClients(int threshold)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var franchises = ctx.Franchises.Include(f => f.Clients).ToList();
+                var result = new List<FranchiseDetails>();
+
+                foreach (var franchise in franchises)
+                {
+                    var franchiseState = ConvertToEnum(franchise.BusinessState);
+                    if (!franchiseState.HasValue)
+                    {
+                        continue; // Skip if the franchise state is not valid
+                    }
+
+                    // Count clients whose State does not match franchiseState
+                    int outOfStateCount = franchise.Clients
+                        .Count(c => c.State != franchiseState.Value);
+
+                    if (outOfStateCount > threshold)
+                    {
+                        result.Add(new FranchiseDetails
+                        {
+                            // ... other properties
+                            FranchiseId = franchise.FranchiseId,
+                            FranchiseName = franchise.FranchiseName,
+                            State = franchiseState.Value,
+                            OutOfStateClientCount = outOfStateCount,
+                        });
+                    }
+                }
+
+                return result;
+            }
+        }
+
+        public State? ConvertToEnum(string stateAbbreviation)
+        {
+            if (Enum.TryParse<State>(stateAbbreviation, out var stateEnum))
+            {
+                return stateEnum;
+            }
+            return null;
+        }
+
 
 
     }

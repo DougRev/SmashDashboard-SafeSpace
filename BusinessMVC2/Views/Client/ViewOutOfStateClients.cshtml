@@ -1,0 +1,44 @@
+﻿@model IEnumerable<BusinessMVC2.Models.OutOfStateClientViewModel>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml"; // Use your layout file if you have one
+}
+
+<h2>Out-of-State Clients</h2>
+
+@using (Html.BeginForm("ProcessSelectedClients", "Client", FormMethod.Post))
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th><input type="checkbox" id="selectAll" /></th>
+                <th>Client Name</th>
+                <th>Service Location</th>
+                <!-- Add more headers as needed -->
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var client in Model)
+            {
+                <tr>
+                    <td><input type="checkbox" name="selectedClients" value="@client.ClientId" /></td>
+                    <td>@client.ClientName</td>
+                    <td>@client.ServiceLocation</td>
+                    <!-- Add more data columns as needed -->
+                </tr>
+            }
+        </tbody>
+    </table>
+    <button type="submit" class="btn btn-primary">Process Selected Clients</button>
+}
+
+@section Scripts {
+    <script>
+        document.getElementById('selectAll').onclick = function () {
+            var checkboxes = document.getElementsByName('selectedClients');
+            for (var checkbox of checkboxes) {
+                checkbox.checked = this.checked;
+            }
+        }
+    </script>
+}

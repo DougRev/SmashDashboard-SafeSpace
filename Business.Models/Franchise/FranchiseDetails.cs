@@ -22,6 +22,8 @@ namespace BusinessModels.Franchise
         [Display(Name = "Account ID")]
         public int? AccountId { get; set; }
         public State State { get; set; }
+        public int OutOfStateClientCount { get; set; }
+
         public ICollection<Client> Clients { get; set; } = new List<Client>();
 
         [DisplayName("Is Active")]

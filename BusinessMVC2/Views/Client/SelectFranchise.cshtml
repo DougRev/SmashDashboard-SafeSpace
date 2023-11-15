@@ -1,0 +1,6 @@
+﻿@using (Html.BeginForm("ReviewClients", "Client", FormMethod.Post))
+{
+    <h2>Select a Franchise</h2>
+    @Html.DropDownList("FranchiseId", (IEnumerable<SelectListItem>)ViewBag.Franchises, "Select a Franchise")
+    <input type="submit" value="Review Clients" />
+}

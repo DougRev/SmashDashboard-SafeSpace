@@ -182,6 +182,14 @@
     <Compile Include="Migrations\202309081258461_addToClientAndToHauler.designer.cs">
       <DependentUpon>202309081258461_addToClientAndToHauler.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202311151442273_changeStreetNoToString.cs" />
+    <Compile Include="Migrations\202311151442273_changeStreetNoToString.designer.cs">
+      <DependentUpon>202311151442273_changeStreetNoToString.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202311151447040_addUnknowntoState.cs" />
+    <Compile Include="Migrations\202311151447040_addUnknowntoState.designer.cs">
+      <DependentUpon>202311151447040_addUnknowntoState.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="NationalAccount.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -238,6 +246,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202309081258461_addToClientAndToHauler.resx">
       <DependentUpon>202309081258461_addToClientAndToHauler.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202311151442273_changeStreetNoToString.resx">
+      <DependentUpon>202311151442273_changeStreetNoToString.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202311151447040_addUnknowntoState.resx">
+      <DependentUpon>202311151447040_addUnknowntoState.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

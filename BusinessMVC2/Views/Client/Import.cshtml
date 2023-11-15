@@ -1,0 +1,15 @@
+﻿@{
+    ViewBag.Title = "Import Clients";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Import Clients</h2>
+
+@Html.ActionLink("Import Clients", "Import", "Client", null, new { @class = "btn btn-primary" })
+
+@if (ViewBag.Message != null)
+{
+    <div class="alert alert-info">
+        @ViewBag.Message
+    </div>
+}

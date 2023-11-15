@@ -1,0 +1,33 @@
+﻿@model IEnumerable<BusinessModels.Franchise.FranchiseDetails>
+
+<h2>Franchises with Out-of-State Clients</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>FranchiseId</th>
+            <th>Franchise Name</th>
+            <th>State</th>
+            <th>Out-of-State Client Count</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var franchise in Model)
+        {
+            <tr>
+                <td>@franchise.FranchiseId</td>
+                <td>@franchise.FranchiseName</td>
+                <td>@franchise.State</td>
+                <td>@franchise.OutOfStateClientCount</td>
+                <td>
+                    @Html.ActionLink("View Out-of-State Clients", "ViewOutOfStateClients", new { franchiseId = franchise.FranchiseId }, null)
+                    @using (Html.BeginForm("DeleteOutOfStateClients", "Client", new { franchiseId = franchise.FranchiseId }, FormMethod.Post, new { onsubmit = "return confirm('Are you sure you want to delete all out-of-state clients for this franchise?');" }))
+                    {
+                        <button type="submit" class="btn btn-danger">Delete All</button>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

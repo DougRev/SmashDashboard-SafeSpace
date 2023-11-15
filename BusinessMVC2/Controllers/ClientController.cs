@@ -2,6 +2,7 @@
 using BusinessData.Enum;
 using BusinessData.Interfaces;
 using BusinessModels;
+using BusinessMVC2.Models;
 using BusinessServices;
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Auth.OAuth2.Mvc;
@@ -23,6 +24,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
 
 
@@ -59,6 +61,10 @@ namespace BusinessMVC2.Controllers
         public ActionResult Index(string searchString)
         {
             var franchises = _context.Franchises.AsQueryable();
+
+            // Temporarily hardcode the user's email for testing
+            //string email = "susan.schlaack@smashmytrash.com"; // Replace with the actual user's email
+
 
             string email = User.Identity.Name;
 
@@ -718,7 +724,6 @@ namespace BusinessMVC2.Controllers
                         !string.IsNullOrWhiteSpace(row[2].ToString()) &&
                         int.TryParse(row[3].ToString(), out int vonigoClientId) &&
                         !string.IsNullOrWhiteSpace(row[4].ToString()) &&
-                        int.TryParse(row[5].ToString(), out int streetNo) &&
                         !string.IsNullOrWhiteSpace(row[6].ToString()) &&
                         !string.IsNullOrWhiteSpace(row[7].ToString()) &&
                         !string.IsNullOrWhiteSpace(row[8].ToString()) &&
@@ -728,6 +733,7 @@ namespace BusinessMVC2.Controllers
                         var franchiseName = row[0].ToString().Trim();
                         var clientName = row[2].ToString().Trim();
                         var serviceLocation = row[4].ToString().Trim();
+                        var streetNo = row[5].ToString().Trim();
                         var street = row[6].ToString().Trim();
                         var city = row[7].ToString().Trim();
                         var state = row[8].ToString().Trim();
@@ -1142,6 +1148,134 @@ namespace BusinessMVC2.Controllers
             return Regex.Replace(str, "[^a-zA-Z0-9_. ]+", "", RegexOptions.Compiled);
 
         }
+
+        public ActionResult SelectFranchise()
+        {
+            ViewBag.Franchises = _franchiseService.GetFranchises().Select(f => new SelectListItem
+            {
+                Value = f.FranchiseId.ToString(),
+                Text = f.FranchiseName
+            }).ToList();
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult ReviewClients(int franchiseId)
+        {
+            var franchiseDetails = _franchiseService.GetClientsByFranchiseId(franchiseId);
+            if (franchiseDetails == null)
+            {
+                // Handle the case where franchiseDetails is null
+            }
+
+            // Assuming franchiseDetails.Clients is a collection of client entities
+            var clientListItems = franchiseDetails.Clients.Select(client => new BusinessListItem
+            {
+                BusinessId = client.BusinessId,
+                BusinessName = client.BusinessName,
+                FranchiseId = client.FranchiseId,
+                FranchiseName = client.FranchiseName,
+                ServiceLocation = client.ServiceLocation
+                // Map other necessary properties here
+            }).ToList();
+
+            return View(clientListItems);
+        }
+        public ActionResult FranchisesWithOutOfStateClients()
+        {
+            int threshold = 10; // Set this based on your criteria
+            var franchises = _franchiseService.GetFranchisesWithOutOfStateClients(threshold);
+            return View(franchises);
+        }
+
+
+        [HttpPost]
+        public ActionResult DeleteClients(int[] clientIds)
+        {
+            foreach (var clientId in clientIds)
+            {
+                _clientService.DeleteBusiness(clientId); // Assuming such a method exists
+            }
+
+            TempData["Message"] = "Selected clients have been deleted.";
+            return RedirectToAction("Index"); // Redirect to a suitable page after deletion
+        }
+
+        public ActionResult ViewOutOfStateClients(int franchiseId)
+        {
+            // Retrieve the franchise including its clients
+            var franchise = _context.Franchises
+                                    .Include(f => f.Clients)
+                                    .FirstOrDefault(f => f.FranchiseId == franchiseId);
+
+            if (franchise == null)
+            {
+                // Handle the case when the franchise is not found
+                return HttpNotFound();
+            }
+
+            // Convert the business state to enum (adjust according to your logic)
+            var franchiseState = _franchiseService.ConvertToEnum(franchise.BusinessState);
+
+            // Get out-of-state clients
+            var outOfStateClients = franchise.Clients
+                                             .Where(c => c.State != franchiseState)
+                                             .Select(c => new OutOfStateClientViewModel
+                                             {
+                                                 ClientId = c.BusinessId,
+                                                 ClientName = c.BusinessName,
+                                                 ServiceLocation = c.ServiceLocation,
+                                                 // ... other properties you need
+                                             })
+                                             .ToList();
+
+            return View(outOfStateClients);
+        }
+
+
+
+
+        [HttpPost]
+        public ActionResult ProcessSelectedClients(int[] selectedClients)
+        {
+            // Logic to process selected clients
+            return RedirectToAction("Index"); // Redirect as needed
+        }
+
+        [HttpPost]
+        public ActionResult DeleteOutOfStateClients(int franchiseId)
+        {
+            // Logic to delete all out-of-state clients for the given franchiseId
+            // ...
+
+            TempData["SuccessMessage"] = "All out-of-state clients for the franchise have been deleted.";
+            return RedirectToAction("FranchisesWithOutOfStateClients"); // Or redirect to the appropriate view
+        }
+
+        // GET: Client/Import
+        public ActionResult Import()
+        {
+            try
+            {
+                // Define the relative path to the CSV file
+                string relativeFilePath = "~/Content/Uploads/import.csv";
+
+                // Call the import method
+                _clientService.ImportClientsFromCsv(relativeFilePath);
+
+                ViewBag.Message = "Clients imported successfully.";
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Message = "ERROR:" + ex.Message.ToString();
+            }
+
+            return View();
+        }
+
+
+
     }
 
 }

@@ -111,6 +111,10 @@ namespace BusinessData.Enum
         [Display(Name = "West Virginia")]
         WV,
         [Display(Name = "Wyoming")]
-        WY
+        WY,
+        // Adding 'Unknown' state
+        [Display(Name = "Unknown")]
+        Unknown
+
     }
 }

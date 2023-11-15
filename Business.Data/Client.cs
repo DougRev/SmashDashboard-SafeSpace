@@ -15,7 +15,7 @@ namespace BusinessData
 
         [Display(Name = "Facility ID")]
         public string FacilityID { get; set; }
-        public int? StreetNumber { get; set; }
+        public string StreetNumber { get; set; }
         public string Address { get; set; }
         public string City { get; set; }
         public State State { get; set; }

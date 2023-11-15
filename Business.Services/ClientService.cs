@@ -1,9 +1,17 @@
 ﻿using BusinessData;
+using BusinessData.Enum;
 using BusinessData.Interfaces;
 using BusinessModels;
 using BusinessShared;
+using CsvHelper;
+using CsvHelper.Configuration;
+using CsvHelper.Configuration.Attributes;
+using OpenQA.Selenium.DevTools;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -505,6 +513,186 @@ namespace BusinessServices
                 ctx.SaveChanges();
             }
         }
+
+
+        public class ClientImportModel
+        {
+            [Name("franchise")]
+            public string FranchiseName { get; set; }
+
+            [Name("franchiseID")]
+            public int FranchiseId { get; set; }
+
+            [Name("clientName")]
+            public string ClientName { get; set; }
+
+            [Name("clientID")]
+            public int ClientId { get; set; }
+
+            [Name("serviceLocation")]
+            public string ServiceLocation { get; set; }
+
+            [Name("streetNo")]
+            public string StreetNumber { get; set; }
+
+            [Name("locationStreet")]
+            public string Street { get; set; }
+
+            [Name("city")]
+            public string City { get; set; }
+
+            [Name("state")]
+            public string State { get; set; }
+
+            [Name("zip")]
+            public string ZipCode { get; set; }
+
+            [Name("contactName")]
+            public string ContactName { get; set; }
+        }
+
+        public class ClientImportModelMap : ClassMap<ClientImportModel>
+        {
+            public ClientImportModelMap()
+            {
+                Map(m => m.FranchiseName).Name("franchise");
+                Map(m => m.FranchiseId).Name("franchiseID");
+                Map(m => m.ClientName).Name("clientName");
+                Map(m => m.ClientId).Name("clientID");
+                Map(m => m.ServiceLocation).Name("serviceLocation");
+                Map(m => m.StreetNumber).Name("streetNo");
+                Map(m => m.Street).Name("locationStreet");
+                Map(m => m.City).Name("city");
+                Map(m => m.State).Name("state");
+                Map(m => m.ZipCode).Name("zip");
+                Map(m => m.ContactName).Name("contactName");
+            }
+        }
+
+
+        public void ImportClientsFromCsv(string relativeFilePath)
+        {
+            string filePath = System.Web.Hosting.HostingEnvironment.MapPath(relativeFilePath);
+            int processedCount = 0;
+
+            using (var transaction = _context.Database.BeginTransaction())
+            {
+                try
+                {
+                    using (var reader = new StreamReader(filePath))
+                    using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
+                    {
+                        var records = csv.GetRecords<ClientImportModel>().ToList();
+
+                        foreach (var record in records)
+                        {
+                            try
+                            {
+                                int franchiseId = FindFranchiseId(record.FranchiseName, record.FranchiseId);
+                                var existingClient = _context.Clients.FirstOrDefault(c => c.BusinessId == record.ClientId);
+
+                                if (existingClient != null)
+                                {
+                                    UpdateExistingClient(existingClient, record, franchiseId);
+                                    System.Diagnostics.Debug.WriteLine($"Updated client: {record.ClientName}");
+                                }
+                                else
+                                {
+                                    InsertNewClient(record, franchiseId);
+                                    System.Diagnostics.Debug.WriteLine($"Added new client: {record.ClientName}");
+                                }
+
+                                processedCount++;
+                            }
+                            catch (CsvHelper.TypeConversion.TypeConverterException ex)
+                            {
+                                System.Diagnostics.Debug.WriteLine($"Error in record {record.ClientId}: {ex.Message}");
+                                continue;
+                            }
+                        }
+
+                        _context.SaveChanges();
+                    }
+
+                    transaction.Commit();
+                    System.Diagnostics.Debug.WriteLine($"Total clients processed: {processedCount}");
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    System.Diagnostics.Debug.WriteLine("Import failed: " + ex.Message);
+                    throw;
+                }
+            }
+        }
+
+
+        private void UpdateExistingClient(Client existingClient, ClientImportModel record, int franchiseId)
+        {
+            existingClient.BusinessName = record.ClientName;
+            existingClient.FacilityID = record.ServiceLocation; // Adjust if different
+            existingClient.StreetNumber = record.StreetNumber;
+            existingClient.Address = record.Street;
+            existingClient.City = record.City;
+            existingClient.State = ConvertState(record.State); // Convert to Enum
+            existingClient.ZipCode = record.ZipCode;
+            existingClient.ContactName = record.ContactName;
+            existingClient.FranchiseId = franchiseId;
+            // Add or modify other fields as needed
+        }
+
+        private void InsertNewClient(ClientImportModel record, int franchiseId)
+        {
+            var newClient = new Client
+            {
+                BusinessId = record.ClientId,
+                BusinessName = record.ClientName,
+                FacilityID = record.ServiceLocation, // Adjust if different
+                StreetNumber = record.StreetNumber,
+                Address = record.Street,
+                City = record.City,
+                State = ConvertState(record.State), // Convert to Enum
+                ZipCode = record.ZipCode,
+                ContactName = record.ContactName,
+                FranchiseId = franchiseId,
+                // Add or modify other fields as needed
+            };
+
+            _context.Clients.Add(newClient);
+        }
+        // Ensure your State conversion method is appropriate for your needs
+        private State ConvertState(string stateAbbreviation)
+        {
+            if (Enum.TryParse<State>(stateAbbreviation, true, out var stateEnum))
+            {
+                return stateEnum;
+            }
+            else
+            {
+                // Handle cases where state abbreviation is invalid
+                return State.Unknown; // Or any default/placeholder value you prefer
+            }
+        }
+
+        private int FindFranchiseId(string franchiseName, int franchiseId)
+        {
+            // Convert both the names to lower (or upper) case for case-insensitive comparison
+            var franchise = _context.Franchises
+                .FirstOrDefault(f => f.FranchiseName.Trim().ToLower() == franchiseName.Trim().ToLower());
+
+
+            if (franchise != null)
+            {
+                return franchise.FranchiseId;
+            }
+            else
+            {
+                // Log the error for debugging
+                // For example: Log.Error($"Franchise not found for name: {franchiseName}");
+                return -1;
+            }
+        }
+
 
 
     }

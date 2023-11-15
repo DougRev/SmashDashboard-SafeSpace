@@ -138,6 +138,7 @@ namespace BusinessData
             "steve@apexcallcenters.com",
             "steve.radcliff@smashmytrash.com",
             "steve.shiffman@smashmytrash.com",
+            "susan.schlaack@smashmytrash.com",
             "tammy.wood@smashmytrash.com",
             "Teresa.Ayers@atg.in.gov",
             "tim.hazzard@smashmytrash.com",
