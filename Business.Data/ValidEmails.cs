@@ -20,6 +20,8 @@ namespace BusinessData
     {
         public static List<string> EmailList = new List<string>
         {
+            "testowner@smashmytrash.com",
+            "testgm@smashmytrash.com",
             "aaron.huntley@smashmytrash.com",
             "adam.wilver@smashmytrash.com",
             "techops@smashmytrash.com",
@@ -100,7 +102,6 @@ namespace BusinessData
             "kirk.anderson@smashmytrash.com",
             "kyle.cramer@smashmytrash.com",
             "kyle.granger@smashmytrash.com",
-            "klarson@365roi.com",
             "lisa.kissell@smashmytrash.com",
             "makaylynn.eiler@smashmytrash.com",
             "marc.fraga@smashmytrash.com",

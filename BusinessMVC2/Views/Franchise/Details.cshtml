@@ -2,6 +2,7 @@
 @using System.ComponentModel.DataAnnotations
 @using System.ComponentModel
 @using BusinessData
+@using BusinessData.Enum
 
 <head>
     <meta name="viewport" content="width=device-width" />
@@ -17,26 +18,28 @@
                 <th>Value</th>
             </tr>
         </thead>
-        <tbody id="">
+        <tbody>
+            <header>
+                <h1>Franchise Details</h1>
+            </header>
             @foreach (var prop in Model.GetType().GetProperties())
             {
-                if (prop.Name == "BusinessState") { continue; }
+                if (prop.Name == "BusinessState" || prop.Name == "OutOfStateClientCount" || prop.Name == "TotalCO2Saved" || prop.Name == "Clients")
+                {
+                    continue;
+                }
 
                 var displayName = prop.Name;
-
-                // Check for DisplayAttribute
                 var displayAttributes = prop.GetCustomAttributes(typeof(DisplayAttribute), false);
                 if (displayAttributes.Length > 0)
                 {
-                    var displayAttribute = displayAttributes[0] as DisplayAttribute;
-                    displayName = displayAttribute.Name;
+                    displayName = (displayAttributes[0] as DisplayAttribute).Name;
                 }
-                // If DisplayName is not found, check for DisplayNameAttribute
                 else
                 {
                     var displayNameAttributes = prop.GetCustomAttributes(typeof(DisplayNameAttribute), true)
-                                      .Cast<DisplayNameAttribute>()
-                                      .FirstOrDefault();
+                                                        .Cast<DisplayNameAttribute>()
+                                                        .FirstOrDefault();
                     if (displayNameAttributes != null)
                     {
                         displayName = displayNameAttributes.DisplayName;
@@ -46,47 +49,17 @@
                 var value = prop.GetValue(Model, null);
                 if (value != null)
                 {
-                    // Check if the value is a collection of Clients
-                    if (prop.PropertyType == typeof(ICollection<Client>))
+                    if (prop.Name == "Roles")
                     {
-                        var clients = value as ICollection<Client>;
-
-                        // Define the list of Client properties we want to display
-                        var clientPropsToDisplay = new[] { "", "" };
-
-                        foreach (var client in clients)
-                        {
-                            foreach (var clientPropName in clientPropsToDisplay)
-                            {
-                                var clientProp = typeof(Client).GetProperty(clientPropName);
-                                if (clientProp != null)
+                        <tr>
+                            <td>@displayName</td>
+                            <td>
+                                @foreach (var role in Model.Roles)
                                 {
-                                    var clientDisplayName = clientProp.Name;
-                                    var clientDisplayAttributes = clientProp.GetCustomAttributes(typeof(DisplayAttribute), false);
-                                    if (clientDisplayAttributes.Length > 0)
-                                    {
-                                        var clientDisplayAttribute = clientDisplayAttributes[0] as DisplayAttribute;
-                                        clientDisplayName = clientDisplayAttribute.Name;
-                                    }
-                                    else
-                                    {
-                                        var clientDisplayNameAttributes = clientProp.GetCustomAttributes(typeof(DisplayNameAttribute), true)
-                                        .Cast<DisplayNameAttribute>()
-                                        .FirstOrDefault();
-                                        if (clientDisplayNameAttributes != null)
-                                        {
-                                            clientDisplayName = clientDisplayNameAttributes.DisplayName;
-                                        }
-                                    }
-                                    var clientValue = clientProp.GetValue(client, null);
-
-                                    <tr>
-                                        <td>@clientDisplayName</td>
-                                        <td>@clientValue</td>
-                                    </tr>
+                                    <p>@role.Name (@role.Email) - @role.Role</p>
                                 }
-                            }
-                        }
+                            </td>
+                        </tr>
                     }
                     else
                     {
@@ -98,26 +71,14 @@
                 }
             }
         </tbody>
-
     </table>
+    <p>
+        @Html.ActionLink("Edit Franchise", "Edit", new { id = Model.FranchiseId }, new { @class = "edit-link" }) 
+    </p>
 
     <p>
-        @{
-            var userEmail = User.Identity.Name;
-            if (userEmail == "doug.revell@smashmytrash.com")
-            {
-                @Html.ActionLink("Edit", "Edit", new { id = Model.FranchiseId })
-                @:|
-                @:<br />
-            }
         @Html.ActionLink("Back to List", "Index")
-        }
     </p>
-    <script>
-        $(document).ready(function () {
-            $('#clientsTable').DataTable();
-        });
-    </script>
 }
 else
 {

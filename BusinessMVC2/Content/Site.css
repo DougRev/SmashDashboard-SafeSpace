@@ -576,3 +576,80 @@ position: relative;
 #create-title {
     padding-bottom: 60px;
 }
+
+/* Update Page */
+
+.container {
+    width: 80%;
+    margin: auto;
+    overflow: hidden;
+}
+
+.update-card {
+    background: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+    .update-card h2 {
+        color: #bb1e10;
+        font-size: 24px;
+        text-align: left;
+    }
+
+.update-date {
+    color: #666;
+    font-style: italic;
+}
+
+.update-description {
+    color: #444;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    padding: 20px 0;
+}
+
+/*    FRANCHISE EDIT PAGE  */
+
+.form-section {
+    background-color: #f7f7f7;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+    padding: 20px;
+}
+
+    .form-section h3 {
+        color: #bb1e10;
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+
+/* Responsive Design for Smaller Screens */
+@media screen and (max-width: 768px) {
+    .form-horizontal .form-group {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+        .form-horizontal .form-group label {
+            margin-bottom: 5px;
+        }
+
+    .form-horizontal input[type="submit"], .btn {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .table-container, .table {
+        width: 100%;
+    }
+}
+
+/* Additional styling for inputs, labels, buttons, etc. */

@@ -407,6 +407,7 @@
     <Compile Include="Models\FranchiseOwnerViewModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\OutOfStateClientViewModel.cs" />
+    <Compile Include="Models\QuoteDetailsViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -417,7 +418,12 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Images\favicon.ico" />
     <Content Include="Content\Images\navi-MGSdS-gXpoc-unsplash %281%29.png" />
-    <Content Include="Content\Images\Trinity Logo.png" />
+    <Content Include="Content\Images\SmashDashboard-Logo1.png" />
+    <Content Include="Content\Images\SMT-Gold-Badge.png" />
+    <Content Include="Content\Images\smt-logo.png" />
+    <Content Include="Content\Images\Trinity-Logo.png" />
+    <Content Include="Content\Images\trinity.png" />
+    <Content Include="Content\Images\work.png" />
     <Content Include="Content\PagedList.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -440,6 +446,8 @@
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\smt-webclient.json" />
     <Content Include="Content\Uploads\import.csv" />
+    <Content Include="Content\Uploads\clevelandcentral.csv" />
+    <Content Include="Content\Uploads\Acadiana_LA_Clients.csv" />
     <None Include="Properties\PublishProfiles\BusinessMVC220230407125015 - Web Deploy.pubxml" />
     <Content Include="Scripts\jquery-3.6.4.js" />
     <Content Include="Scripts\jquery-3.6.4.min.js" />
@@ -604,6 +612,10 @@
     <Content Include="Views\Client\FranchisesWithOutOfStateClients.cshtml" />
     <Content Include="Views\Client\ViewOutOfStateClients.cshtml" />
     <Content Include="Views\Client\Import.cshtml" />
+    <Content Include="Views\Franchise\EditRole.cshtml" />
+    <Content Include="Views\Home\Updates.cshtml" />
+    <Content Include="Views\Client\ClientPDF.cshtml" />
+    <Content Include="Views\Client\ClientPdf2.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

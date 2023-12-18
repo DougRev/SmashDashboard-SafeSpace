@@ -1,0 +1,111 @@
+franchise,franchiseID,clientName,clientID,serviceLocation,streetNo,locationStreet,state,city,zip,contactName
+Cleveland Central,136,"Goldberg Companies, Inc. - Pine Ridge Apartments",10880,"2252 Par Lane  WILLOUGHBY HILLS, OH 44094",2252,Par Lane,OH,WILLOUGHBY HILLS,44094.0,Derek Clager
+Cleveland Central,136,Tuff Shed,14776,"600 Beta Dr.  MAYFIELD, OH 44143",600,Beta Dr.,OH,MAYFIELD,44143.0,Carl Baldesare
+Cleveland Central,136,Ranpak Corporation,14016,"7990 Auburn Rd.  PAINESVILLE, OH 44077",7990,Auburn Rd.,OH,PAINESVILLE,44077.0,Eric Martin
+Cleveland Central,136,Talan Products,17555,"18800 Cochran Ave.  CLEVELAND, OH 44110",18800,Cochran Ave.,OH,CLEVELAND,44110.0,Nate Moore
+Cleveland Central,136,GoldOller Real Estate - The Vantage Apartments,15158,"27040 Cedar Rd.  BEACHWOOD, OH 44122",27040,Cedar Rd.,OH,BEACHWOOD,44122.0,Brandon Luck
+Cleveland Central,136,Mars Electric,9356,"6655 Beta Dr. Suite 200  Mayfield Village, OH 44143",6655,Beta Dr. Suite 200,OH,Mayfield Village,44143.0,Charles Curtis
+Cleveland Central,136,Goldberg Companies,30508,"26600 George Zeiger Dr  BEACHWOOD, OH 44122",26600,George Zeiger Dr,OH,BEACHWOOD,44122.0,Ryan Ault
+Cleveland Central,136,HGR Industrial Surplus,8216,"20001 Euclid ave  EUCLID, OH 44117",20001,Euclid ave,OH,EUCLID,44117.0,Brian McCloud
+Cleveland Central,136,RRW/Process Technology-19414,11052,"1732 1st Avenue #29637  New York City, NY 10128",1732,1st Avenue #29637,NY,New York City,10128.0,Finance Billing
+Cleveland Central,136,Winter Equipment Company,9865,"1900 Joseph Lloyd Parkway  WILLOUGHBY, OH 44094",1900,Joseph Lloyd Parkway,OH,WILLOUGHBY,44094.0,Joe Gustwiller
+Cleveland Central,136,Diversified Fall Protection,18489,"24400 Sperry Drive  CLEVELAND, OH 44145",24400,Sperry Drive,OH,CLEVELAND,44145.0,Brandon Dempsey
+Cleveland Central,136,Habitat for Humanity - Restore (B),9544,"34225 Vine Street  EASTLAKE, OH 44094",34225,Vine Street,OH,EASTLAKE,44094.0,Chris Molle
+Cleveland Central,136,Ohio Living - Breckenridge Village,13676,"36851 Ridge Rd.  WILLOUGHBY, OH 44094",36851,Ridge Rd.,OH,WILLOUGHBY,44094.0,Lisa Nebraski
+Cleveland Central,136,Chalfant,31621,"11525 Madison Ave  CLEVELAND, OH 44102",11525,Madison Ave,OH,CLEVELAND,44102.0,Connie Kone
+Cleveland Central,136,Component Repair Technologies (B),19952,"8507 Tyler Blvd  MENTOR, OH 44060",8507,Tyler Blvd,OH,MENTOR,44060.0,Mike Rondeau
+Cleveland Central,136,Alcon Industries,26271,"7990 Baker Avenue  CLEVELAND, OH 44102",7990,Baker Avenue,OH,CLEVELAND,44102.0,Casey Hickman
+Cleveland Central,136,Mayfran International,12702,"6650 Beta Dr.  CLEVELAND, OH 44143",6650,Beta Dr.,OH,CLEVELAND,44143.0,Amaury Toledo
+Cleveland Central,136,National Plating,30268,"6701 Hubbard Avenue  CLEVELAND, OH 44127",6701,Hubbard Avenue,OH,CLEVELAND,44127.0,Randy Jezerinac
+Cleveland Central,136,Watteredge,33436,"567 Miller Rd.  AVON, OH 44012",567,Miller Rd.,OH,AVON,44012.0,Jeff Gerrone
+Cleveland Central,136,AMG Realty Group (Vista),19706,"26151 Lakeshore Blvd  EUCLID, OH 44132",26151,Lakeshore Blvd,OH,EUCLID,44132.0,Shney K
+Cleveland Central,136,3rd Generation Home Improvement (B),30584,"35835 Vine Street  EASTLAKE, OH 44095",35835,Vine Street,OH,EASTLAKE,44095.0,Mike Scapbrato
+Cleveland Central,136,Goldberg Companies Copper Tree Apartments,12545,"1422 SOM Center Rd.  MAYFIELD HEIGHTS, OH 44124",1422,SOM Center Rd.,OH,MAYFIELD HEIGHTS,44124.0,Coppertree Maintenance
+Cleveland Central,136,Mctech Corporation,28785,"8100 Grand Ave #100  CLEVELAND, OH 44104",8100,Grand Ave #100,OH,CLEVELAND,44104.0,Anthony Calabrese
+Cleveland Central,136,Habitat for Humanity-Cleveland,19120,"2110 West 110th Street  CLEVELAND, OH 44102",2110,West 110th Street,OH,CLEVELAND,44102.0,Kevin Kelly
+Cleveland Central,136,Fives north american combustion inc.,27181,"4455 E 71st St  CLEVELAND, OH 44105",4455,E 71st St,OH,CLEVELAND,44105.0,Mike Orr
+Cleveland Central,136,AJH Management The Drake Apartments,12418,"6503 Marsol Rd.  MAYFIELD HEIGHTS, OH 44124",6503,Marsol Rd.,OH,MAYFIELD HEIGHTS,44124.0,Mark Bouguerra
+Cleveland Central,136,Rogers Company (B),15410,"7550 Tyler Blvd.  MENTOR, OH 44060",7550,Tyler Blvd.,OH,MENTOR,44060.0,Bill Vagi
+Cleveland Central,136,Bath Savers - 83 North Olmsted,22397,"31351 lorain  NORTH OLMSTED, OH 44070",31351,lorain,OH,NORTH OLMSTED,44070.0,jason Wood
+Cleveland Central,136,AMD Plastics,8213,"27600 Lakeland Blvd  EUCLID, OH 44132",27600,Lakeland Blvd,OH,EUCLID,44132.0,Jeff Marono
+Cleveland Central,136,HOMENIK DOOR,22767,"36690 Sugar Ridge Rd  NORTH RIDGEVILLE, OH 44039",36690,Sugar Ridge Rd,OH,NORTH RIDGEVILLE,44039.0,Jon Cramer
+Cleveland Central,136,"Enterprise Welding and Fabricating, Inc.",18025,"6257 Heisley Rd.  MENTOR, OH 44060",6257,Heisley Rd.,OH,MENTOR,44060.0,Mario Eldic
+Cleveland Central,136,NPAA,20022,"1110 Berea rd  CLEVELAND, OH 44102",1110,Berea rd,OH,CLEVELAND,44102.0,Tony Popernack
+Cleveland Central,136,Polymer Solutions Group,38551,"17000 St Clair Ave.  CLEVELAND, OH 44110",17000,St Clair Ave.,OH,CLEVELAND,44110.0,Brian Nawrocki
+Cleveland Central,136,trimark ss kemp,19113,"6551 Grant Ave  CLEVELAND, OH 44105",6551,Grant Ave,OH,CLEVELAND,44105.0,Jeremy Moldvay
+Cleveland Central,136,Nyman Construction,19710,"2207 crocker  WESTLAKE, OH 44145",2207,crocker,OH,WESTLAKE,44145.0,Michael Nyman
+Cleveland Central,136,Central Kitchens,38650,"7501 Carnegie Avenue  CLEVELAND, OH 44103",7501,Carnegie Avenue,OH,CLEVELAND,44103.0,Derek Rapkin
+Cleveland Central,136,Chalfant Mfg. Co,26082,"1050 Jaycox Road  AVON, OH 44011",1050,Jaycox Road,OH,AVON,44011.0,Chris Majzun
+Cleveland Central,136,Northern Stamping - Harvard Ave,38860,"5900 Harvard Avenue  CLEVELAND, OH 44105",5900,Harvard Avenue,OH,CLEVELAND,44105.0,Michael Ford
+Cleveland Central,136,Chemical Solvents,21419,"3751 Jennings Rd  CLEVELAND, OH 44109",3751,Jennings Rd,OH,CLEVELAND,44109.0,Dave Weber
+Cleveland Central,136,KP Pallet,18488,"4708 lakeside ave  CLEVELAND, OH 44114",4708,lakeside ave,OH,CLEVELAND,44114.0,Kerry McNamara
+Cleveland Central,136,RELMEC MECHANICAL LLC,18473,"4975 HAMILTON AVE  CLEVELAND, OH 44114",4975,HAMILTON AVE,OH,CLEVELAND,44114.0,Gary Pejeau
+Cleveland Central,136,Materion Corporation,33030,"7375 Industrial Parkway  LORAIN, OH 44053",7375,Industrial Parkway,OH,LORAIN,44053.0,Curtis Hawke
+Cleveland Central,136,Design Engineering,26168,"604 Moore Rd  AVON LAKE, OH 44012",604,Moore Rd,OH,AVON LAKE,44012.0,Dave Ramirez
+Cleveland Central,136,HORSBURGH & SCOTT,18744,"5114 Hamilton Avenue  CLEVELAND, OH 44114",5114,Hamilton Avenue,OH,CLEVELAND,44114.0,Tom McKinley
+Cleveland Central,136,20th Century Construction,36538,"7922 Ironwood Court  (unit:106)  Concord Township, OH 44077",7922,Ironwood Court  (unit:106),OH,Concord Township,44077.0,Chris Mulchin
+Cleveland Central,136,RGI Creative,22387,"34999 Mills Road  NORTH RIDGEVILLE, OH 44039",34999,Mills Road,OH,NORTH RIDGEVILLE,44039.0,George Tatro
+Cleveland Central,136,Ruggiero construction,39459,"12722 Boone Rd  COLUMBIA STATION, OH 44028",12722,Boone Rd,OH,COLUMBIA STATION,44028.0,Andy Walton
+Cleveland Central,136,Nyman Construction Co.,15850,"27621 Chagrin Boulevard  WOODMERE, OH 44122",27621,Chagrin Boulevard,OH,WOODMERE,44122.0,Mike Nyman
+Cleveland Central,136,Hanlon Composites,12091,"21611 tungsten  EUCLID, OH 44117",21611,tungsten,OH,EUCLID,44117.0,Patty Beard
+Cleveland Central,136,Jametown Village Apartments,39883,"4809 Columbia Road  NORTH OLMSTED, OH 44070",4809,Columbia Road,OH,NORTH OLMSTED,44070.0,Brian Rolf
+Cleveland Central,136,Enpress LLC,39990,"34899 Curtis Boulevard  EASTLAKE, OH 44095",34899,Curtis Boulevard,OH,EASTLAKE,44095.0,Fred Paneto
+Cleveland Central,136,Target PC Inc.,39991,"4711 East 355th Street  WILLOUGHBY, OH 44094",4711,East 355th Street,OH,WILLOUGHBY,44094.0,Alex Khaykin
+Cleveland Central,136,Bill Vadakin (B),10910,"18320 Lanken Ave  CLEVELAND, OH 44119",18320,Lanken Ave,OH,CLEVELAND,44119.0,Bill Vadakin
+Cleveland Central,136,Ridgestonebuilders,37024,"2154 Dover Center  WESTLAKE, OH 44145",2154,Dover Center,OH,WESTLAKE,44145.0,Matt Heinemann
+Cleveland Central,136,Pearce Projects,40304,"2171 Delaware Drive  CLEVELAND HEIGHTS, OH 44106",2171,Delaware Drive,OH,CLEVELAND HEIGHTS,44106.0,Pearce
+Cleveland Central,136,Cleveland Play House,40324,"7401 Detour Avenue  CLEVELAND, OH 44103",7401,Detour Avenue,OH,CLEVELAND,44103.0,Reynard Pope
+Cleveland Central,136,Enterprize Properties,40341,"1609 Wagar Avenue  LAKEWOOD, OH 44107",1609,Wagar Avenue,OH,LAKEWOOD,44107.0,Brian Rolf
+Cleveland Central,136,Ohio Living - Breckenridge Village - do not use,13624,"36851 Ridge Rd.  WILLOUGHBY, OH 44094",36851,Ridge Rd.,OH,WILLOUGHBY,44094.0,Warner Anderson
+Cleveland Central,136,Precision Castparts Corp,40505,"29501 Clayton  WICKLIFFE, OH 44092",29501,Clayton,OH,WICKLIFFE,44092.0,Todd Kastranak
+Cleveland Central,136,WyattWorks Plumbing,40506,"1372 Lloyd  WICKLIFFE, OH 44092",1372,Lloyd,OH,WICKLIFFE,44092.0,Frank Rogers
+Cleveland Central,136,wyattworks Plumbing,40507,"1372 Lloyd Road  WICKLIFFE, OH 44092",1372,Lloyd Road,OH,WICKLIFFE,44092.0,Frank Rogers
+Cleveland Central,136,Mann Brothers Property Restoration,9541,"8755 Munson Rd.  MENTOR, OH 44060",8755,Munson Rd.,OH,MENTOR,44060.0,Kevin Mann
+Cleveland Central,136,Laurel Residential,37837,"2866 Mayfield Road  CLEVELAND HEIGHTS, OH 44118",2866,Mayfield Road,OH,CLEVELAND HEIGHTS,44118.0,Avi Klavan
+Cleveland Central,136,North Coast Container LLC,41297,"8806 Crane Ave.  CLEVELAND, OH 44105",8806,Crane Ave.,OH,CLEVELAND,44105.0,Chuck Horton
+Cleveland Central,136,Reg Friesen,24185,"21700 Saint Clair Avenue  EUCLID, OH 44117",21700,Saint Clair Avenue,OH,EUCLID,44117.0,Reg Friesen
+Cleveland Central,136,Research Abrasive,13096,"1400 E. 286th St.  WICKLIFFE, OH 44092",1400,E. 286th St.,OH,WICKLIFFE,44092.0,Kenneth Dixon
+Cleveland Central,136,Winsupply of cleveland,41720,"4547 Hinckley Industrial Parkway  CLEVELAND, OH 44109",4547,Hinckley Industrial Parkway,OH,CLEVELAND,44109.0,Ben St. John
+Cleveland Central,136,ANG's Contractors,41788,"18900 Avon Belden Road  GRAFTON, OH 44044",18900,Avon Belden Road,OH,GRAFTON,44044.0,Angelo Amato
+Cleveland Central,136,Absolute Machine Tools,34519,"7420 Industrial Pkwy  LORAIN, OH 44053",7420,Industrial Pkwy,OH,LORAIN,44053.0,Jason Bartosch
+Cleveland Central,136,Aebi Schmidt,11175,"18513 Euclid Ave.  CLEVELAND, OH 44112",18513,Euclid Ave.,OH,CLEVELAND,44112.0,Omar Simmons
+Cleveland Central,136,Helix Linear,14779,"23200 Commerce Park Drive 23200 COMMERCE PARK DRIVE  BEACHWOOD, OH 44122",23200,Commerce Park Drive  COMMERCE PARK DRIVE,OH,BEACHWOOD,44122.0,Chris Nook
+Cleveland Central,136,Dubick fixture,43285,"6201 Euclid Ave.  CLEVELAND, OH 44103",6201,Euclid Ave.,OH,CLEVELAND,44103.0,Greg Hafeman
+Cleveland Central,136,Cabinetworks,15521,"15535 S State Ave  MIDDLEFIELD, OH 44062",15535,S State Ave,OH,MIDDLEFIELD,44062.0,Bill Jones
+Cleveland Central,136,Lakeland Commons Apartments,43415,"25450 Euclid Avenue  EUCLID, OH 44117",25450,Euclid Avenue,OH,EUCLID,44117.0,Angela Delaboin
+Cleveland Central,136,Tremco,43422,"3735 Green Road  BEACHWOOD, OH 44122",3735,Green Road,OH,BEACHWOOD,44122.0,Tom Biller
+Cleveland Central,136,Process Technology,22258,"7010 Lindsay Dr  MENTOR, OH 44060",7010,Lindsay Dr,OH,MENTOR,44060.0,Bob White
+Cleveland Central,136,Renew Flooring,24962,"20020 Saint Clair Ave.  EUCLID, OH 44117",20020,Saint Clair Ave.,OH,EUCLID,44117.0,Deborah Marquetti
+Cleveland Central,136,Drake Apartments,23881,"6503 Marsol Road  MAYFIELD HEIGHTS, OH 44124",6503,Marsol Road,OH,MAYFIELD HEIGHTS,44124.0,Arif Sitabkhan
+Cleveland Central,136,Allied Property Management,39736,"4211 West 20th Street  CLEVELAND, OH 44109",4211,West 20th Street,OH,CLEVELAND,44109.0,Brianah Poole
+Cleveland Central,136,Custom Culinary,44628,"35311 Avon Commerce Pkwy  AVON, OH 44011",35311,Avon Commerce Pkwy,OH,AVON,44011.0,Dan Russell
+Cleveland Central,136,"Goldberg Companies, Inc",18603,"1432 Golden Gate Blvd.  MAYFIELD HEIGHTS, OH 44124",1432,Golden Gate Blvd.,OH,MAYFIELD HEIGHTS,44124.0,Stephen Terrell
+Cleveland Central,136,All Pro Freight,44796,"33624 Pin Oak Parkway  AVON LAKE, OH 44012",33624,Pin Oak Parkway,OH,AVON LAKE,44012.0,Jerry Lingenfelter
+Cleveland Central,136,Joe Groskopf,44842,"341 Elm Street  JEFFERSON, OH 44047",341,Elm Street,OH,JEFFERSON,44047.0,Joe Groskopf
+Cleveland Central,136,Perfectcutoff,44999,"29201 Anderson Rd  WICKLIFFE, OH 44092",29201,Anderson Rd,OH,WICKLIFFE,44092.0,Jason Smith
+Cleveland Central,136,Dorchester Village Apartments,45002,"137 Chestnut Ln  RICHMOND HEIGHTS, OH 44143",137,Chestnut Ln,OH,RICHMOND HEIGHTS,44143.0,Diana Fury
+Cleveland Central,136,Pursuitaero,45003,"23555 Euclid Ave Suite 106  CLEVELAND, OH 44117",23555,Euclid Ave Suite 106,OH,CLEVELAND,44117.0,Jeanne Betley
+Cleveland Central,136,CHN Housing Partners,34038,"11215 Harvey Avenue  CLEVELAND, OH 44104",11215,Harvey Avenue,OH,CLEVELAND,44104.0,Christopher McNamara
+Cleveland Central,136,Lerebourn,45022,"9005 Headlands Road  MENTOR, OH 44060",9005,Headlands Road,OH,MENTOR,44060.0,John Lateulere
+Cleveland Central,136,Buckeyerm,45167,"9401 mentor ave unit 261  MENTOR, OH 44060",9401,mentor ave unit 261,OH,MENTOR,44060.0,Gary Labriola
+Cleveland Central,136,Zionstructures,45169,"759 Lakeshore blvd  PAINESVILLE, OH 44077",759,Lakeshore blvd,OH,PAINESVILLE,44077.0,Nathanial Medley
+Cleveland Central,136,Sonny's Chemistry,45171,"9050 Tyler Blvd  MENTOR, OH 44060",9050,Tyler Blvd,OH,MENTOR,44060.0,Dwayne Thornhill
+Cleveland Central,136,Key State Homes,45730,"2137 Murray Hill  CLEVELAND, OH 44106",2137,Murray Hill,OH,CLEVELAND,44106.0,Andrew Gotlied
+Cleveland Central,136,Cwp Technologies,25336,"3881 West 150th Street  CLEVELAND, OH 44111",3881,West 150th Street,OH,CLEVELAND,44111.0,Scott Ryals
+Cleveland Central,136,Total Line Refrigeration,23140,"33540 Pin Oak Parkway  AVON LAKE, OH 44012",33540,Pin Oak Parkway,OH,AVON LAKE,44012.0,Rusty Ladina
+Cleveland Central,136,Cleveland Rents Group,46074,"5401 Hamilton  CLEVELAND, OH 44120",5401,Hamilton,OH,CLEVELAND,44120.0,Christopher Boggs
+Cleveland Central,136,JM Property Management,46246,"7509 Aetna Road  CLEVELAND, OH 44105",7509,Aetna Road,OH,CLEVELAND,44105.0,Sonia Gaiton
+Cleveland Central,136,Apollo Welding & Fabricating,31241,"35600 Curtis Boulevard  EASTLAKE, OH 44095",35600,Curtis Boulevard,OH,EASTLAKE,44095.0,Tom Turkalj
+Cleveland Central,136,Comprehensive Logistics,33396,"5933 Baumhart  LORAIN, OH 44053",5933,Baumhart,OH,LORAIN,44053.0,Shane Russell
+Cleveland Central,136,48Forty Solutions - 306,46632,"400 Ryan Rd  SEVILLE, OH 44273",400,Ryan Rd,OH,SEVILLE,44273.0,Shawn Patterson
+Cleveland Central,136,Lance Neuschaefer,46638,"955 Taylor St  ELYRIA, OH 44035",955,Taylor St,OH,ELYRIA,44035.0,Lance Neuschaefer
+Cleveland Central,136,Torsion Group,46640,"13325 Darice Pkwy  STRONGSVILLE, OH 44149",13325,Darice Pkwy,OH,STRONGSVILLE,44149.0,Accounts Payable
+Cleveland Central,136,"Infinium Wall Systems, Inc.",46636,"21000 Infinium Way  STRONGSVILLE, OH 44035",21000,Infinium Way,OH,STRONGSVILLE,44035.0,Jason Zamecnik
+Cleveland Central,136,Amir Caldwell,47188,"1790 E 43rd St  CLEVELAND, OH 44103",1790,E 43rd St,OH,CLEVELAND,44103.0,Amir Caldwell
+Cleveland Central,136,"Perry Fiberglass Products, Inc.",47232,"611 Lowell  ELYRIA, OH 44035",611,Lowell,OH,ELYRIA,44035.0,Chad Pulliam
+Cleveland Central,136,AT&F,47391,"12314 Elmwood Ave  CLEVELAND, OH 44111",12314,Elmwood Ave,OH,CLEVELAND,44111.0,Marty Kleis
+Cleveland Central,136,Autokiniton,47899,"1190 Jaycox Road Avon  AVON, OH 44011",1190,Jaycox Road Avon,OH,AVON,44011.0,Michael Summer
+Cleveland Central,136,Enhanced Cleanouts,48043,"2288 E 55th st  CLEVELAND, OH 44103",2288,E 55th st,OH,CLEVELAND,44103.0,Jeremiah Ledford
+Cleveland Central,136,Judsons Smart Living,48087,"1890 E. 107th St.  CLEVELAND, OH 44106",1890,E. 107th St.,OH,CLEVELAND,44106.0,Robert Valdivia
+Cleveland Central,136,Robin Hood Homes,48238,"3790 Belmont  WOODMERE, OH 44122",3790,Belmont,OH,WOODMERE,44122.0,Jamal Morris
+Cleveland Central,136,Trademark Global,34065,"7951 West Erie Avenue  LORAIN, OH 44053",,,,,,Mike Tharp

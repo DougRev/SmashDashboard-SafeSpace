@@ -9,6 +9,7 @@ namespace BusinessMVC2
         public void Configuration(IAppBuilder app)
         {
             ConfigureAuth(app);
+
         }
 
     }

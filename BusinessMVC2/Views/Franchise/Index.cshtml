@@ -56,19 +56,19 @@
                 <td>
                     @{
                         var userEmail = User.Identity.Name;
+                        @Html.ActionLink("Edit", "Edit", new { id = item.FranchiseId })
+                        @:|
                         if (userEmail == "doug.revell@smashmytrash.com")
                         {
-                            @Html.ActionLink("Edit", "Edit", new { id = item.FranchiseId })
-                            @:|
                             @Html.ActionLink("Delete", "Delete", new { id = item.FranchiseId })
                             @:<br />
                         }
                         @Html.ActionLink("Details", "Details", new { id = item.FranchiseId })
                         @:|
                         @Html.ActionLink("Client List", "List", new { id = item.FranchiseId })
-
                     }
                 </td>
+
             </tr>
         }
     </tbody>

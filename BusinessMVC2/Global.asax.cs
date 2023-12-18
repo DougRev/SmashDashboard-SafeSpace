@@ -49,6 +49,20 @@ namespace BusinessMVC2
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            //// Create an instance of ApplicationDbContext
+            //using (var context = new ApplicationDbContext())
+            //{
+            //    // Assuming IUserIdProvider is implemented by a class UserIdProvider
+            //    // and it doesn't have any dependencies itself.
+            //    IUserIdProvider userIdProvider = new UserIdProvider();
+
+            //    // Create an instance of FranchiseService with the required dependencies
+            //    var franchiseService = new FranchiseService(context, userIdProvider);
+
+            //    // Call the method to clear Owner4
+            //    franchiseService.ClearOwner4(152); // Hardcoded franchise ID
+            //}
         }
     }
 }

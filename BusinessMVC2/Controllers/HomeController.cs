@@ -26,6 +26,12 @@ namespace BusinessMVC2.Controllers
 
             return View();
         }
+        public ActionResult Updates()
+        {
+            ViewBag.Message = "Your updates page.";
+
+            return View();
+        }
 
     }
 }

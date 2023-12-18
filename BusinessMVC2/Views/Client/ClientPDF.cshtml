@@ -1,0 +1,127 @@
+﻿@model BusinessModels.BusinessDetails
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Environmental Excellence Award</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: white;
+        }
+
+        .award-container {
+            border: 5px solid #4CAF50;
+            padding: 40px;
+            width: 80%;
+            margin: 50px auto;
+            color: #333;
+        }
+
+        .award-header p, .award-level p, .award-body p, .signatures p {
+            margin: 0;
+            text-align: center;
+        }
+
+        .award-header h1 {
+            margin: 0;
+            text-align: center;
+            color: #4CAF50;
+        }
+
+        .award-header h2 {
+            margin: 20px 0;
+            text-align: center;
+            color: #4CAF50;
+            font-weight: bold;
+        }
+
+        .award-level p {
+            margin: 20px 0;
+            text-align: center;
+            font-size: 1.2em;
+        }
+
+        .recipient-name h3 {
+            margin: 20px 0;
+            text-align: center;
+            font-weight: bold;
+            font-size: 2em;
+        }
+
+        .award-body {
+            margin: 40px 0;
+        }
+
+        .signatures {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        .signature p:first-child {
+            font-style: italic;
+        }
+
+        .signature p:last-child {
+            margin-top: 5px;
+        }
+        #logo, #badge {
+            max-width: 120px; /* Slightly larger for better visibility */
+            height: auto;
+            margin: 10px auto; /* Centering the images */
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="award-container">
+        <div class="award-header">
+            <p>IAPD PROUDLY PRESENTS</p>
+            <h1>THE 2022 IAPD</h1>
+            <h2>ENVIRONMENTAL EXCELLENCE AWARD</h2>
+        </div>
+        <img id="logo" src="https://smashdashstorage.blob.core.windows.net/smashdashblob/trinity.png" alt="Logo">
+        <div class="award-level">
+            <p>SILVER LEVEL TO:</p>
+        </div>
+        <div class="recipient-name">
+            <h3>Interstate Plastics</h3>
+        </div>
+        <div class="award-body">
+            <p>in recognition of their outstanding environmental achievements and</p>
+            <p>their ongoing stewardship of IAPD and the environment.</p>
+        </div>
+        <div class="signatures">
+            <div class="signature">
+                <p>Deborah Ragsdale</p>
+                <p>IAPD President</p>
+            </div>
+            <img id="badge" src="https://smashdashstorage.blob.core.windows.net/smashdashblob/SMT-Gold-Badge.png" alt="Logo">
+            <div class="signature">
+                <p>Susan Avery, CAE</p>
+                <p>IAPD Chief Executive Officer</p>
+            </div>
+        </div>
+    </div>
+        <script type="text/javascript">
+        window.onload = function () {
+            var navBar = document.getElementById("navbar");
+            var footer = document.getElementById("footer");
+
+            if (navBar) {
+                navBar.style.display = "none";
+            }
+            if (footer) {
+                footer.style.display = "none";
+            }
+        };
+    </script>
+</body>
+</html>

@@ -61,7 +61,7 @@
             </dt>
 
             <dd>
-                @Html.DisplayFor(model => model.ZipCode)
+                @Model.ZipCode.Split('.')[0]
             </dd>
 
             <dt>
@@ -71,13 +71,16 @@
             <dd>
                 @Html.DisplayFor(model => model.FranchiseName)
             </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.AccountName)
-            </dt>
+            @if (!string.IsNullOrEmpty(Model.AccountName))
+            {
+                <dt>
+                    @Html.DisplayNameFor(model => model.AccountName)
+                </dt>
 
-            <dd>
-                @Html.DisplayFor(model => model.AccountName)
-            </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.AccountName)
+                </dd>
+            }
             <dt>
                 @Html.DisplayNameFor(model => model.Compactibility)
             </dt>
@@ -87,12 +90,12 @@
             </dd>
 
             @*<dt>
-                @Html.DisplayNameFor(model => model.NumberOfDumpsters)
-            </dt>
+            @Html.DisplayNameFor(model => model.NumberOfDumpsters)
+        </dt>
 
-            <dd>
-                @Html.DisplayFor(model => model.NumberOfDumpsters)
-            </dd>*@
+        <dd>
+            @Html.DisplayFor(model => model.NumberOfDumpsters)
+        </dd>*@
 
             <dt>
                 @Html.DisplayNameFor(model => model.HaulsPerWeek)

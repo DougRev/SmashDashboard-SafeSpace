@@ -1,4 +1,5 @@
-﻿using BusinessData.Enum;
+﻿using BusinessData;
+using BusinessData.Enum;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -27,16 +28,26 @@ namespace BusinessModels.Franchise
 
         [DisplayName("Owner 1 Name")]
         public string Owner1 { get; set; }
+        public string Owner1Email { get; set; }
+
 
         [DisplayName("Owner 2 Name")]
         public string Owner2 { get; set; }
+        public string Owner2Email { get; set; }
+
 
         [DisplayName("Owner 3 Name")]
         public string Owner3 { get; set; }
+        public string Owner3Email { get; set; }
+
 
         [DisplayName("Owner 4 Name")]
         public string Owner4 { get; set; }
+        public string Owner4Email { get; set; }
+
         //public Guid OwnerId { get; set; }
+        public List<FranchiseRoleModel> Roles { get; set; }
+        public FranchiseRoleModel NewRole { get; set; }
 
     }
 }

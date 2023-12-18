@@ -693,6 +693,34 @@ namespace BusinessServices
             }
         }
 
+        public bool AssignOrphanClientsToFranchise(int targetFranchiseId)
+        {
+            // Retrieve all clients that do not have a FranchiseId assigned.
+            var orphanClients = _context.Clients.Where(client => client.FranchiseId == null).ToList();
+
+            if (!orphanClients.Any())
+            {
+                // No orphan clients found.
+                return false;
+            }
+
+            // Retrieve the target franchise to ensure it exists.
+            var franchise = _context.Franchises.Find(targetFranchiseId);
+            if (franchise == null)
+            {
+                // Franchise with the given ID does not exist.
+                return false;
+            }
+
+            // Assign each orphan client to the target franchise.
+            foreach (var client in orphanClients)
+            {
+                client.FranchiseId = targetFranchiseId;
+            }
+
+            // Save the changes to the database.
+            return _context.SaveChanges() > 0;
+        }
 
 
     }

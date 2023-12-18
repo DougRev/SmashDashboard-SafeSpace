@@ -34,5 +34,15 @@ namespace BusinessModels.Franchise
         [Required]
         public State State { get; set; }
         public List<Client> Clients { get; set; }
+        public List<FranchiseRoleModel> Roles { get; set; }
+
+        public class FranchiseRoleModel
+        {
+            public string Name { get; set; }
+            public string Email { get; set; }
+            public string Phone { get; set; }
+            public RoleType Role { get; set; } // Assuming RoleType is an enum defined elsewhere
+        }
+
     }
 }

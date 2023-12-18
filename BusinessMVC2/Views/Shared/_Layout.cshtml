@@ -48,6 +48,7 @@
                     {
                         <li>@Html.ActionLink("Franchises", "Index", "Franchise")</li>
                         <li>@Html.ActionLink("Clients", "Index", "Client")</li>
+                        <li>@Html.ActionLink("Updates", "Updates", "Home")</li>
                         if (User.Identity.IsAuthenticated && BusinessData.ValidEmails.NationalAccountsEmailList.Contains(User.Identity.Name))
                         {
                             <li>@Html.ActionLink("National Accounts", "Index", "NationalAccount")</li>
@@ -62,7 +63,7 @@
     <div class="container body-content">
         @RenderBody()
         <hr />
-        <footer>
+        <footer id="footer">
             <p>&copy; @DateTime.Now.Year - Smash My Trash</p>
         </footer>
     </div>

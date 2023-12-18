@@ -23,7 +23,7 @@ namespace BusinessData
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
+            : base("LocalConnection", throwIfV1Schema: false)
         {
         }
 
@@ -40,6 +40,10 @@ namespace BusinessData
         public DbSet<WorkOrder> WorkOrders { get; set; }
         public DbSet<WOCharges> Charges { get; set; }
         public DbSet<TestClient> TestClients { get; set; }
+        public DbSet<FranchiseRole> FranchiseRoles { get; set; }
+        //public DbSet<ValidEmails> ValidEmails { get; set; }
+
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder
@@ -56,6 +60,12 @@ namespace BusinessData
                 .WithRequired(c => c.Franchise)
                 .HasForeignKey(c => c.FranchiseId)
                 .WillCascadeOnDelete(false);  // Disables cascade delete for Clients when Franchise is deleted.
+
+            modelBuilder.Entity<Franchise>()
+                .HasMany(f => f.Roles) // Assuming 'Roles' is a collection property in Franchise
+                .WithRequired() // Or .WithOptional() if the role does not require a franchise
+                .HasForeignKey(r => r.FranchiseId); // Assuming FranchiseRole has a FranchiseId foreign key
+
 
             modelBuilder.Entity<Client>()
                 .HasMany(c => c.Locations)

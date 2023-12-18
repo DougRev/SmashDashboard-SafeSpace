@@ -56,11 +56,11 @@ namespace BusinessMVC2.Controllers
 
         private static readonly ILog Log = LogManager.GetLogger(typeof(Client));
 
-
         // GET: Clients
         public ActionResult Index(string searchString)
         {
-            var franchises = _context.Franchises.AsQueryable();
+            //var franchises = _context.Franchises.Include(f => f.Clients).AsQueryable();
+            var franchises = _context.Franchises.Include(f => f.Clients).Include(f => f.Roles).AsQueryable();
 
             // Temporarily hardcode the user's email for testing
             //string email = "susan.schlaack@smashmytrash.com"; // Replace with the actual user's email
@@ -92,17 +92,42 @@ namespace BusinessMVC2.Controllers
                     formattedName = formattedName.Replace(firstFormattedName, abbreviations[firstFormattedName]);
                 }
 
-                // Get all franchises owned by the currently logged-in user
-                franchises = franchises.Where(f => f.Owner1.Trim() == formattedName ||
-                                                   f.Owner2.Trim() == formattedName ||
-                                                   f.Owner3.Trim() == formattedName ||
-                                                   f.Owner4.Trim() == formattedName);
+                // Fetch franchises based on owner names
+                var ownerFranchises = franchises.Where(f => f.Owner1.Trim() == formattedName ||
+                                                             f.Owner2.Trim() == formattedName ||
+                                                             f.Owner3.Trim() == formattedName ||
+                                                             f.Owner4.Trim() == formattedName);
+
+                // Fetch franchises based on role emails
+                var roleFranchises = franchises.Where(f => f.Roles.Any(role => role.Email.Trim().Equals(email, StringComparison.OrdinalIgnoreCase)));
+
+                // Debugging: Print out the fetched franchises for inspection
+                foreach (var franchise in roleFranchises)
+                {
+                    Console.WriteLine($"Franchise ID: {franchise.FranchiseId}, Franchise Name: {franchise.FranchiseName}");
+                    foreach (var role in franchise.Roles)
+                    {
+                        Console.WriteLine($"-- Role: {role.Role}, Email: {role.Email}");
+                    }
+                }
+
+
+                // Combine both lists, removing duplicates
+                var combinedFranchises = ownerFranchises.Union(roleFranchises).ToList();
+                // Debugging: Print out combined franchises
+                Console.WriteLine("Combined Franchises:");
+                foreach (var franchise in combinedFranchises)
+                {
+                    Console.WriteLine($"Franchise ID: {franchise.FranchiseId}, Franchise Name: {franchise.FranchiseName}");
+                }
 
                 // Get all client ids associated with these franchises
-                var clientIds = franchises.SelectMany(f => f.Clients.Select(c => c.BusinessId)).ToList();
+                var clientIds = combinedFranchises.SelectMany(f => f.Clients.Select(c => c.BusinessId)).ToList();
 
                 // Filter businesses to only those owned by the franchises
                 businessesQuery = businessesQuery.Where(b => clientIds.Contains(b.BusinessId));
+
+
             }
 
             if (!String.IsNullOrEmpty(searchString))
@@ -116,6 +141,7 @@ namespace BusinessMVC2.Controllers
 
             return View(businesses);
         }
+
 
 
         public ActionResult Create()
@@ -349,7 +375,8 @@ namespace BusinessMVC2.Controllers
             string script = "function hideNavbar(){var e=document.getElementsByClassName('navbar')[0];if(e){e.style.display='none';}}; hideNavbar();";
 
             // generate HTML code for the business details and inject JavaScript to hide the navbar
-            string htmlString = RenderViewToString(ControllerContext, "~/Views/Client/BusinessDetailsToPdf.cshtml", model, script);
+            //string htmlString = RenderViewToString(ControllerContext, "~/Views/Client/BusinessDetailsToPdf.cshtml", model, script);
+            string htmlString = RenderViewToString(ControllerContext, "~/Views/Client/ClientPdf2.cshtml", model, script);
 
 
             // instantiate a html to pdf converter object
@@ -381,7 +408,7 @@ namespace BusinessMVC2.Controllers
 
             // set converter options
             converter.Options.PdfPageSize = pageSize;
-            converter.Options.PdfPageOrientation = pdfOrientationEnum;
+            converter.Options.PdfPageOrientation = PdfPageOrientation.Landscape;
             converter.Options.WebPageWidth = webPageWidth;
             converter.Options.WebPageHeight = webPageHeight;
 
@@ -1259,7 +1286,7 @@ namespace BusinessMVC2.Controllers
             try
             {
                 // Define the relative path to the CSV file
-                string relativeFilePath = "~/Content/Uploads/import.csv";
+                string relativeFilePath = "~/Content/Uploads/Acadiana_LA_Clients.csv";
 
                 // Call the import method
                 _clientService.ImportClientsFromCsv(relativeFilePath);
@@ -1273,6 +1300,40 @@ namespace BusinessMVC2.Controllers
 
             return View();
         }
+
+        // GET: Certificate/ClientPdf2
+        public ActionResult ClientPdf2()
+        {
+            var model = new BusinessDetails
+            {
+                // Populate your model as necessary
+                BusinessName = "Addison County Solid Waste District",
+                // ... other properties
+            };
+
+            return View(model);
+        }
+
+        // In ClientController.cs
+
+        [HttpPost]
+        public ActionResult AssignOrphanClients()
+        {
+            const int TargetFranchiseId = 152;
+            bool result = _clientService.AssignOrphanClientsToFranchise(TargetFranchiseId);
+
+            if (result)
+            {
+                TempData["SuccessMessage"] = "All orphan clients have been successfully assigned to the target franchise.";
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "There was an error assigning orphan clients, or there were no orphan clients to assign.";
+            }
+
+            return RedirectToAction("Index"); // Redirect to the client list or a relevant page
+        }
+
 
 
 

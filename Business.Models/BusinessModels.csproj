@@ -107,6 +107,7 @@
     <Compile Include="Franchise\FranchiseDetails.cs" />
     <Compile Include="Franchise\FranchiseEdit.cs" />
     <Compile Include="Franchise\FranchiseListItem.cs" />
+    <Compile Include="Franchise\FranchiseRoleModel.cs" />
     <Compile Include="NationalAccount\AccountCreate.cs" />
     <Compile Include="NationalAccount\AccountEdit.cs" />
     <Compile Include="NationalAccount\AccountListItem.cs" />

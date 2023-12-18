@@ -144,8 +144,10 @@
     <Compile Include="Contact.cs" />
     <Compile Include="Emissions.cs" />
     <Compile Include="Enum\Compactibility.cs" />
+    <Compile Include="Enum\RoleType.cs" />
     <Compile Include="Enum\State.cs" />
     <Compile Include="Franchise.cs" />
+    <Compile Include="FranchiseRole.cs" />
     <Compile Include="IdentityModels.cs" />
     <Compile Include="Interfaces\IUserProvider.cs" />
     <Compile Include="Invoice.cs" />
@@ -189,6 +191,10 @@
     <Compile Include="Migrations\202311151447040_addUnknowntoState.cs" />
     <Compile Include="Migrations\202311151447040_addUnknowntoState.designer.cs">
       <DependentUpon>202311151447040_addUnknowntoState.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202311152001470_addFranchiseRole.cs" />
+    <Compile Include="Migrations\202311152001470_addFranchiseRole.designer.cs">
+      <DependentUpon>202311152001470_addFranchiseRole.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="NationalAccount.cs" />
@@ -252,6 +258,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202311151447040_addUnknowntoState.resx">
       <DependentUpon>202311151447040_addUnknowntoState.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202311152001470_addFranchiseRole.resx">
+      <DependentUpon>202311152001470_addFranchiseRole.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

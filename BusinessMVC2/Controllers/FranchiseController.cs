@@ -19,6 +19,8 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using System.Data.Entity;
+
 
 namespace BusinessMVC2.Controllers
 {
@@ -36,23 +38,23 @@ namespace BusinessMVC2.Controllers
         // GET: Franchise
         public ActionResult Index(bool showAll = false)
         {
-            var franchises = _context.Franchises.AsQueryable();
+            var franchises = _context.Franchises.Include(f => f.Roles).AsQueryable();
 
             if (User.Identity.IsAuthenticated)
             {
-                // If admin
-                if (User.Identity.Name == "doug.revell@smashmytrash.com")
+                var email = User.Identity.Name;
+
+                // Admin user
+                if (email == "doug.revell@smashmytrash.com")
                 {
                     if (!showAll)
                     {
                         franchises = franchises.Where(f => f.IsActive);
                     }
                 }
-                else if (User.Identity.Name.EndsWith("@smashmytrash.com"))
+                else if (email.EndsWith("@smashmytrash.com"))
                 {
-                    // User is a franchise owner
-                    var email = User.Identity.Name;
-
+                    // User is a franchise owner or has a role in a franchise
                     var names = email.Split('@')[0].Split('.');
                     var formattedName = string.Join(" ", names.Select(name => char.ToUpper(name[0]) + name.Substring(1)));
 
@@ -66,17 +68,22 @@ namespace BusinessMVC2.Controllers
                     };
 
                     // Check if first name is in the abbreviation map, if so replace with full name
-                    var firstFormattedName = formattedName.Split(' ')[0];
-                    if (abbreviations.ContainsKey(firstFormattedName))
+                    if (abbreviations.TryGetValue(formattedName.Split(' ')[0], out var fullName))
                     {
-                        formattedName = formattedName.Replace(firstFormattedName, abbreviations[firstFormattedName]);
+                        formattedName = formattedName.Replace(formattedName.Split(' ')[0], fullName);
                     }
 
-                    franchises = franchises.Where(f => f.Owner1.Trim() == formattedName ||
-                                                       f.Owner2.Trim() == formattedName ||
-                                                       f.Owner3.Trim() == formattedName ||
-                                                       f.Owner4.Trim() == formattedName);
+                    // Fetch franchises based on owner names
+                    var ownerFranchises = franchises.Where(f => f.Owner1.Trim() == formattedName ||
+                                                                f.Owner2.Trim() == formattedName ||
+                                                                f.Owner3.Trim() == formattedName ||
+                                                                f.Owner4.Trim() == formattedName);
 
+                    // Fetch franchises based on role emails
+                    var roleFranchises = franchises.Where(f => f.Roles.Any(role => role.Email.Trim().Equals(email, StringComparison.OrdinalIgnoreCase)));
+
+                    // Combine both lists, removing duplicates
+                    franchises = ownerFranchises.Union(roleFranchises);
                 }
             }
             else if (!showAll)
@@ -94,6 +101,7 @@ namespace BusinessMVC2.Controllers
 
             return View(franchiseListItems);
         }
+
 
 
         public ActionResult Create()
@@ -115,25 +123,31 @@ namespace BusinessMVC2.Controllers
             return RedirectToAction("Index");
         }
 
-        //GET: Details
-        //Franchise/Details/{id}
+        // GET: Details
+        // Franchise/Details/{id}
         public ActionResult Details(int id)
         {
-            var model = _franchiseService.GetClientsByFranchiseId(id);
-            // Ensure model is not null before passing it to the view
+            var model = _franchiseService.GetFranchiseById(id); // Using GetFranchiseById to fetch all details
             if (model == null)
             {
-                // handle error, e.g., return an error view or redirect
+                // Handle the situation where the franchise is not found
+                return HttpNotFound(); // or another appropriate action
             }
             return View(model);
         }
 
 
-        //GET: Edit
-        //Franchise/Edit/{id}
+        // GET: Edit
+        // Franchise/Edit/{id}
         public ActionResult Edit(int id)
         {
             var detail = _franchiseService.GetFranchiseById(id);
+            if (detail == null)
+            {
+                // Handle the case where the franchise is not found
+                return HttpNotFound();
+            }
+
             var model = new FranchiseEdit
             {
                 FranchiseId = detail.FranchiseId,
@@ -145,12 +159,14 @@ namespace BusinessMVC2.Controllers
                 Owner2 = detail.Owner2,
                 Owner3 = detail.Owner3,
                 Owner4 = detail.Owner4,
+                Roles = detail.Roles ?? new List<FranchiseRoleModel>() // Ensure Roles is initialized
             };
+
             return View(model);
         }
 
-        //POST: Edit
-        //Franchise/Edit/{id}
+        // POST: Edit
+        // Franchise/Edit/{id}
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, FranchiseEdit model)
@@ -158,13 +174,43 @@ namespace BusinessMVC2.Controllers
             var currentUserId = User.Identity.GetUserId();
             if (!ModelState.IsValid) return View(model);
 
-
             if (model.FranchiseId != id)
             {
                 ModelState.AddModelError("", "Id Mismatch");
                 return View(model);
             }
 
+            // Check and add the new role if provided
+            if (model.NewRole != null)
+            {
+                var newRoleModel = new BusinessModels.Franchise.FranchiseRoleModel
+                {
+                    // Map the properties from model.NewRole to newRoleModel
+                    Name = model.NewRole.Name,
+                    Email = model.NewRole.Email,
+                    Phone = model.NewRole.Phone,
+                    Role = model.NewRole.Role
+                };
+
+                var addRoleSuccess = _franchiseService.AddRoleToFranchise(id, newRoleModel);
+                if (!addRoleSuccess)
+                {
+                    ModelState.AddModelError("", "Could not add the new role.");
+                    return View(model);
+                }
+                // Re-fetch the franchise details to get the latest state
+                var updatedFranchiseDetails = _franchiseService.GetFranchiseById(id);
+                model.FranchiseName = updatedFranchiseDetails.FranchiseName;
+                model.IsActive = updatedFranchiseDetails.IsActive;
+                model.Owner1 = updatedFranchiseDetails.Owner1;
+                model.Owner1Email = updatedFranchiseDetails.Owner1Email;
+                model.Owner2 = updatedFranchiseDetails.Owner2;
+                model.Owner2Email = updatedFranchiseDetails.Owner2Email;
+                model.Owner3 = updatedFranchiseDetails.Owner3;
+                model.Owner3Email = updatedFranchiseDetails.Owner3Email;
+                model.Owner4 = updatedFranchiseDetails.Owner4;
+                model.Owner4Email = updatedFranchiseDetails.Owner4Email;
+            }
 
             if (_franchiseService.UpdateFranchise(model))
             {
@@ -175,6 +221,59 @@ namespace BusinessMVC2.Controllers
             ModelState.AddModelError("", "Your Franchise could not be updated.");
             return View(model);
         }
+        public ActionResult EditRole(int roleId)
+        {
+            var role = _franchiseService.GetRoleById(roleId); // Implement this method in your service
+            if (role == null)
+            {
+                return HttpNotFound();
+            }
+
+            var model = new FranchiseRoleModel
+            {
+                FranchiseRoleId = role.FranchiseRoleId,
+                Name = role.Name,
+                Email = role.Email,
+                Phone = role.Phone,
+                Role = role.Role
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditRole(FranchiseRoleModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var updateSuccess = _franchiseService.UpdateRole(model.FranchiseRoleId, model);
+            if (updateSuccess)
+            {
+                return RedirectToAction("Edit", new { id = model.FranchiseId });
+            }
+
+            ModelState.AddModelError("", "Unable to update the role. Please try again.");
+            return View(model);
+        }
+
+
+        // GET: Franchise/DeleteRole/{roleId}
+        public ActionResult DeleteRole(int roleId)
+        {
+            var deleteSuccess = _franchiseService.DeleteRole(roleId);
+            if (!deleteSuccess)
+            {
+                // Handle the error scenario
+            }
+
+            // Redirect to a relevant page after deletion
+            return RedirectToAction("Index"); // Adjust the redirection as needed
+        }
+
 
         //GET: Delete
         //Franchise/Delete/{id}
@@ -287,7 +386,6 @@ namespace BusinessMVC2.Controllers
                 return new RedirectResult(result.RedirectUri);
             }
         }
-
         private async Task ImportOwnersIFX(UserCredential credential)
         {
             string ApplicationName = "Territory Info";
@@ -304,16 +402,14 @@ namespace BusinessMVC2.Controllers
             var values = response.Values;
 
             var franchises = new List<Franchise>();
+            var changeDetails = new List<string>(); // List to track changes
 
             using (var db = new ApplicationDbContext())
             {
                 foreach (var row in values)
                 {
                     var franchiseName = row[0].ToString();
-
-                    // Search for the existing franchise in the database
-                    var franchise = db.Franchises
-                        .FirstOrDefault(f => f.FranchiseName == franchiseName);
+                    var franchise = db.Franchises.FirstOrDefault(f => f.FranchiseName == franchiseName);
 
                     if (franchise == null)
                     {
@@ -334,6 +430,8 @@ namespace BusinessMVC2.Controllers
                         };
                         franchise.IsActive = true;
                         db.Franchises.Add(franchise);
+
+                        changeDetails.Add($"Created new franchise: {franchiseName}");
                     }
                     else
                     {
@@ -349,23 +447,23 @@ namespace BusinessMVC2.Controllers
                         franchise.Territories = row.Count > 10 ? row[10].ToString() : null;
                         franchise.BusinessState = row.Count > 11 ? row[11].ToString() : null;
                         franchise.IsActive = true;
+
+                        changeDetails.Add($"Updated franchise: {franchiseName}");
                     }
                 }
 
-                var changes = db.SaveChanges();
+                db.SaveChanges();
+            }
 
-                if (changes > 0)
-                {
-                    TempData["Notification"] = $"{changes} records were updated.";
-                }
-                else
-                {
-                    TempData["Notification"] = "No changes were made.";
-                }
-
+            if (changeDetails.Any())
+            {
+                TempData["Notification"] = $"Changes made:\n{string.Join("\n", changeDetails)}";
+            }
+            else
+            {
+                TempData["Notification"] = "No changes were made.";
             }
         }
-
 
         public async Task<ActionResult> TestUpdateIFXGoogleSheet()
         {

@@ -1,0 +1,114 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certificate</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #f7f7f7;
+            box-sizing: border-box;
+        }
+
+        .certificate {
+            display: grid;
+            grid-template-columns: 70% 30%;
+            margin: 20px auto;
+            background-color: #f7f7f7;
+            background-image: url('https://smashdashstorage.blob.core.windows.net/smashdashblob/texture-bg.jpg'); /* Add the pattern image */
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .text-section {
+            padding: 1in;
+            box-sizing: border-box;
+            background-image: url('https://smashdashstorage.blob.core.windows.net/smashdashblob/texture-bg.jpg'); /* Add the pattern image */
+            background-size: cover;
+        }
+
+        .logo-section {
+            background-color: #004445; /* Dark green background */
+            background: radial-gradient(circle at center, #1c645d, #02443f); /* Radial gradient from center to edges */
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .header h1, .header h2 {
+            margin: 0;
+            color: #ffffff;
+            background-color: #007367; /* Lighter green background */
+            display: inline-block;
+            padding: 0.2em 0.4em;
+        }
+
+        h3 {
+            font-size: 2em;
+            margin: 0.5em 0;
+            color: #004445;
+        }
+
+        .recipient-name {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin: 0.5em 0;
+        }
+
+        .recognition-text {
+            margin: 0.5em 0;
+            font-size: 1em;
+        }
+
+        .logo {
+            width: 80%; /* Adjust based on actual logo size */
+            align-self: center;
+        }
+        #badge {
+            width:10%;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="certificate">
+        <div class="text-section">
+            <!-- Text and other elements -->
+            <div class="header">
+                <h1>2020</h1>
+                <h2>Top 100</h2>
+            </div>
+            <h3>LEADER IN SUSTAINABILITY</h3>
+            <p class="recipient-name">Addison County Solid Waste District</p>
+            <p class="recognition-text">is hereby recognized as a 2020 Top 100 Leader in Sustainability for diverting more than 12,600 pounds of batteries in 2020 through the Call2Recycle® battery collection and recycling program. We applaud your commitment to the environment and responsible battery management.</p>
+            <div class="signature">
+                <img src="signature.png" alt="Signature">
+                <p>Leo Raudys, CEO & President</p>
+                <p>Call2Recycle, Inc.</p>
+            </div>
+        </div>
+        <div class="logo-section">
+            <!-- Logo will go here, you can use an img tag to insert it -->
+            <img id="badge" src="https://smashdashstorage.blob.core.windows.net/smashdashblob/SMT-Gold-Badge.png" alt="Sustainability Logo" class="logo">
+        </div>
+    </div>
+    <script type="text/javascript">
+        window.onload = function () {
+            var navBar = document.getElementById("navbar");
+            var footer = document.getElementById("footer");
+
+            if (navBar) {
+                navBar.style.display = "none";
+            }
+            if (footer) {
+                footer.style.display = "none";
+            }
+        };
+    </script>
+</body>
+</html>

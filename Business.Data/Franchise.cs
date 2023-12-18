@@ -35,8 +35,7 @@ namespace BusinessData
         public virtual ICollection<Invoice> Invoices { get; set; }
         public virtual ICollection<WorkOrder> WorkOrders { get; set; }
         public virtual ICollection<WOCharges> WOCharges { get; set; }
-
-
+        public virtual ICollection<FranchiseRole> Roles { get; set; } = new List<FranchiseRole>();
 
         public List<Client> GetClientsByFranchiseId(int franchiseId)
         {

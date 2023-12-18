@@ -92,7 +92,7 @@ namespace BusinessModels.Franchise
         public string Locations { get; set; }
         public string StateReach { get; set; }
         public float TotalCO2Saved { get; set; }
-
+        public List<FranchiseRoleModel> Roles { get; set; }
         public string BusinessState
         {
             get

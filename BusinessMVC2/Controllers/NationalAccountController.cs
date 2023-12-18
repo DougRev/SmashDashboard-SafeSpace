@@ -147,7 +147,7 @@ namespace BusinessMVC2.Controllers
                 BusinessId = c.BusinessId,
                 BusinessName = c.BusinessName,
                 FranchiseName = c.Franchise.FranchiseName,
-                AccountName = c.AccountName,
+                AccountName = c.NationalAccount.AccountName,
                 FacilityID = c.FacilityID,
                 Address = c.Address,
                 City = c.City,

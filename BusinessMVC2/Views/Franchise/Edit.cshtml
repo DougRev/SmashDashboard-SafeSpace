@@ -1,56 +1,126 @@
-﻿@model BusinessModels.Franchise.FranchiseEdit
+﻿@using BusinessData.Enum
+@model BusinessModels.Franchise.FranchiseEdit
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Edit Franchise Info";
 }
 
 <h2>Edit Franchise Info</h2>
 
-
-@using (Html.BeginForm())
+<!-- Franchise Information Form -->
+@using (Html.BeginForm("Edit", "Franchise", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
 
-<div class="form-horizontal">
-    <hr />
+<div class="form-section">
+    <h3>Franchise Information</h3>
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    <div class="form-group">
-        @Html.HiddenFor(model => model.FranchiseId, htmlAttributes: new { @class = "control-label col-md-4" })
+    @Html.HiddenFor(model => model.FranchiseId)
 
-    </div>
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "control-label col-md-4" })
-        <div class="col-md-8">
-            @Html.EditorFor(model => model.IsActive, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.FranchiseId)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "control-label col-md-4" })
+            <div class="col-md-8">
+                @Html.EditorFor(model => model.IsActive, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.FranchiseName, htmlAttributes: new { @class = "control-label col-md-4" })
-        <div class="col-md-8">
-            @Html.EditorFor(model => model.FranchiseName, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.FranchiseName, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.FranchiseName, htmlAttributes: new { @class = "control-label col-md-4" })
+            <div class="col-md-8">
+                @Html.EditorFor(model => model.FranchiseName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.FranchiseName, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.State, htmlAttributes: new { @class = "control-label col-md-4" })
-        <div class="col-md-8">
-            @Html.EnumDropDownListFor(model => model.State, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.State, htmlAttributes: new { @class = "control-label col-md-4" })
+            <div class="col-md-8">
+                @Html.EnumDropDownListFor(model => model.State, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
-   
-    <div class="form-group">
-        <div class="col-md-offset-4 col-md-8">
-            <input type="submit" value="Save" class="btn btn-default" />
+
+        <div class="form-group">
+            <div class="col-md-offset-4 col-md-8">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
         </div>
     </div>
 </div>
 }
 
+<!-- Role Management Section -->
+<div class="form-section">
+    <h3>Manage Roles</h3>
+    @using (Html.BeginForm("Edit", "Franchise", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.FranchiseId)
+
+        @* Fields for adding a new role *@
+        <div class="role-form-group">
+            @Html.LabelFor(model => model.NewRole.Name)
+            @Html.EditorFor(model => model.NewRole.Name)
+            @Html.ValidationMessageFor(model => model.NewRole.Name)
+        </div>
+        <div class="role-form-group">
+            @Html.LabelFor(model => model.NewRole.Email)
+            @Html.EditorFor(model => model.NewRole.Email)
+            @Html.ValidationMessageFor(model => model.NewRole.Email)
+        </div>
+        <div class="role-form-group">
+            @Html.LabelFor(model => model.NewRole.Phone)
+            @Html.EditorFor(model => model.NewRole.Phone)
+            @Html.ValidationMessageFor(model => model.NewRole.Phone)
+        </div>
+        <div class="role-form-group">
+            @Html.Label("Role Type")
+            @Html.DropDownListFor(model => model.NewRole.Role, new SelectList(Enum.GetValues(typeof(RoleType))))
+        </div>
+        <input type="submit" value="Add Role" class="btn btn-success" />
+    }
+</div>
+
+<!-- Current Roles Display -->
+<div class="form-section">
+    <h3>Current Roles</h3>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Role</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var role in Model.Roles)
+            {
+                <tr>
+                    <td>@role.Name</td>
+                    <td>@role.Email</td>
+                    <td>@role.Phone</td>
+                    <td>@role.Role.ToString()</td>
+                    <td>
+                        @Html.ActionLink("Edit", "EditRole", new { roleId = role.FranchiseRoleId }, null) |
+                        @Html.ActionLink("Delete", "DeleteRole", new { roleId = role.FranchiseRoleId }, new { onclick = "return confirm('Are you sure you want to delete this role?');" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-secondary" })
 </div>
 
 @section Scripts {
